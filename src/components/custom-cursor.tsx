@@ -47,14 +47,14 @@ export function CustomCursor() {
   const [wiggle, setWiggle] = useState(false);
   const [tagText, setTagText] = useState("");
   const [tagColors, setTagColors] = useState<{ bg: string; fg: string } | null>(null);
-  const [mood, setMood] = useState(MOODS.default);
+  const [mood, setMood] = useState<{ fill: string; stroke: string }>(MOODS.default);
   const idleTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const rotationVal = useMotionValue(0);
 
   const lastHoverTarget = useRef<HTMLElement | null>(null);
   const lastMessageTime = useRef(0);
   const hoverCount = useRef(0);
-  const baseMoodRef = useRef(MOODS.default);
+  const baseMoodRef = useRef<{ fill: string; stroke: string }>(MOODS.default);
 
   const getElementType = useCallback((element: HTMLElement): ElementType => {
     const cursorType = element.getAttribute("data-cursor");
