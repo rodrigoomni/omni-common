@@ -1,26 +1,165 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;900&family=Encode+Sans:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-hero-dark: var(--hero-dark);
+  --color-hero-dark-light: var(--hero-dark-light);
+  --color-mint: var(--mint);
+  --color-mint-light: var(--mint-light);
+  --color-mint-dark: var(--mint-dark);
+  --color-lime: var(--lime);
+  --color-lime-light: var(--lime-light);
+  --color-lime-dark: var(--lime-dark);
+  --color-cream: var(--cream);
+  --color-cream-dark: var(--cream-dark);
+  --font-heading: var(--font-archivo);
+  --font-body: var(--font-encode);
+  --font-ui: var(--font-inter);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --background: #fafaf8;
+  --foreground: #262626;
+  --foreground-secondary: #3d3d3d;
+  --foreground-muted: #5c5c5c;
+  --foreground-subtle: #8a8a8a;
+  --border: #e0e0dc;
+  --border-light: #eeeeea;
+  --surface: #f3f3f0;
+  --surface-raised: #ffffff;
+
+  --muted: #5c5c5c;
+  --accent: #CFFC68; /* Use lime-light as primary accent */
+  --hero-dark: #14545D; /* Dark teal color from earlier version */
+  --hero-dark-light: #1A5C6B; /* Lighter dark teal */
+  --hero-dark-lighter: #257C8F; /* Even lighter for subtle variations */
+  --teal: #14545D; /* Dark teal accent */
+  --mint: #A5FDF3; /* Core palette mint */
+  --mint-light: #D6FFFA; /* Light mint variant */
+  --mint-dark: #74C9BD; /* Dark mint variant */
+  --lime: #CFFC68; /* Unified lime accent */
+  --lime-light: #CFFC68; /* Same as lime — unified */
+  --lime-dark: #B8E85A; /* Slightly darker lime */
+  --cream: #FFFDEF; /* Core palette cream */
+  --cream-dark: #F5EDD4; /* Slightly darker cream */
+  /* All colors now derived from core palette */
+
+  --font-archivo: 'Archivo', system-ui, sans-serif;
+  --font-encode: 'Encode Sans', system-ui, sans-serif;
+  --font-inter: 'Inter', system-ui, sans-serif;
+
+  --max-width: 1800px;
+}
+
+* {
+  cursor: none !important;
+}
+
+html {
+  scroll-behavior: auto;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-encode);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-archivo);
+}
+
+/* Global max-width wrapper */
+.site-container {
+  max-width: var(--max-width);
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+/* Smooth scroll via Lenis */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+/* Selection */
+::selection {
+  background: var(--lime-light); /* Keep green accent color for highlight */
+  color: var(--hero-dark); /* Dark blue text for contrast on green */
+}
+
+/* Bubble pill component */
+.bubble {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: 333px;
+  font-family: var(--font-inter);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  box-shadow: 3px 5px 0px 0px var(--teal);
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease;
+}
+
+.bubble:hover {
+  transform: translateY(-2px);
+  box-shadow: 5px 7px 0px 0px var(--teal);
+}
+
+/* Blend mode cursor zones */
+[data-cursor="invert"] {
+  position: relative;
+}
+
+/* Logo carousel scroll */
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-33.333%); }
+}
+
+/* Manic energy vibration on hover for CTAs */
+@keyframes manic-shake {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  10% { transform: translate(-2px, 1px) rotate(-1deg); }
+  20% { transform: translate(2px, -1px) rotate(1deg); }
+  30% { transform: translate(-1px, 2px) rotate(0.5deg); }
+  40% { transform: translate(1px, -2px) rotate(-0.5deg); }
+  50% { transform: translate(-2px, 0px) rotate(-1deg); }
+  60% { transform: translate(2px, 1px) rotate(0.5deg); }
+  70% { transform: translate(0px, -1px) rotate(1deg); }
+  80% { transform: translate(-1px, 1px) rotate(-0.5deg); }
+  90% { transform: translate(1px, -1px) rotate(0.5deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+.cta-manic:hover {
+  animation: manic-shake 0.15s linear infinite;
+}
+
+.cta-manic:hover .cta-glow {
+  opacity: 1;
+}
+
+/* Grain overlay */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 128px 128px;
 }
