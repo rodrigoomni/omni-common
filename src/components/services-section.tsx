@@ -2,6 +2,11 @@
 
 import { motion, useInView } from "motion/react";
 import { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const services = [
   {
@@ -38,10 +43,44 @@ const services = [
 
 export function ServicesSection() {
   const ref = useRef(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
+  // Scroll-synced entrance — mirrors the circle mask section's intro outro
+  useGSAP(
+    () => {
+      if (!sectionRef.current) return;
+
+      gsap.fromTo(
+        sectionRef.current,
+        { opacity: 0, scale: 0.95, y: 60 },
+        {
+          opacity: 1,
+          scale: 1,
+          y: 0,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 100%",
+            end: "top 40%",
+            scrub: 1,
+          },
+        }
+      );
+    },
+    { scope: sectionRef }
+  );
+
   return (
-    <section className="py-28 md:py-36" style={{ borderTop: "1px solid var(--border)" }}>
+    <section
+      ref={sectionRef}
+      className="relative z-[3] py-28 md:py-36"
+      style={{
+        borderTop: "1px solid var(--border)",
+        backgroundColor: "var(--background)",
+        transformOrigin: "center top",
+      }}
+    >
       <div className="site-container px-6 md:px-12 lg:px-24">
         <motion.div
           ref={ref}

@@ -57,12 +57,35 @@ const capabilities = [
 
 export function ValueProp() {
   const introRef = useRef(null);
+  const introSectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(introRef, { once: true, margin: "-40px" });
 
   const sectionRef = useRef<HTMLDivElement>(null);
   const circleRef = useRef<SVGCircleElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [contentRevealed, setContentRevealed] = useState(false);
+  const [darkActive, setDarkActive] = useState(false);
+
+  // Outro animation for the intro section — fades/scales as circle approaches
+  useGSAP(
+    () => {
+      if (!introSectionRef.current || !sectionRef.current) return;
+
+      gsap.to(introSectionRef.current, {
+        opacity: 0,
+        scale: 0.95,
+        y: -60,
+        ease: "power2.in",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 100%",
+          end: "top 40%",
+          scrub: 1,
+        },
+      });
+    },
+    { scope: introSectionRef }
+  );
 
   useGSAP(
     () => {
@@ -72,49 +95,54 @@ export function ValueProp() {
       const vw = window.innerWidth;
       const vh = window.innerHeight;
       // From bottom-center, farthest corner is top-left/right
-      const maxR = Math.hypot(vw / 2, vh) * 1.05;
+      const maxR = Math.hypot(vw / 2, vh) * 1.15;
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top top",
+          start: "top 80%",
           end: "bottom bottom",
-          scrub: 2,
+          scrub: 1,
         },
       });
 
-      /* ═══ ENTRY PHASE (0 → 0.35) — circle grows from bottom ═══ */
+      /* ═══ ENTRY (0 → 0.25) — circle grows from bottom ═══ */
 
       tl.fromTo(
         circleRef.current,
         { attr: { r: 0, cy: "100%" } },
         {
           attr: { r: maxR },
-          duration: 0.35,
-          ease: "power3.out",
+          duration: 0.25,
+          ease: "power2.out",
         },
         0
       );
 
-      // Content appears earlier for fast-scroll tolerance
+      // Content appears during circle growth
       tl.fromTo(
         contentRef.current,
-        { opacity: 0, y: 40 },
-        { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" },
-        0.2
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" },
+        0.12
       );
 
-      tl.call(() => setContentRevealed(true), [], 0.22);
+      tl.call(() => setContentRevealed(true), [], 0.14);
 
-      /* ═══ HOLD PHASE (0.35 → 0.65) ═══ */
+      // Mark dark zone active only after circle fully covers viewport
+      tl.call(() => setDarkActive(true), [], 0.28);
 
-      /* ═══ EXIT PHASE (0.65 → 1.0) — symmetrical to top ═══ */
+      /* ═══ HOLD (0.25 → 0.75) ═══ */
 
-      // Content leaves later for fast-scroll tolerance
+      /* ═══ EXIT (0.75 → 1.0) — symmetrical to top ═══ */
+
+      // Deactivate dark zone as exit begins
+      tl.call(() => setDarkActive(false), [], 0.75);
+
       tl.to(
         contentRef.current,
-        { opacity: 0, y: -40, duration: 0.12, ease: "power2.in" },
-        0.78
+        { opacity: 0, y: -30, duration: 0.1, ease: "power2.in" },
+        0.82
       );
 
       // Circle collapses upward to top-center (mirror of entry)
@@ -122,10 +150,10 @@ export function ValueProp() {
         circleRef.current,
         {
           attr: { r: 0, cy: "0%" },
-          duration: 0.35,
-          ease: "power3.in",
+          duration: 0.25,
+          ease: "power2.in",
         },
-        0.65
+        0.75
       );
     },
     { scope: sectionRef }
@@ -134,7 +162,7 @@ export function ValueProp() {
   return (
     <>
       {/* ── Original "Why Omni Common" section (light background) ── */}
-      <section className="py-28 md:py-36">
+      <section ref={introSectionRef} className="relative z-[1] py-28 md:py-36" style={{ transformOrigin: "center bottom", backgroundColor: "var(--background)" }}>
         <div className="site-container px-6 md:px-12 lg:px-24">
           <motion.div
             ref={introRef}
@@ -287,8 +315,8 @@ export function ValueProp() {
       </section>
 
       {/* ── Circle Mask scroll transition (dark environment) ── */}
-      <section ref={sectionRef} className="relative" style={{ height: "300vh" }}>
-      <div className="sticky top-0 flex h-screen items-center overflow-hidden">
+      <section ref={sectionRef} className="relative z-[2]" style={{ height: "200vh" }}>
+      <div className="sticky top-0 flex h-screen items-center" data-theme={darkActive ? "dark-teal" : undefined}>
         {/* Clean circle mask — sharp edges, grows from bottom center */}
         <svg
           className="absolute inset-0 h-full w-full"

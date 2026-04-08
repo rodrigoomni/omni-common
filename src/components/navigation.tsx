@@ -22,33 +22,36 @@ export function Navigation() {
   const { scrollY } = useScroll();
   const pathname = usePathname();
 
-  const [isDarkBg, setIsDarkBg] = useState(true);
+  // "navy" = hero/footer/statement dark sections, "teal" = circle mask, "light" = default
+  const [bgTheme, setBgTheme] = useState<"navy" | "teal" | "light">("navy");
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setScrolled(latest > 80);
-    
-    // Detect if the header is currently over a dark section
+
     if (typeof window !== "undefined") {
-      // 30px is a good offset to check underneath the top of the viewport
       const elements = document.elementsFromPoint(window.innerWidth / 2, 30);
-      
-      // Find the first element that is NOT the header itself
       const targetElement = elements.find(el => !el.closest('header'));
-      
+
       if (targetElement) {
-        // Only check if this specific top-most element (or its closest container) is dark
-        // This prevents the fixed background hero section from falsely triggering dark mode
-        const isDark = targetElement.closest('[data-theme="dark"]') !== null;
-        setIsDarkBg(isDark);
+        const tealEl = targetElement.closest('[data-theme="dark-teal"]');
+        const darkEl = targetElement.closest('[data-theme="dark"]');
+
+        if (tealEl) {
+          setBgTheme("teal");
+        } else if (darkEl) {
+          setBgTheme("navy");
+        } else {
+          setBgTheme("light");
+        }
       } else {
-        setIsDarkBg(false);
+        setBgTheme("light");
       }
     }
   });
 
   const isHomepage = pathname === "/";
   const isHero = isHomepage && !scrolled;
-  const isDark = isHomepage && isHero ? true : isDarkBg;
+  const isDark = isHomepage && isHero ? true : bgTheme !== "light";
 
   const handleHover = (idx: number, e: React.MouseEvent<HTMLAnchorElement>) => {
     setHoveredIdx(idx);
@@ -68,14 +71,16 @@ export function Navigation() {
     <motion.header
       className="fixed top-0 left-0 z-[100] w-full transition-all duration-500 ease-out"
       style={{
-        backgroundColor: isHero 
-          ? "transparent" 
-          : isDark 
-            ? "rgba(10,43,71,0.98)" 
-            : "rgba(250,250,248,0.98)",
-        borderBottom: isHero 
-          ? "1px solid transparent" 
-          : isDark 
+        backgroundColor: isHero
+          ? "transparent"
+          : bgTheme === "teal"
+            ? "rgba(20,84,93,0.97)"
+            : bgTheme === "navy"
+              ? "rgba(10,43,71,0.98)"
+              : "rgba(250,250,248,0.98)",
+        borderBottom: isHero
+          ? "1px solid transparent"
+          : isDark
             ? "1px solid rgba(255,255,255,0.08)"
             : "1px solid rgba(0,0,0,0.05)",
       }}
