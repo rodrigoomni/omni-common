@@ -120,7 +120,11 @@ export function Navigation() {
             className="font-bold tracking-tight transition-all duration-500"
             style={{
               fontFamily: "var(--font-archivo)",
-              color: isDark ? "rgba(255,255,255,0.95)" : "var(--foreground)",
+              color: menuOpen
+                ? "var(--foreground)"
+                : isDark
+                  ? "rgba(255,255,255,0.95)"
+                  : "var(--foreground)",
               fontSize: isHero ? "20px" : "18px",
             }}
             initial={{ opacity: 0, y: -10 }}
@@ -238,9 +242,11 @@ export function Navigation() {
           <motion.span
             className="block h-0.5 w-6 rounded-full transition-colors duration-500"
             style={{
-              backgroundColor: isDark
-                ? "rgba(255,255,255,0.9)"
-                : "var(--foreground)",
+              backgroundColor: menuOpen
+                ? "var(--teal)"
+                : isDark
+                  ? "rgba(255,255,255,0.9)"
+                  : "var(--foreground)",
             }}
             animate={{
               rotate: menuOpen ? 45 : 0,
@@ -250,9 +256,11 @@ export function Navigation() {
           <motion.span
             className="block h-0.5 w-6 rounded-full transition-colors duration-500"
             style={{
-              backgroundColor: isDark
-                ? "rgba(255,255,255,0.9)"
-                : "var(--foreground)",
+              backgroundColor: menuOpen
+                ? "var(--teal)"
+                : isDark
+                  ? "rgba(255,255,255,0.9)"
+                  : "var(--foreground)",
             }}
             animate={{
               rotate: menuOpen ? -45 : 0,
@@ -290,8 +298,11 @@ export function Navigation() {
             >
               <Link
                 href={link.href}
-                className="text-4xl font-bold text-foreground"
-                style={{ fontFamily: "var(--font-archivo)" }}
+                className="text-5xl font-bold tracking-tight"
+                style={{
+                  fontFamily: "var(--font-archivo)",
+                  color: "var(--foreground)",
+                }}
                 onClick={() => setMenuOpen(false)}
               >
                 {link.label}
@@ -299,12 +310,13 @@ export function Navigation() {
             </motion.div>
           ))}
         </div>
-        {/* Bottom-right ornament */}
+        {/* Bottom-right ornament — bleeds off corner */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/images/menu-ornament.png"
           alt=""
-          className="pointer-events-none absolute bottom-6 right-6 w-32 opacity-20"
+          className="pointer-events-none absolute -bottom-8 -right-8 w-72 select-none"
+          style={{ opacity: 0.92 }}
         />
       </motion.div>
     </motion.header>

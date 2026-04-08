@@ -44,7 +44,6 @@ function useFrostMaterial(color: string, opacity = 0.72) {
   }, [color, opacity]);
 }
 
-// White outline shell for cel-shaded Borderlands edge
 function useOutlineMaterial() {
   return useMemo(
     () =>
@@ -73,16 +72,14 @@ function PuzzlePiece({
 
   return (
     <group position={position}>
-      {/* Main block — frosted glass */}
       <RoundedBox args={[0.9, 0.9, 0.9]} radius={0.1} smoothness={4}>
         <primitive object={mainMat} attach="material" />
       </RoundedBox>
-      {/* White cel-shade outline */}
       <RoundedBox args={[0.96, 0.96, 0.96]} radius={0.1} smoothness={4}>
         <primitive object={outlineMat} attach="material" />
       </RoundedBox>
 
-      {/* Front face knob */}
+      {/* Front knob */}
       <group position={[0, 0, 0.46]}>
         <mesh>
           <cylinderGeometry args={[0.2, 0.2, 0.1, 24]} />
@@ -102,7 +99,7 @@ function PuzzlePiece({
         </mesh>
       </group>
 
-      {/* Top face knob */}
+      {/* Top knob */}
       <group position={[0, 0.46, 0]} rotation={[Math.PI / 2, 0, 0]}>
         <mesh>
           <cylinderGeometry args={[0.16, 0.16, 0.12, 24]} />
@@ -144,7 +141,7 @@ function CubeScene({ mouse }: { mouse: { x: number; y: number } }) {
   });
 
   return (
-    <group ref={groupRef} scale={1.36}>
+    <group ref={groupRef} scale={1.1}>
       <PuzzlePiece position={[-0.5, -0.5, 0.5]} color={TEAL} indentColor={MINT} />
       <PuzzlePiece position={[0.5, -0.5, 0.5]} color={MINT} indentColor={TEAL} />
       <PuzzlePiece position={[-0.5, 0.5, 0.5]} color={LIME} indentColor={TEAL} />
@@ -161,13 +158,12 @@ export function PuzzleCube() {
   const mouse = useMousePosition();
 
   return (
-    <div className="h-[550px] w-full md:h-[650px]">
+    <div className="h-[450px] w-full md:h-[500px]">
       <Canvas
         camera={{ position: [0, 0, 5.5], fov: 50 }}
         style={{ background: "transparent" }}
         gl={{ alpha: true, antialias: true }}
       >
-        {/* Soft environment for glass reflections */}
         <ambientLight intensity={0.5} />
         <directionalLight position={[5, 8, 5]} intensity={1.2} color="#ffffff" />
         <directionalLight position={[-4, -2, 4]} intensity={0.4} color={MINT} />
