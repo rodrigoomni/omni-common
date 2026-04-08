@@ -69,7 +69,7 @@ export function FeaturedWork() {
   const isInView = useInView(ref, { once: true, margin: "-50px" });
 
   return (
-    <section className="py-28 md:py-36" style={{ backgroundColor: "var(--surface)" }}>
+    <section className="py-28 md:py-36" style={{ backgroundColor: "var(--cream)" }}>
       <div className="site-container px-6 md:px-12 lg:px-24">
         <motion.div
           ref={ref}

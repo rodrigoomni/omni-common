@@ -1,12 +1,19 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion, useScroll, useTransform } from "motion/react";
 import { HeroGrid } from "./hero-grid";
 import { MagneticButton } from "./magnetic-button";
 import { ConfettiSimple } from "./confetti-simple";
 import { DoodleCircle } from "./doodle-circle";
 
 export function Hero() {
+  const { scrollY } = useScroll();
+
+  // Map scroll position to 0–1 over the first viewport height
+  const contentOpacity = useTransform(scrollY, [0, 400], [1, 0]);
+  const contentY = useTransform(scrollY, [0, 500], [0, -80]);
+  const contentScale = useTransform(scrollY, [0, 500], [1, 0.95]);
+
   return (
     <section
       className="fixed inset-0 flex min-h-screen items-center justify-center"
@@ -20,7 +27,10 @@ export function Hero() {
       <ConfettiSimple />
 
       {/* Content */}
-      <div className="relative z-10 w-full px-6 text-center md:px-12">
+      <motion.div
+        className="relative z-10 w-full px-6 text-center md:px-12"
+        style={{ opacity: contentOpacity, y: contentY, scale: contentScale }}
+      >
         <div>
           <motion.h1
             className="text-[clamp(2.5rem,7vw,6rem)] font-black leading-[1.05] tracking-tight"
@@ -106,7 +116,7 @@ export function Hero() {
             </a>
           </MagneticButton>
         </motion.div>
-      </div>
+      </motion.div>
 
       {/* Shimmer sweep on load */}
       <motion.div

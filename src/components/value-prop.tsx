@@ -209,7 +209,7 @@ export function ValueProp() {
               const Icon = cap.icon;
               const zIndexes = [3, 2, 1];
               return (
-                <motion.div
+                <div
                   key={cap.title}
                   className="group flex flex-col items-center justify-center rounded-full text-center"
                   style={{
@@ -223,30 +223,34 @@ export function ValueProp() {
                     backdropFilter: "blur(16px)",
                     WebkitBackdropFilter: "blur(16px)",
                   }}
-                  initial={{ opacity: 0, scale: 0.7 }}
-                  animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                  transition={{ duration: 0.9, delay: 0.15 + i * 0.18, ease: [0.22, 1, 0.36, 1] }}
                 >
                   <div
                     className="pointer-events-none absolute inset-3 rounded-full opacity-30"
                     style={{ border: `1px solid ${cap.dotColor}` }}
                   />
-                  <div className="mb-3 flex items-center justify-center">
-                    <Icon />
-                  </div>
-                  <h3
-                    className="text-base font-bold"
-                    style={{ fontFamily: "var(--font-archivo)", color: "var(--foreground)" }}
+                  <motion.div
+                    className="flex flex-col items-center"
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.8, delay: 0.2 + i * 0.15, ease: [0.22, 1, 0.36, 1] }}
                   >
-                    {cap.title}
-                  </h3>
-                  <p
-                    className="mt-1.5 max-w-[180px] text-xs leading-relaxed"
-                    style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-muted)" }}
-                  >
-                    {cap.desc}
-                  </p>
-                </motion.div>
+                    <div className="mb-3 flex items-center justify-center">
+                      <Icon />
+                    </div>
+                    <h3
+                      className="text-base font-bold"
+                      style={{ fontFamily: "var(--font-archivo)", color: "var(--foreground)" }}
+                    >
+                      {cap.title}
+                    </h3>
+                    <p
+                      className="mt-1.5 max-w-[180px] text-xs leading-relaxed"
+                      style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-muted)" }}
+                    >
+                      {cap.desc}
+                    </p>
+                  </motion.div>
+                </div>
               );
             })}
           </div>
@@ -262,7 +266,6 @@ export function ValueProp() {
             {capabilities.map((cap, i) => {
               const Icon = cap.icon;
               const zIndexes = [3, 1, 2];
-              const animOrder = i === 1 ? 0 : i === 0 ? 1 : 2;
               const leftCalc = [
                 "calc(50% - var(--d) / 2 - var(--d) + 20px)",
                 "calc(50% - var(--d) / 2)",
@@ -283,30 +286,34 @@ export function ValueProp() {
                     backdropFilter: "blur(18px) saturate(1.3)",
                     WebkitBackdropFilter: "blur(18px) saturate(1.3)",
                   }}
-                  initial={{ opacity: 0, scale: 0.6 }}
-                  animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                  transition={{ duration: 1, delay: 0.15 + i * 0.2, ease: [0.22, 1, 0.36, 1] }}
                   whileHover={{ scale: 1.04, zIndex: 10 }}
                 >
                   <div
                     className="pointer-events-none absolute inset-3 rounded-full opacity-30 transition-opacity duration-300 group-hover:opacity-60"
                     style={{ border: `1px solid ${cap.dotColor}` }}
                   />
-                  <div className="mb-4 flex items-center justify-center">
-                    <Icon />
-                  </div>
-                  <h3
-                    className="text-lg font-bold tracking-tight lg:text-xl xl:text-2xl"
-                    style={{ fontFamily: "var(--font-archivo)", color: "var(--foreground)" }}
+                  <motion.div
+                    className="flex flex-col items-center"
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.8, delay: 0.2 + i * 0.15, ease: [0.22, 1, 0.36, 1] }}
                   >
-                    {cap.title}
-                  </h3>
-                  <p
-                    className="mt-2 max-w-[65%] text-xs leading-relaxed lg:text-sm"
-                    style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-muted)" }}
-                  >
-                    {cap.desc}
-                  </p>
+                    <div className="mb-4 flex items-center justify-center">
+                      <Icon />
+                    </div>
+                    <h3
+                      className="text-lg font-bold tracking-tight lg:text-xl xl:text-2xl"
+                      style={{ fontFamily: "var(--font-archivo)", color: "var(--foreground)" }}
+                    >
+                      {cap.title}
+                    </h3>
+                    <p
+                      className="mt-2 max-w-[65%] text-xs leading-relaxed lg:text-sm"
+                      style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-muted)" }}
+                    >
+                      {cap.desc}
+                    </p>
+                  </motion.div>
                 </motion.div>
               );
             })}
@@ -403,58 +410,49 @@ export function ValueProp() {
                 </p>
               </motion.div>
 
-              {/* Signature + headshot */}
+              {/* Signature + avatar */}
               <motion.div
-                className="mt-12 flex items-end justify-between"
+                className="mt-12 flex items-center gap-5"
                 initial={{ opacity: 0, y: 20 }}
                 animate={contentRevealed ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.8, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
               >
+                {/* Profile photo */}
+                <div
+                  className="h-14 w-14 flex-shrink-0 overflow-hidden rounded-full md:h-16 md:w-16"
+                  style={{
+                    border: "2px solid var(--lime)",
+                    backgroundColor: "rgba(207,252,104,0.06)",
+                  }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/images/ryan-charles.png"
+                    alt="Ryan Charles"
+                    width={64}
+                    height={64}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
                 <div>
-                  <div className="flex items-center gap-3">
-                    <span
-                      className="block h-px w-10"
-                      style={{ backgroundColor: "rgba(255,255,255,0.4)" }}
-                    />
-                    <span
-                      className="text-2xl italic md:text-3xl"
-                      style={{
-                        fontFamily: "'Georgia', serif",
-                        color: "#fff",
-                      }}
-                    >
-                      Ryan Charles
-                    </span>
-                  </div>
                   <p
-                    className="mt-1.5 pl-[52px] text-xs font-medium tracking-wide md:text-sm"
+                    className="text-base font-semibold tracking-tight md:text-lg"
+                    style={{
+                      fontFamily: "var(--font-archivo)",
+                      color: "#fff",
+                    }}
+                  >
+                    Ryan Charles
+                  </p>
+                  <p
+                    className="mt-0.5 text-xs font-medium uppercase tracking-[0.15em] md:text-sm"
                     style={{
                       fontFamily: "var(--font-inter)",
                       color: "var(--mint-dark)",
                     }}
                   >
-                    CEO and CMO, Omni Common
+                    CEO &amp; CMO, Omni Common
                   </p>
-                </div>
-                {/* Profile pic placeholder */}
-                <div
-                  className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-full md:h-20 md:w-20"
-                  style={{
-                    border: "3px solid var(--lime)",
-                    backgroundColor: "rgba(255,255,255,0.1)",
-                  }}
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="/images/ryan-placeholder.jpg"
-                    alt="Ryan Charles"
-                    width={80}
-                    height={80}
-                    className="h-full w-full object-cover"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).style.display = "none";
-                    }}
-                  />
                 </div>
               </motion.div>
 

@@ -299,6 +299,13 @@ export function Navigation() {
             </motion.div>
           ))}
         </div>
+        {/* Bottom-right ornament */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/menu-ornament.png"
+          alt=""
+          className="pointer-events-none absolute bottom-6 right-6 w-32 opacity-20"
+        />
       </motion.div>
     </motion.header>
   );
