@@ -141,7 +141,7 @@ export function ValueProp() {
   return (
     <>
       {/* ── Circle Mask scroll transition (dark environment) ── */}
-      <section ref={sectionRef} className="relative h-[160vh] md:h-[200vh]">
+      <section ref={sectionRef} className="relative h-[160vh] md:h-[200vh]" style={{ zIndex: 2 }}>
       <div className="sticky top-0 flex h-screen items-center" data-theme={darkActive ? "dark-teal" : undefined}>
         {/* Clean circle mask — sharp edges, grows from bottom center */}
         <svg

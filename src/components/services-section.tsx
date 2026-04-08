@@ -2,6 +2,11 @@
 
 import { motion, useInView } from "motion/react";
 import { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const services = [
   {
@@ -39,13 +44,36 @@ const services = [
 export function ServicesSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const sectionRef = useRef<HTMLElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      if (!sectionRef.current || !contentRef.current) return;
+
+      gsap.to(contentRef.current, {
+        opacity: 0,
+        y: -80,
+        scale: 0.96,
+        ease: "power2.in",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "bottom 90%",
+          end: "bottom 20%",
+          scrub: 0.6,
+        },
+      });
+    },
+    { scope: sectionRef }
+  );
 
   return (
     <section
-      className="py-28 md:py-36"
-      style={{ borderTop: "1px solid var(--border)" }}
+      ref={sectionRef}
+      className="relative py-28 md:py-36"
+      style={{ borderTop: "1px solid var(--border)", zIndex: 1 }}
     >
-      <div className="site-container px-6 md:px-12 lg:px-24">
+      <div ref={contentRef} className="site-container px-6 md:px-12 lg:px-24">
         <motion.div
           ref={ref}
           initial={{ opacity: 0, y: 40 }}
