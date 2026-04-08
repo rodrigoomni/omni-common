@@ -16,8 +16,8 @@ export default function Home() {
       {/* Content layer scrolls over the hero */}
       <div className="relative z-10 bg-background">
         <Marquee />
-        <ValueProp />
         <ServicesSection />
+        <ValueProp />
         <LogoCarousel />
         <FeaturedWork />
         <InfoSections />
