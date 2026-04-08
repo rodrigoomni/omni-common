@@ -2,7 +2,7 @@ import { Hero } from "@/components/hero";
 import { Marquee } from "@/components/marquee";
 import { LogoCarousel } from "@/components/logo-carousel";
 import { ValueProp } from "@/components/value-prop";
-import { ServicesSection } from "@/components/services-section";
+import { ServicesSection, StatementBlock } from "@/components/services-section";
 import { FeaturedWork } from "@/components/featured-work";
 import { Footer } from "@/components/footer";
 import { InfoSections } from "@/components/info-sections";
@@ -18,6 +18,9 @@ export default function Home() {
         <Marquee />
         <ServicesSection />
         <ValueProp />
+        <div className="site-container px-6 md:px-12 lg:px-24">
+          <StatementBlock />
+        </div>
         <LogoCarousel />
         <FeaturedWork />
         <InfoSections />

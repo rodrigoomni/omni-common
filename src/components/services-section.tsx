@@ -68,14 +68,12 @@ export function ServicesSection() {
           ))}
         </div>
 
-        {/* Bottom statement */}
-        <StatementBlock />
       </div>
     </section>
   );
 }
 
-function StatementBlock() {
+export function StatementBlock() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "0px 0px -10% 0px" });
 
