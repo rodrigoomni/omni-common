@@ -25,23 +25,18 @@ const LIME = "#CFFC68";
 const MINT = "#A5FDF3";
 
 // Frosty translucent physical material — glass-like with matte frost
-function useFrostMaterial(color: string, opacity = 0.72) {
+function useSolidMaterial(color: string) {
   return useMemo(() => {
     return new THREE.MeshPhysicalMaterial({
       color,
-      transparent: true,
-      opacity,
-      roughness: 0.35,
-      metalness: 0.02,
-      transmission: 0.25,
-      thickness: 1.2,
-      ior: 1.4,
-      clearcoat: 0.6,
-      clearcoatRoughness: 0.4,
-      envMapIntensity: 0.8,
+      roughness: 0.3,
+      metalness: 0.05,
+      clearcoat: 0.8,
+      clearcoatRoughness: 0.2,
+      envMapIntensity: 0.5,
       side: THREE.FrontSide,
     });
-  }, [color, opacity]);
+  }, [color]);
 }
 
 function useOutlineMaterial() {
@@ -66,8 +61,8 @@ function PuzzlePiece({
   color: string;
   indentColor: string;
 }) {
-  const mainMat = useFrostMaterial(color, 0.75);
-  const indentMat = useFrostMaterial(indentColor, 0.85);
+  const mainMat = useSolidMaterial(color);
+  const indentMat = useSolidMaterial(indentColor);
   const outlineMat = useOutlineMaterial();
 
   return (
