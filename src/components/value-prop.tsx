@@ -71,16 +71,17 @@ export function ValueProp() {
     () => {
       if (!introSectionRef.current || !sectionRef.current) return;
 
+      const mobile = window.innerWidth < 768;
       gsap.to(introSectionRef.current, {
         opacity: 0,
-        scale: 0.95,
-        y: -60,
+        scale: mobile ? 0.98 : 0.95,
+        y: mobile ? -30 : -60,
         ease: "power2.in",
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top 100%",
-          end: "top 40%",
-          scrub: 1,
+          end: mobile ? "top 60%" : "top 40%",
+          scrub: mobile ? 0.5 : 1,
         },
       });
     },
@@ -94,15 +95,16 @@ export function ValueProp() {
 
       const vw = window.innerWidth;
       const vh = window.innerHeight;
-      // From bottom-center, farthest corner is top-left/right
-      const maxR = Math.hypot(vw / 2, vh) * 1.15;
+      const isMobile = vw < 768;
+      // Extra radius on mobile to prevent any clipping
+      const maxR = Math.hypot(vw / 2, vh) * (isMobile ? 1.35 : 1.15);
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 80%",
+          start: isMobile ? "top 90%" : "top 80%",
           end: "bottom bottom",
-          scrub: 1,
+          scrub: isMobile ? 0.5 : 1,
         },
       });
 
@@ -322,7 +324,7 @@ export function ValueProp() {
       </section>
 
       {/* ── Circle Mask scroll transition (dark environment) ── */}
-      <section ref={sectionRef} className="relative z-[2]" style={{ height: "200vh" }}>
+      <section ref={sectionRef} className="relative z-[2] h-[160vh] md:h-[200vh]">
       <div className="sticky top-0 flex h-screen items-center" data-theme={darkActive ? "dark-teal" : undefined}>
         {/* Clean circle mask — sharp edges, grows from bottom center */}
         <svg
@@ -360,7 +362,7 @@ export function ValueProp() {
 
               {/* Headline — same style as site headings */}
               <motion.h2
-                className="mt-3 text-3xl font-bold tracking-tight md:text-5xl"
+                className="mt-3 text-2xl font-bold tracking-tight md:text-5xl"
                 style={{ fontFamily: "var(--font-archivo)", color: "#fff" }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={contentRevealed ? { opacity: 1, y: 0 } : {}}
@@ -372,7 +374,7 @@ export function ValueProp() {
 
               {/* Body — same font/sizing as site body text */}
               <motion.div
-                className="mt-8 space-y-5 text-base leading-relaxed"
+                className="mt-5 space-y-4 text-sm leading-relaxed md:mt-8 md:space-y-5 md:text-base"
                 style={{ fontFamily: "var(--font-encode)", color: "var(--mint-light)" }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={contentRevealed ? { opacity: 1, y: 0 } : {}}
@@ -384,7 +386,7 @@ export function ValueProp() {
                   &ldquo;make-it-grow&rdquo; experts who tackle the spend
                   that&apos;s vital for your growth.
                 </p>
-                <p>
+                <p className="hidden md:block">
                   For years, we&apos;ve worked with all types of businesses that
                   lacked things such as a growth timeline at an executive level,
                   a marketing team (or a big enough one), or simply felt like
@@ -400,7 +402,7 @@ export function ValueProp() {
                   business start to efficiently scale up — what&apos;s the point
                   of drumming up growth that has no ROI?
                 </p>
-                <p>
+                <p className="hidden md:block">
                   I believe in this omni-channel, data-and-deliverable-driven
                   growth model so much, we built Omni Common from the ground up
                   to execute it from anywhere you are on your journey. We will
@@ -412,7 +414,7 @@ export function ValueProp() {
 
               {/* Signature + avatar */}
               <motion.div
-                className="mt-12 flex items-center gap-5"
+                className="mt-6 flex items-center gap-5 md:mt-12"
                 initial={{ opacity: 0, y: 20 }}
                 animate={contentRevealed ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.8, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
@@ -458,7 +460,7 @@ export function ValueProp() {
 
               {/* CTA */}
               <motion.div
-                className="mt-10"
+                className="mt-5 md:mt-10"
                 initial={{ opacity: 0, y: 16 }}
                 animate={contentRevealed ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.7, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}

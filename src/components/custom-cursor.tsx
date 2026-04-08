@@ -38,6 +38,12 @@ const MESSAGES: Record<ElementType, string[]> = {
 const MESSAGE_COOLDOWN = 600;
 
 export function CustomCursor() {
+  const [isTouch, setIsTouch] = useState(false);
+
+  useEffect(() => {
+    setIsTouch(window.matchMedia("(pointer: coarse)").matches);
+  }, []);
+
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
 
@@ -252,6 +258,8 @@ export function CustomCursor() {
       observers.forEach((o) => o.disconnect());
     };
   }, [cursorX, cursorY, resetIdleTimer, rotationVal, getElementType, getMessage, hovered]);
+
+  if (isTouch) return null;
 
   return (
     <>

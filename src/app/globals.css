@@ -56,8 +56,10 @@
   --max-width: 1800px;
 }
 
-* {
-  cursor: none !important;
+@media (pointer: fine) {
+  * {
+    cursor: none !important;
+  }
 }
 
 html {

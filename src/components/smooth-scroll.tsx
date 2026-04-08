@@ -5,11 +5,12 @@ import Lenis from "lenis";
 
 export function SmoothScroll() {
   useEffect(() => {
+    const isMobile = window.innerWidth < 768;
     const lenis = new Lenis({
-      duration: 1.8,
+      duration: isMobile ? 1.1 : 1.8,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       wheelMultiplier: 0.7,
-      touchMultiplier: 1.2,
+      touchMultiplier: isMobile ? 1.8 : 1.2,
     });
 
     function raf(time: number) {
