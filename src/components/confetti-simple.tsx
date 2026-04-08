@@ -36,7 +36,6 @@ export function ConfettiSimple({ className = "" }: { className?: string }) {
     // Physics
     const gravity = 0.15;
     const airResistance = 0.992;
-    const bounceFriction = 0.35;
     const groundFriction = 0.85;
     const wallBounce = 0.3;
     const floorOffset = 10;
@@ -110,21 +109,34 @@ export function ConfettiSimple({ className = "" }: { className?: string }) {
     };
 
     // Clamp particle within bounds (walls + floor, no ceiling)
-    const clampBounds = (p: Particle, w: number, floor: number) => {
+    const clampBounds = (p: Particle, w: number, floor: number, scrollV: number = 0) => {
       // Floor
       if (p.y + p.radius > floor) {
         p.y = floor - p.radius;
-        if (p.vy > 0) {
-          p.vy = -p.vy * bounceFriction;
+        
+        // If floor is moving up (user scrolling down) and hitting particle
+        if (scrollV > 0) {
+          // More bounciness randomly per piece when hit by floor
+          const randomBounce = 0.6 + Math.random() * 1.2;
+          p.vy = -scrollV * 0.4 * randomBounce;
+          p.vx += (Math.random() - 0.5) * scrollV * 0.25; // More horizontal scatter
+          p.rotationSpeed += (Math.random() - 0.5) * 0.06;
+          p.settled = false;
+        } else if (p.vy > 0) {
+          const particleBounceFriction = 0.45 + Math.random() * 0.3; // Random bounce when falling
+          p.vy = -p.vy * particleBounceFriction;
           p.vx *= groundFriction;
           // Gentle rotation from ground contact proportional to horizontal velocity
           p.rotationSpeed = p.vx * 0.003;
         }
-        if (Math.abs(p.vy) < settleThreshold && Math.abs(p.vx) < settleThreshold) {
+        
+        if (Math.abs(p.vy) < settleThreshold && Math.abs(p.vx) < settleThreshold && scrollV <= 0) {
           p.settled = true;
           p.vy = 0;
           p.vx = 0;
           p.rotationSpeed = 0;
+        } else {
+          p.settled = false;
         }
       }
       // Walls
@@ -139,7 +151,7 @@ export function ConfettiSimple({ className = "" }: { className?: string }) {
     };
 
     // Particle-to-particle collision
-    const resolveCollisions = (floor: number, w: number) => {
+    const resolveCollisions = (floor: number, w: number, scrollV: number = 0) => {
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const a = particles[i];
@@ -196,12 +208,19 @@ export function ConfettiSimple({ className = "" }: { className?: string }) {
             }
 
             // Post-collision clamp
-            clampBounds(a, w, floor);
-            clampBounds(b, w, floor);
+            clampBounds(a, w, floor, scrollV);
+            clampBounds(b, w, floor, scrollV);
           }
         }
       }
     };
+
+    let scrollY = window.scrollY;
+    let lastScrollY = scrollY;
+    const onScroll = () => {
+      scrollY = window.scrollY;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
 
     // Hit test — expanded radius for easier grabbing
     const hitTest = (mx: number, my: number): number => {
@@ -332,7 +351,9 @@ export function ConfettiSimple({ className = "" }: { className?: string }) {
         return;
       }
 
-      const floor = h - floorOffset;
+      const scrollV = scrollY - lastScrollY;
+      lastScrollY = scrollY;
+      const floor = h - floorOffset - scrollY;
 
       ctx.clearRect(0, 0, w, h);
 
@@ -375,7 +396,19 @@ export function ConfettiSimple({ className = "" }: { className?: string }) {
           if (p.rotationSpeed > 0.04) p.rotationSpeed = 0.04;
           if (p.rotationSpeed < -0.04) p.rotationSpeed = -0.04;
 
-          clampBounds(p, w, floor);
+          clampBounds(p, w, floor, scrollV);
+        } else if (p.settled) {
+          // If particle was settled but floor moved, update its position or wake it up
+          if (p.y + p.radius > floor) {
+            p.y = floor - p.radius;
+            if (scrollV > 0) {
+               p.settled = false;
+               const randomBounce = 0.6 + Math.random() * 1.2;
+               p.vy = -scrollV * 0.4 * randomBounce;
+               p.vx += (Math.random() - 0.5) * scrollV * 0.25;
+               p.rotationSpeed += (Math.random() - 0.5) * 0.06;
+            }
+          }
         }
 
         // Clamp dragged particle within walls + floor (no ceiling)
@@ -471,7 +504,7 @@ export function ConfettiSimple({ className = "" }: { className?: string }) {
       }
 
       // Collisions after position updates
-      resolveCollisions(floor, w);
+      resolveCollisions(floor, w, scrollV);
 
       animationId = requestAnimationFrame(animate);
     };
@@ -515,6 +548,7 @@ export function ConfettiSimple({ className = "" }: { className?: string }) {
       canvas.removeEventListener("touchmove", onTouchMove);
       canvas.removeEventListener("touchend", onTouchEnd);
       window.removeEventListener("resize", handleResize);
+      window.removeEventListener("scroll", onScroll);
     };
   }, []);
 

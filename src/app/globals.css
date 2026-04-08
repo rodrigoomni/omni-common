@@ -34,6 +34,7 @@
 
   --muted: #5c5c5c;
   --accent: #CFFC68; /* Use lime-light as primary accent */
+  --navy: #0A2B47; /* Deep navy — hero background & high-contrast text on lime */
   --hero-dark: #14545D; /* Dark teal color from earlier version */
   --hero-dark-light: #1A5C6B; /* Lighter dark teal */
   --hero-dark-lighter: #257C8F; /* Even lighter for subtle variations */

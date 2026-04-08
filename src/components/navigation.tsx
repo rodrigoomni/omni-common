@@ -22,12 +22,33 @@ export function Navigation() {
   const { scrollY } = useScroll();
   const pathname = usePathname();
 
+  const [isDarkBg, setIsDarkBg] = useState(true);
+
   useMotionValueEvent(scrollY, "change", (latest) => {
     setScrolled(latest > 80);
+    
+    // Detect if the header is currently over a dark section
+    if (typeof window !== "undefined") {
+      // 30px is a good offset to check underneath the top of the viewport
+      const elements = document.elementsFromPoint(window.innerWidth / 2, 30);
+      
+      // Find the first element that is NOT the header itself
+      const targetElement = elements.find(el => !el.closest('header'));
+      
+      if (targetElement) {
+        // Only check if this specific top-most element (or its closest container) is dark
+        // This prevents the fixed background hero section from falsely triggering dark mode
+        const isDark = targetElement.closest('[data-theme="dark"]') !== null;
+        setIsDarkBg(isDark);
+      } else {
+        setIsDarkBg(false);
+      }
+    }
   });
 
   const isHomepage = pathname === "/";
   const isHero = isHomepage && !scrolled;
+  const isDark = isHomepage && isHero ? true : isDarkBg;
 
   const handleHover = (idx: number, e: React.MouseEvent<HTMLAnchorElement>) => {
     setHoveredIdx(idx);
@@ -47,8 +68,16 @@ export function Navigation() {
     <motion.header
       className="fixed top-0 left-0 z-[100] w-full transition-all duration-500 ease-out"
       style={{
-        backgroundColor: isHero ? "transparent" : "rgba(250,250,248,0.92)",
-        borderBottom: isHero ? "1px solid transparent" : "1px solid rgba(0,0,0,0.05)",
+        backgroundColor: isHero 
+          ? "transparent" 
+          : isDark 
+            ? "rgba(10,43,71,0.98)" 
+            : "rgba(250,250,248,0.98)",
+        borderBottom: isHero 
+          ? "1px solid transparent" 
+          : isDark 
+            ? "1px solid rgba(255,255,255,0.08)"
+            : "1px solid rgba(0,0,0,0.05)",
       }}
     >
       <nav
@@ -86,7 +115,7 @@ export function Navigation() {
             className="font-bold tracking-tight transition-all duration-500"
             style={{
               fontFamily: "var(--font-archivo)",
-              color: isHero ? "rgba(255,255,255,0.95)" : "var(--foreground)",
+              color: isDark ? "rgba(255,255,255,0.95)" : "var(--foreground)",
               fontSize: isHero ? "20px" : "18px",
             }}
             initial={{ opacity: 0, y: -10 }}
@@ -103,7 +132,7 @@ export function Navigation() {
             ref={navRef}
             className="relative flex items-center gap-1 rounded-full px-1 py-1 transition-colors duration-500"
             style={{
-              backgroundColor: isHero
+              backgroundColor: isDark
                 ? "rgba(255,255,255,0.08)"
                 : "rgba(0,0,0,0.03)",
             }}
@@ -113,7 +142,7 @@ export function Navigation() {
             <motion.div
               className="pointer-events-none absolute top-1 bottom-1 rounded-full transition-colors duration-300"
               style={{
-                backgroundColor: isHero
+                backgroundColor: isDark
                   ? "rgba(255,255,255,0.12)"
                   : "rgba(20,84,93,0.08)",
               }}
@@ -144,10 +173,10 @@ export function Navigation() {
                     fontFamily: "var(--font-inter)",
                     color:
                       hoveredIdx === i
-                        ? isHero
+                        ? isDark
                           ? "rgba(255,255,255,1)"
                           : "var(--teal)"
-                        : isHero
+                        : isDark
                           ? "rgba(255,255,255,0.65)"
                           : "var(--foreground-muted)",
                   }}
@@ -175,9 +204,9 @@ export function Navigation() {
                 className="cta-manic relative rounded-full px-6 py-2.5 text-sm font-semibold transition-all duration-500"
                 style={{
                   fontFamily: "var(--font-inter)",
-                  backgroundColor: isHero ? "var(--lime)" : "var(--teal)",
-                  color: isHero ? "#0A2B47" : "#fff",
-                  boxShadow: isHero
+                  backgroundColor: isDark ? "var(--lime)" : "var(--teal)",
+                  color: isDark ? "#0A2B47" : "#fff",
+                  boxShadow: isDark
                     ? "none"
                     : "3px 4px 0px 0px var(--lime)",
                 }}
@@ -204,7 +233,7 @@ export function Navigation() {
           <motion.span
             className="block h-0.5 w-6 rounded-full transition-colors duration-500"
             style={{
-              backgroundColor: isHero
+              backgroundColor: isDark
                 ? "rgba(255,255,255,0.9)"
                 : "var(--foreground)",
             }}
@@ -216,7 +245,7 @@ export function Navigation() {
           <motion.span
             className="block h-0.5 w-6 rounded-full transition-colors duration-500"
             style={{
-              backgroundColor: isHero
+              backgroundColor: isDark
                 ? "rgba(255,255,255,0.9)"
                 : "var(--foreground)",
             }}

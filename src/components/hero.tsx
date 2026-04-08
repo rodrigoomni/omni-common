@@ -11,6 +11,7 @@ export function Hero() {
     <section
       className="fixed inset-0 flex min-h-screen items-center justify-center"
       style={{ backgroundColor: "#0A2B47", zIndex: 0 }}
+      data-theme="dark"
     >
       {/* Architectural Grid Overlay */}
       <HeroGrid />

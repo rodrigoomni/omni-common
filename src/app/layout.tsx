@@ -8,6 +8,20 @@ export const metadata: Metadata = {
   title: "Omni Common — Executive Growth Marketing Agency",
   description:
     "The first ever executive growth marketing agency built for businesses ready to scale. We don't just run campaigns — we architect growth systems.",
+  icons: {
+    icon: [
+      {
+        url: "/favicon-color.svg",
+        type: "image/svg+xml",
+        media: "(prefers-color-scheme: light)",
+      },
+      {
+        url: "/favicon-dark.svg",
+        type: "image/svg+xml",
+        media: "(prefers-color-scheme: dark)",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({

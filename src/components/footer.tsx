@@ -9,7 +9,7 @@ export function Footer() {
   const isInView = useInView(ref, { once: true, margin: "-50px" });
 
   return (
-    <footer style={{ borderTop: "1px solid var(--border)" }}>
+    <footer data-theme="dark" style={{ borderTop: "1px solid var(--border)" }}>
       <div className="site-container px-6 py-24 md:px-12 lg:px-24">
         <motion.div
           ref={ref}
