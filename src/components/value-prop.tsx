@@ -57,7 +57,6 @@ const capabilities = [
 
 export function ValueProp() {
   const introRef = useRef(null);
-  const introSectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(introRef, { once: true, margin: "-40px" });
 
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -65,28 +64,6 @@ export function ValueProp() {
   const contentRef = useRef<HTMLDivElement>(null);
   const [contentRevealed, setContentRevealed] = useState(false);
   const [darkActive, setDarkActive] = useState(false);
-
-  // Outro animation for the intro section — fades/scales as circle approaches
-  useGSAP(
-    () => {
-      if (!introSectionRef.current || !sectionRef.current) return;
-
-      const mobile = window.innerWidth < 768;
-      gsap.to(introSectionRef.current, {
-        opacity: 0,
-        scale: mobile ? 0.98 : 0.95,
-        y: mobile ? -30 : -60,
-        ease: "power2.in",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 100%",
-          end: mobile ? "top 60%" : "top 40%",
-          scrub: mobile ? 0.5 : 1,
-        },
-      });
-    },
-    { scope: introSectionRef }
-  );
 
   useGSAP(
     () => {
@@ -163,8 +140,162 @@ export function ValueProp() {
 
   return (
     <>
-      {/* ── Original "Why Omni Common" section (light background) ── */}
-      <section ref={introSectionRef} className="relative z-[1] py-28 md:py-36" style={{ transformOrigin: "center bottom", backgroundColor: "var(--background)" }}>
+      {/* ── Circle Mask scroll transition (dark environment) ── */}
+      <section ref={sectionRef} className="relative h-[160vh] md:h-[200vh]">
+      <div className="sticky top-0 flex h-screen items-center" data-theme={darkActive ? "dark-teal" : undefined}>
+        {/* Clean circle mask — sharp edges, grows from bottom center */}
+        <svg
+          className="absolute inset-0 h-full w-full"
+          style={{ overflow: "visible" }}
+          aria-hidden="true"
+        >
+          <circle
+            ref={circleRef}
+            cx="50%"
+            cy="100%"
+            r="0"
+            style={{ fill: "var(--hero-dark)" }}
+          />
+        </svg>
+
+        {/* Content layer */}
+        <div
+          ref={contentRef}
+          className="relative z-10 w-full"
+          style={{ opacity: 0 }}
+        >
+          <div className="site-container px-6 md:px-12 lg:px-24">
+            <div className="mx-auto max-w-3xl">
+              {/* Eyebrow */}
+              <motion.p
+                className="text-xs font-semibold uppercase tracking-[0.25em]"
+                style={{ fontFamily: "var(--font-inter)", color: "var(--mint)" }}
+                initial={{ opacity: 0, y: 16 }}
+                animate={contentRevealed ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.7, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+              >
+                From Our Founder
+              </motion.p>
+
+              {/* Headline */}
+              <motion.h2
+                className="mt-3 text-2xl font-bold tracking-tight md:text-5xl"
+                style={{ fontFamily: "var(--font-archivo)", color: "#fff" }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={contentRevealed ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+              >
+                Growth by honing your spend where it&apos;s{" "}
+                <span style={{ color: "var(--lime)" }}>statistically needed.</span>
+              </motion.h2>
+
+              {/* Body */}
+              <motion.div
+                className="mt-5 space-y-4 text-sm leading-relaxed md:mt-8 md:space-y-5 md:text-base"
+                style={{ fontFamily: "var(--font-encode)", color: "var(--mint-light)" }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={contentRevealed ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <p>
+                  Omni Common was initially born out of my consulting agency,
+                  thoughtfully developed over time into a talented team of
+                  &ldquo;make-it-grow&rdquo; experts who tackle the spend
+                  that&apos;s vital for your growth.
+                </p>
+                <p className="hidden md:block">
+                  For years, we&apos;ve worked with all types of businesses that
+                  lacked things such as a growth timeline at an executive level,
+                  a marketing team (or a big enough one), or simply felt like
+                  they plateaued. To help them grow, we developed a unique
+                  marketing mix model (MMM) approach with a foundation in
+                  tactical data analysis — unifying SEO, PPC, CRO, content
+                  marketing, and PR. Because a one-size-fits-all blanket
+                  strategy won&apos;t work — it&apos;s all about the variables
+                  you need.
+                </p>
+                <p>
+                  Only after determining where you need growth will your
+                  business start to efficiently scale up — what&apos;s the point
+                  of drumming up growth that has no ROI?
+                </p>
+                <p className="hidden md:block">
+                  I believe in this omni-channel, data-and-deliverable-driven
+                  growth model so much, we built Omni Common from the ground up
+                  to execute it from anywhere you are on your journey. We will
+                  audit and assess, bolt on to your existing team, or simply
+                  become your CMO. Whatever the data says is needed, we&apos;ll
+                  show you, then get it done together.
+                </p>
+              </motion.div>
+
+              {/* Signature + avatar */}
+              <motion.div
+                className="mt-6 flex items-center gap-5 md:mt-12"
+                initial={{ opacity: 0, y: 20 }}
+                animate={contentRevealed ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.8, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <div
+                  className="h-14 w-14 flex-shrink-0 overflow-hidden rounded-full md:h-16 md:w-16"
+                  style={{
+                    border: "2px solid var(--lime)",
+                    backgroundColor: "rgba(207,252,104,0.06)",
+                  }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/images/ryan-charles.png"
+                    alt="Ryan Charles"
+                    width={64}
+                    height={64}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+                <div>
+                  <p
+                    className="text-base font-semibold tracking-tight md:text-lg"
+                    style={{ fontFamily: "var(--font-archivo)", color: "#fff" }}
+                  >
+                    Ryan Charles
+                  </p>
+                  <p
+                    className="mt-0.5 text-xs font-medium uppercase tracking-[0.15em] md:text-sm"
+                    style={{ fontFamily: "var(--font-inter)", color: "var(--mint-dark)" }}
+                  >
+                    CEO &amp; CMO, Omni Common
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* CTA */}
+              <motion.div
+                className="mt-5 md:mt-10"
+                initial={{ opacity: 0, y: 16 }}
+                animate={contentRevealed ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.7, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <a
+                  href="/contact"
+                  className="inline-flex items-center gap-2 rounded-full border px-6 py-3 text-sm font-semibold transition-colors duration-300 hover:bg-white/10"
+                  style={{
+                    fontFamily: "var(--font-inter)",
+                    borderColor: "rgba(255,255,255,0.35)",
+                    color: "#fff",
+                  }}
+                >
+                  Let&apos;s Chat
+                  <span className="text-base">&rarr;</span>
+                </a>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+      {/* ── "Why Omni Common" section (light background) ── */}
+      <section className="py-28 md:py-36" style={{ backgroundColor: "var(--background)" }}>
         <div className="site-container px-6 md:px-12 lg:px-24">
           <motion.div
             ref={introRef}
@@ -322,167 +453,6 @@ export function ValueProp() {
           </div>
         </div>
       </section>
-
-      {/* ── Circle Mask scroll transition (dark environment) ── */}
-      <section ref={sectionRef} className="relative z-[2] h-[160vh] md:h-[200vh]">
-      <div className="sticky top-0 flex h-screen items-center" data-theme={darkActive ? "dark-teal" : undefined}>
-        {/* Clean circle mask — sharp edges, grows from bottom center */}
-        <svg
-          className="absolute inset-0 h-full w-full"
-          style={{ overflow: "visible" }}
-          aria-hidden="true"
-        >
-          <circle
-            ref={circleRef}
-            cx="50%"
-            cy="100%"
-            r="0"
-            style={{ fill: "var(--hero-dark)" }}
-          />
-        </svg>
-
-        {/* Content layer */}
-        <div
-          ref={contentRef}
-          className="relative z-10 w-full"
-          style={{ opacity: 0 }}
-        >
-          <div className="site-container px-6 md:px-12 lg:px-24">
-            <div className="mx-auto max-w-3xl">
-              {/* Eyebrow */}
-              <motion.p
-                className="text-xs font-semibold uppercase tracking-[0.25em]"
-                style={{ fontFamily: "var(--font-inter)", color: "var(--mint)" }}
-                initial={{ opacity: 0, y: 16 }}
-                animate={contentRevealed ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.7, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
-              >
-                From Our Founder
-              </motion.p>
-
-              {/* Headline — same style as site headings */}
-              <motion.h2
-                className="mt-3 text-2xl font-bold tracking-tight md:text-5xl"
-                style={{ fontFamily: "var(--font-archivo)", color: "#fff" }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={contentRevealed ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-              >
-                Growth by honing your spend where it&apos;s{" "}
-                <span style={{ color: "var(--lime)" }}>statistically needed.</span>
-              </motion.h2>
-
-              {/* Body — same font/sizing as site body text */}
-              <motion.div
-                className="mt-5 space-y-4 text-sm leading-relaxed md:mt-8 md:space-y-5 md:text-base"
-                style={{ fontFamily: "var(--font-encode)", color: "var(--mint-light)" }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={contentRevealed ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <p>
-                  Omni Common was initially born out of my consulting agency,
-                  thoughtfully developed over time into a talented team of
-                  &ldquo;make-it-grow&rdquo; experts who tackle the spend
-                  that&apos;s vital for your growth.
-                </p>
-                <p className="hidden md:block">
-                  For years, we&apos;ve worked with all types of businesses that
-                  lacked things such as a growth timeline at an executive level,
-                  a marketing team (or a big enough one), or simply felt like
-                  they plateaued. To help them grow, we developed a unique
-                  marketing mix model (MMM) approach with a foundation in
-                  tactical data analysis — unifying SEO, PPC, CRO, content
-                  marketing, and PR. Because a one-size-fits-all blanket
-                  strategy won&apos;t work — it&apos;s all about the variables
-                  you need.
-                </p>
-                <p>
-                  Only after determining where you need growth will your
-                  business start to efficiently scale up — what&apos;s the point
-                  of drumming up growth that has no ROI?
-                </p>
-                <p className="hidden md:block">
-                  I believe in this omni-channel, data-and-deliverable-driven
-                  growth model so much, we built Omni Common from the ground up
-                  to execute it from anywhere you are on your journey. We will
-                  audit and assess, bolt on to your existing team, or simply
-                  become your CMO. Whatever the data says is needed, we&apos;ll
-                  show you, then get it done together.
-                </p>
-              </motion.div>
-
-              {/* Signature + avatar */}
-              <motion.div
-                className="mt-6 flex items-center gap-5 md:mt-12"
-                initial={{ opacity: 0, y: 20 }}
-                animate={contentRevealed ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.8, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              >
-                {/* Profile photo */}
-                <div
-                  className="h-14 w-14 flex-shrink-0 overflow-hidden rounded-full md:h-16 md:w-16"
-                  style={{
-                    border: "2px solid var(--lime)",
-                    backgroundColor: "rgba(207,252,104,0.06)",
-                  }}
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="/images/ryan-charles.png"
-                    alt="Ryan Charles"
-                    width={64}
-                    height={64}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-                <div>
-                  <p
-                    className="text-base font-semibold tracking-tight md:text-lg"
-                    style={{
-                      fontFamily: "var(--font-archivo)",
-                      color: "#fff",
-                    }}
-                  >
-                    Ryan Charles
-                  </p>
-                  <p
-                    className="mt-0.5 text-xs font-medium uppercase tracking-[0.15em] md:text-sm"
-                    style={{
-                      fontFamily: "var(--font-inter)",
-                      color: "var(--mint-dark)",
-                    }}
-                  >
-                    CEO &amp; CMO, Omni Common
-                  </p>
-                </div>
-              </motion.div>
-
-              {/* CTA */}
-              <motion.div
-                className="mt-5 md:mt-10"
-                initial={{ opacity: 0, y: 16 }}
-                animate={contentRevealed ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.7, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <a
-                  href="/contact"
-                  className="inline-flex items-center gap-2 rounded-full border px-6 py-3 text-sm font-semibold transition-colors duration-300 hover:bg-white/10"
-                  style={{
-                    fontFamily: "var(--font-inter)",
-                    borderColor: "rgba(255,255,255,0.35)",
-                    color: "#fff",
-                  }}
-                >
-                  Let&apos;s Chat
-                  <span className="text-base">&rarr;</span>
-                </a>
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
     </>
   );
 }
