@@ -5,6 +5,7 @@ import { ValueProp } from "@/components/value-prop";
 import { ServicesSection } from "@/components/services-section";
 import { FeaturedWork } from "@/components/featured-work";
 import { Footer } from "@/components/footer";
+import { InfoSections } from "@/components/info-sections";
 
 export default function Home() {
   return (
@@ -19,6 +20,7 @@ export default function Home() {
         <ServicesSection />
         <LogoCarousel />
         <FeaturedWork />
+        <InfoSections />
         <Footer />
       </div>
     </main>
