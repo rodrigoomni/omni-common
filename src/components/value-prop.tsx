@@ -113,27 +113,30 @@ export function ValueProp() {
 
       /* ═══ HOLD (0.25 → 0.75) ═══ */
 
-      /* ═══ EXIT (0.75 → 1.0) — symmetrical to top ═══ */
+      /* ═══ EXIT (0.75 → 1.0) — gentle shrink + fade, not symmetric ═══ */
 
-      // Deactivate dark zone as exit begins
-      tl.call(() => setDarkActive(false), [], 0.75);
-
+      // Content fades out softly — small drift, no dramatic upward snap
       tl.to(
         contentRef.current,
-        { opacity: 0, y: -30, duration: 0.1, ease: "power2.in" },
-        0.82
+        { opacity: 0, y: -12, duration: 0.18, ease: "power1.inOut" },
+        0.76
       );
 
-      // Circle collapses upward to top-center (mirror of entry)
+      // Circle retreats back down — same direction it came from.
+      // cy sinks well past the bottom edge so the top of the shape
+      // descends with the scroll rather than collapsing inward.
       tl.to(
         circleRef.current,
         {
-          attr: { r: 0, cy: "0%" },
+          attr: { r: maxR * 0.65, cy: "-20%" },
           duration: 0.25,
-          ease: "power2.in",
+          ease: "power2.inOut",
         },
         0.75
       );
+
+      // Deactivate dark zone once the circle is mostly gone
+      tl.call(() => setDarkActive(false), [], 0.88);
     },
     { scope: sectionRef }
   );
@@ -141,7 +144,7 @@ export function ValueProp() {
   return (
     <>
       {/* ── Circle Mask scroll transition (dark environment) ── */}
-      <section ref={sectionRef} className="relative h-[160vh] md:h-[200vh]" style={{ zIndex: 2 }}>
+      <section ref={sectionRef} className="relative h-[calc(160vh-200px)] md:h-[calc(200vh-200px)]" style={{ zIndex: 2 }}>
       <div className="sticky top-0 flex h-screen items-center" data-theme={darkActive ? "dark-teal" : undefined}>
         {/* Clean circle mask — sharp edges, grows from bottom center */}
         <svg
