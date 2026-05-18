@@ -4,7 +4,6 @@ import { motion, useScroll, useTransform } from "motion/react";
 import { HeroGrid } from "./hero-grid";
 import { MagneticButton } from "./magnetic-button";
 import { ConfettiSimple } from "./confetti-simple";
-import { DoodleCircle } from "./doodle-circle";
 
 export function Hero() {
   const { scrollY } = useScroll();
@@ -23,8 +22,9 @@ export function Hero() {
       {/* Architectural Grid Overlay */}
       <HeroGrid />
 
-      {/* Confetti chunks - fewer, larger pieces */}
+      {/* Interactive confetti circles */}
       <ConfettiSimple />
+
 
       {/* Content */}
       <motion.div
@@ -64,7 +64,7 @@ export function Hero() {
               ease: [0.22, 1, 0.36, 1],
             }}
           >
-            According to <DoodleCircle color="var(--lime)" strokeWidth={4} delay={1.2} style="underline" variant={2}>plan.</DoodleCircle>
+            According to plan.
           </motion.h1>
         </div>
 

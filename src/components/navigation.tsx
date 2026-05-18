@@ -2,13 +2,24 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, useMotionValueEvent, useScroll } from "motion/react";
+import { motion, useMotionValueEvent, useScroll, AnimatePresence } from "motion/react";
 import { useState, useRef } from "react";
 import { MagneticButton } from "./magnetic-button";
 
-const links = [
+const links: {
+  href: string;
+  label: string;
+  children?: { href: string; label: string }[];
+}[] = [
   { href: "/", label: "Home" },
-  { href: "/services", label: "Services" },
+  {
+    href: "/services",
+    label: "Insights",
+    children: [
+      { href: "/services", label: "Services" },
+      { href: "/work", label: "Clients" },
+    ],
+  },
   { href: "/work", label: "Work" },
   { href: "/about", label: "About" },
 ];
@@ -17,13 +28,14 @@ export function Navigation() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const navRef = useRef<HTMLDivElement>(null);
   const [pillStyle, setPillStyle] = useState({ left: 0, width: 0 });
   const { scrollY } = useScroll();
   const pathname = usePathname();
 
-  // "navy" = hero/footer/statement dark sections, "teal" = circle mask, "light" = default
-  const [bgTheme, setBgTheme] = useState<"navy" | "teal" | "light">("navy");
+  const [bgTheme, setBgTheme] = useState<"navy" | "teal" | "light">(pathname === "/" ? "navy" : "light");
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setScrolled(latest > 80);
@@ -53,7 +65,7 @@ export function Navigation() {
   const isHero = isHomepage && !scrolled;
   const isDark = isHomepage && isHero ? true : bgTheme !== "light";
 
-  const handleHover = (idx: number, e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleHover = (idx: number, e: React.MouseEvent<HTMLElement>) => {
     setHoveredIdx(idx);
     const el = e.currentTarget;
     const nav = navRef.current;
@@ -65,6 +77,15 @@ export function Navigation() {
         width: elRect.width,
       });
     }
+  };
+
+  const openDropdown = () => {
+    if (dropdownTimeout.current) clearTimeout(dropdownTimeout.current);
+    setDropdownOpen(true);
+  };
+
+  const closeDropdown = () => {
+    dropdownTimeout.current = setTimeout(() => setDropdownOpen(false), 150);
   };
 
   return (
@@ -145,7 +166,10 @@ export function Navigation() {
                 ? "rgba(255,255,255,0.08)"
                 : "rgba(0,0,0,0.03)",
             }}
-            onMouseLeave={() => setHoveredIdx(null)}
+            onMouseLeave={() => {
+              setHoveredIdx(null);
+              closeDropdown();
+            }}
           >
             {/* Animated hover pill */}
             <motion.div
@@ -166,7 +190,8 @@ export function Navigation() {
 
             {links.map((link, i) => (
               <motion.div
-                key={link.href}
+                key={link.label}
+                className="relative"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
@@ -175,24 +200,127 @@ export function Navigation() {
                   ease: [0.22, 1, 0.36, 1],
                 }}
               >
-                <Link
-                  href={link.href}
-                  className="relative z-10 block rounded-full px-5 py-2 text-sm font-medium transition-colors duration-300"
-                  style={{
-                    fontFamily: "var(--font-inter)",
-                    color:
-                      hoveredIdx === i
-                        ? isDark
-                          ? "rgba(255,255,255,1)"
-                          : "var(--teal)"
-                        : isDark
-                          ? "rgba(255,255,255,0.65)"
-                          : "var(--foreground-muted)",
-                  }}
-                  onMouseEnter={(e) => handleHover(i, e)}
-                >
-                  {link.label}
-                </Link>
+                {link.children ? (
+                  /* Dropdown trigger */
+                  <div
+                    onMouseEnter={(e) => {
+                      handleHover(i, e);
+                      openDropdown();
+                    }}
+                  >
+                    <span
+                      className="relative z-10 flex items-center gap-1 rounded-full px-5 py-2 text-sm font-medium transition-colors duration-300"
+                      style={{
+                        fontFamily: "var(--font-inter)",
+                        color:
+                          hoveredIdx === i
+                            ? isDark
+                              ? "rgba(255,255,255,1)"
+                              : "var(--teal)"
+                            : isDark
+                              ? "rgba(255,255,255,0.65)"
+                              : "var(--foreground-muted)",
+                      }}
+                    >
+                      {link.label}
+                      <svg
+                        width="10"
+                        height="6"
+                        viewBox="0 0 10 6"
+                        fill="none"
+                        className="transition-transform duration-200"
+                        style={{
+                          transform: dropdownOpen ? "rotate(180deg)" : "rotate(0deg)",
+                        }}
+                      >
+                        <path
+                          d="M1 1L5 5L9 1"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
+
+                    {/* Dropdown */}
+                    <AnimatePresence>
+                      {dropdownOpen && (
+                        <motion.div
+                          className="absolute left-0 top-full z-50 mt-2 min-w-[160px] overflow-hidden rounded-xl py-1"
+                          style={{
+                            backgroundColor: isDark
+                              ? "rgba(10,43,71,0.95)"
+                              : "rgba(255,255,255,0.98)",
+                            border: isDark
+                              ? "1px solid rgba(255,255,255,0.1)"
+                              : "1px solid rgba(0,0,0,0.08)",
+                            boxShadow: isDark
+                              ? "0 8px 30px rgba(0,0,0,0.3)"
+                              : "0 8px 30px rgba(0,0,0,0.08)",
+                            backdropFilter: "blur(12px)",
+                          }}
+                          initial={{ opacity: 0, y: -4 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -4 }}
+                          transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                          onMouseEnter={openDropdown}
+                          onMouseLeave={closeDropdown}
+                        >
+                          {link.children.map((child) => (
+                            <Link
+                              key={child.href}
+                              href={child.href}
+                              className="block px-4 py-2.5 text-sm font-medium transition-colors duration-150"
+                              style={{
+                                fontFamily: "var(--font-inter)",
+                                color: isDark
+                                  ? "rgba(255,255,255,0.7)"
+                                  : "var(--foreground-muted)",
+                              }}
+                              onMouseEnter={(e) => {
+                                e.currentTarget.style.color = isDark
+                                  ? "rgba(255,255,255,1)"
+                                  : "var(--teal)";
+                                e.currentTarget.style.backgroundColor = isDark
+                                  ? "rgba(255,255,255,0.06)"
+                                  : "rgba(20,84,93,0.04)";
+                              }}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.style.color = isDark
+                                  ? "rgba(255,255,255,0.7)"
+                                  : "var(--foreground-muted)";
+                                e.currentTarget.style.backgroundColor = "transparent";
+                              }}
+                            >
+                              {child.label}
+                            </Link>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                ) : (
+                  /* Regular link */
+                  <Link
+                    href={link.href}
+                    className="relative z-10 block rounded-full px-5 py-2 text-sm font-medium transition-colors duration-300"
+                    style={{
+                      fontFamily: "var(--font-inter)",
+                      color:
+                        hoveredIdx === i
+                          ? isDark
+                            ? "rgba(255,255,255,1)"
+                            : "var(--teal)"
+                          : isDark
+                            ? "rgba(255,255,255,0.65)"
+                            : "var(--foreground-muted)",
+                    }}
+                    onMouseEnter={(e) => handleHover(i, e)}
+                  >
+                    {link.label}
+                  </Link>
+                )}
               </motion.div>
             ))}
           </div>
@@ -282,35 +410,65 @@ export function Navigation() {
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       >
         <div className="flex flex-col items-center gap-8">
-          {links.map((link, i) => (
-            <motion.div
-              key={link.href}
-              initial={{ opacity: 0, y: 30 }}
-              animate={
-                menuOpen
-                  ? {
-                      opacity: 1,
-                      y: 0,
-                      transition: { delay: 0.15 * i + 0.2 },
-                    }
-                  : { opacity: 0, y: 30 }
-              }
-            >
-              <Link
-                href={link.href}
-                className="text-5xl font-bold tracking-tight"
-                style={{
-                  fontFamily: "var(--font-archivo)",
-                  color: "var(--foreground)",
-                }}
-                onClick={() => setMenuOpen(false)}
+          {links.map((link, i) =>
+            link.children ? (
+              /* Mobile: show children directly */
+              link.children.map((child, j) => (
+                <motion.div
+                  key={child.href}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={
+                    menuOpen
+                      ? {
+                          opacity: 1,
+                          y: 0,
+                          transition: { delay: 0.15 * (i + j) + 0.2 },
+                        }
+                      : { opacity: 0, y: 30 }
+                  }
+                >
+                  <Link
+                    href={child.href}
+                    className="text-5xl font-bold tracking-tight"
+                    style={{
+                      fontFamily: "var(--font-archivo)",
+                      color: "var(--foreground)",
+                    }}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {child.label}
+                  </Link>
+                </motion.div>
+              ))
+            ) : (
+              <motion.div
+                key={link.href}
+                initial={{ opacity: 0, y: 30 }}
+                animate={
+                  menuOpen
+                    ? {
+                        opacity: 1,
+                        y: 0,
+                        transition: { delay: 0.15 * i + 0.2 },
+                      }
+                    : { opacity: 0, y: 30 }
+                }
               >
-                {link.label}
-              </Link>
-            </motion.div>
-          ))}
+                <Link
+                  href={link.href}
+                  className="text-5xl font-bold tracking-tight"
+                  style={{
+                    fontFamily: "var(--font-archivo)",
+                    color: "var(--foreground)",
+                  }}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              </motion.div>
+            )
+          )}
         </div>
-        {/* Bottom-right ornament — bleeds off corner */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/images/menu-ornament.png"

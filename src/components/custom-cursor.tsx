@@ -328,51 +328,6 @@ export function CustomCursor() {
           </div>
         </motion.div>
 
-        {/* Idle wiggle sparkles */}
-        {wiggle && (
-          <>
-            <motion.svg
-              className="absolute" width="14" height="8" viewBox="0 0 14 8"
-              style={{ top: -6, left: 14 }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: [0, 0.7, 0] }}
-              transition={{ duration: 1, ease: "easeOut" }}
-            >
-              <motion.path
-                d="M 1 4 Q 3 1, 5 4 Q 7 7, 9 4 Q 11 1, 13 4"
-                fill="none" stroke={mood.stroke} strokeWidth="1.2" strokeLinecap="round"
-                initial={{ pathLength: 0 }}
-                animate={{ pathLength: [0, 1, 0] }}
-                transition={{ duration: 1, ease: "easeInOut" }}
-              />
-            </motion.svg>
-            <motion.svg
-              className="absolute" width="10" height="10" viewBox="0 0 10 10"
-              style={{ top: -3, left: -4 }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: [0, 0.5, 0] }}
-              transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            >
-              <motion.path
-                d="M 5 1 Q 7 3, 5 5 Q 3 7, 5 9"
-                fill="none" stroke={mood.fill} strokeWidth="1" strokeLinecap="round"
-                initial={{ pathLength: 0 }}
-                animate={{ pathLength: [0, 1, 0] }}
-                transition={{ duration: 0.8, delay: 0.2, ease: "easeInOut" }}
-              />
-            </motion.svg>
-            <motion.svg
-              className="absolute" width="8" height="8" viewBox="0 0 8 8"
-              style={{ top: -8, left: 8 }}
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: [0, 0.6, 0], scale: [0.5, 1.2, 0.5], rotate: [0, 90] }}
-              transition={{ duration: 1.2, delay: 0.1, ease: "easeOut" }}
-            >
-              <line x1="4" y1="0" x2="4" y2="8" stroke={mood.stroke} strokeWidth="1" strokeLinecap="round" />
-              <line x1="0" y1="4" x2="8" y2="4" stroke={mood.stroke} strokeWidth="1" strokeLinecap="round" />
-            </motion.svg>
-          </>
-        )}
       </motion.div>
     </>
   );

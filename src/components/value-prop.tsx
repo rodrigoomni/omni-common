@@ -5,7 +5,6 @@ import { useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { DoodleCircle } from "./doodle-circle";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -320,10 +319,7 @@ export function ValueProp() {
               >
                 We Are Your{" "}
                 <span style={{ color: "var(--teal)" }}>
-                  Chief Marketing{" "}
-                  <DoodleCircle color="var(--lime)" strokeWidth={2.5} delay={0.4} style="scribble" variant={2}>
-                    Organization.
-                  </DoodleCircle>
+                  Chief Marketing Organization.
                 </span>
               </h2>
             </div>
