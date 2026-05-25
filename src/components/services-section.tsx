@@ -11,33 +11,33 @@ gsap.registerPlugin(ScrollTrigger);
 const services = [
   {
     number: "01",
-    title: "Search",
-    description: "SEO, PPC, Content Marketing, Digital PR, Link Building, and AI/LLM Optimization — we dominate every search channel.",
-    tags: ["SEO", "PPC", "Content", "Digital PR", "AI Optimization"],
+    title: "Paid Channels",
+    description: "PPC and paid social drive revenue now. We start here to generate momentum while long-term channels build. Every campaign tracked, every dollar attributed.",
+    tags: ["PPC", "Paid Social", "Google Ads", "Meta Ads"],
     accent: "var(--mint)",
     glassBg: "rgba(165,253,243,0.35)",
-    textColor: "rgba(235, 255, 253, 0.95)", // almost whitish light blue/mint
-    strokeColor: "rgba(26, 122, 122, 0.4)", // teal stroke for contrast
+    textColor: "rgba(235, 255, 253, 0.95)",
+    strokeColor: "rgba(26, 122, 122, 0.4)",
   },
   {
     number: "02",
-    title: "Lifecycle",
-    description: "Brand Identity, Email & Text Marketing, CRO, and Buyer's Journey Mapping — turning traffic into lifetime customers.",
-    tags: ["Brand Identity", "Email", "CRO", "Journey Mapping"],
+    title: "Organic Growth",
+    description: "SEO, content marketing, and digital PR build the engine that compounds over time. This is where long-term, sustainable revenue lives — and where most agencies underinvest.",
+    tags: ["Technical SEO", "Content Marketing", "Digital PR", "Link Building"],
     accent: "var(--lime)",
     glassBg: "rgba(207,252,104,0.35)",
-    textColor: "rgba(225, 255, 130, 0.95)", // light saturated lime
-    strokeColor: "rgba(26, 122, 122, 0.4)", // teal stroke for contrast
+    textColor: "rgba(225, 255, 130, 0.95)",
+    strokeColor: "rgba(26, 122, 122, 0.4)",
   },
   {
     number: "03",
-    title: "Social",
-    description: "Content Creation, Video Production, Influencer Marketing, and Paid Social — building communities that convert.",
-    tags: ["Content", "Video", "Influencer", "Paid Social"],
+    title: "Convert & Optimize",
+    description: "CRO, UX optimization, and AI search visibility (AEO, GEO) maximize the return on everything else. Search is changing — Google, LLMs, YouTube, LinkedIn — we're already there.",
+    tags: ["CRO", "UX Optimization", "AI Search", "LLM Visibility"],
     accent: "var(--lime)",
     glassBg: "rgba(255,253,239,0.7)",
-    textColor: "rgba(26, 122, 122, 0.85)", // teal
-    strokeColor: "rgba(255, 255, 255, 0.6)", // white stroke
+    textColor: "rgba(26, 122, 122, 0.85)",
+    strokeColor: "rgba(255, 255, 255, 0.6)",
   },
 ];
 
@@ -81,12 +81,12 @@ export function ServicesSection() {
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
         >
           <p className="text-xs font-semibold uppercase tracking-[0.25em]" style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }}>
-            Our Channels
+            The Growth System
           </p>
           <h2 className="mt-3 text-3xl font-bold tracking-tight md:text-5xl" style={{ fontFamily: "var(--font-archivo)", color: "var(--foreground)" }}>
-            We Build Growth Engines
+            Search Is the Spine.
             <br />
-            <span style={{ color: "var(--teal)" }}>That Scale.</span>
+            <span style={{ color: "var(--teal)" }}>Everything Else Builds on It.</span>
           </h2>
         </motion.div>
 
@@ -153,9 +153,9 @@ export function StatementBlock() {
           letterSpacing: "-0.01em",
         }}
       >
-        &ldquo;If your company has hit a plateau, struggles with fragmented
-        marketing efforts, or is unsure how to scale efficiently —
-        <span className="font-bold" style={{ color: "#fff" }}> you just found your growth partner.</span>&rdquo;
+        &ldquo;You know most of your revenue comes through search. But do you know
+        why it&apos;s working — or if you&apos;re leaving growth on the table?
+        <span className="font-bold" style={{ color: "#fff" }}> That&apos;s the question we answer first.</span>&rdquo;
       </p>
     </motion.div>
   );

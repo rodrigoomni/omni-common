@@ -19,84 +19,34 @@ export interface CaseStudy {
 
 export const caseStudies: CaseStudy[] = [
   {
-    slug: "talitha-and-lofty",
-    title: "Talitha & Lofty",
-    category: "Coffee & Specialty Roasters",
-    color: "#e8d5b7",
-    image: "/images/talitha-cover.jpg",
-    cursorHint: "+215% DTC revenue",
-    cursorColors: { fill: "#D97706", stroke: "#e8d5b7" },
+    slug: "numberbarn",
+    title: "NumberBarn",
+    category: "SaaS / Telecom Marketplace",
+    color: "#1e3a5f",
+    image: "/images/numberbarn-cover.png",
+    cursorHint: "+100% impression growth",
+    cursorColors: { fill: "#3B82F6", stroke: "#1e3a5f" },
     year: "2025",
-    client: "Talitha & Lofty Coffee Roasters",
-    tagline: "Scaling a mission-driven coffee brand from local favorite to national presence.",
+    client: "NumberBarn",
+    tagline: "Turning a phone number marketplace into a search-led growth engine.",
     overview:
-      "Talitha & Lofty is a specialty coffee roaster with a powerful mission — creating opportunities for survivors of trafficking. We built an omni-channel growth engine that honored their story while scaling revenue across DTC, wholesale, and retail.",
+      "NumberBarn is a marketplace where people buy, sell, and park phone numbers. We built their intelligence model first — then executed a search-led strategy that doubled their visibility and grew transactions by 40%.",
     challenge:
-      "Despite a loyal local following and a compelling mission, Talitha & Lofty's digital presence wasn't converting awareness into sales. Their organic reach had plateaued, paid campaigns were underperforming, and their brand story wasn't translating online.",
+      "NumberBarn had a solid product but no clear picture of what was driving growth. Organic traffic had flatlined, paid spend lacked attribution, and they were unsure where to invest next.",
     solution:
-      "We unified their Search, Lifecycle, and Social channels into a cohesive growth system. SEO-optimized content marketing told their origin story at scale, targeted paid campaigns drove qualified DTC traffic, and automated email flows turned first-time buyers into subscribers.",
+      "We pulled data from their full stack, built an attribution model, and identified high-intent search gaps nobody was capturing. SEO and content targeted real buyer search behavior, PPC was reallocated to the highest-converting terms, and the entire funnel was optimized for conversions.",
     results: [
-      { metric: "DTC revenue", value: "+215%" },
-      { metric: "Organic traffic", value: "+380%" },
-      { metric: "Email revenue", value: "+162%" },
-      { metric: "CAC reduction", value: "-41%" },
+      { metric: "Impression growth", value: "+100%" },
+      { metric: "Organic traffic", value: "+40%" },
+      { metric: "Transaction growth", value: "+40%" },
+      { metric: "Search visibility", value: "2x" },
     ],
-    services: ["SEO", "Paid Social", "Email Marketing", "Content Strategy", "CRO"],
-  },
-  {
-    slug: "skincare-junkie",
-    title: "Skincare Junkie",
-    category: "DTC Beauty & Skincare",
-    color: "#f5e1d0",
-    image: "/images/skincare-junkie-cover.jpg",
-    cursorHint: "+290% monthly revenue",
-    cursorColors: { fill: "#7B3F8D", stroke: "#F5C6D0" },
-    year: "2025",
-    client: "Skincare Junkie by Dr. Blair Rose",
-    tagline: "Turning dermatologist credibility into a DTC growth machine.",
-    overview:
-      "Skincare Junkie is a dermatologist-developed skincare line by Dr. Blair Rose, featured in Vogue, ELLE, and The New York Times. We architected a full-funnel growth strategy that leveraged her clinical authority to dominate in a saturated beauty market.",
-    challenge:
-      "The brand had strong press coverage and product-market fit, but was struggling to convert media buzz into consistent, scalable revenue. Paid acquisition costs were climbing, retention was low, and the brand lacked a systematic approach to growth.",
-    solution:
-      "We built a marketing mix model that balanced brand-building content with performance marketing. Influencer partnerships amplified Dr. Blair's authority, SEO captured high-intent search traffic for skincare concerns, and a revamped email lifecycle turned one-time buyers into loyal customers.",
-    results: [
-      { metric: "Monthly revenue", value: "+290%" },
-      { metric: "ROAS", value: "4.8x" },
-      { metric: "Repeat purchase rate", value: "+87%" },
-      { metric: "Organic rankings", value: "Top 3" },
-    ],
-    services: ["Paid Ads", "SEO", "Influencer Marketing", "Email & SMS", "CRO"],
-  },
-  {
-    slug: "exodus",
-    title: "eXODUS",
-    category: "DTC / Lifestyle Brand",
-    color: "#1a1a2e",
-    image: "/images/exodus-cover.jpg",
-    cursorHint: "+175% new signups",
-    cursorColors: { fill: "#D4A017", stroke: "#1a1a2e" },
-    year: "2024",
-    client: "eXODUS",
-    tagline: "Launching a lifestyle brand from zero to cultural relevance.",
-    overview:
-      "eXODUS is a bold lifestyle brand built around self-expression and community. We crafted their digital identity, built their growth engine, and launched them into a competitive DTC landscape with a strategy rooted in culture, content, and conversion.",
-    challenge:
-      "As a new entrant with no existing audience, eXODUS needed to build brand awareness, establish credibility, and drive sales simultaneously — all on a lean budget against established competitors.",
-    solution:
-      "We developed a content-first strategy anchored in social storytelling and influencer seeding. Paid social drove top-of-funnel awareness, SEO captured branded and category search demand, and automated email flows converted browsers into buyers and repeat customers.",
-    results: [
-      { metric: "Launch revenue", value: "$180K" },
-      { metric: "Social reach", value: "2.4M" },
-      { metric: "Email list growth", value: "+12K" },
-      { metric: "ROAS", value: "5.2x" },
-    ],
-    services: ["Brand Identity", "Paid Social", "SEO", "Email Marketing", "Content Creation"],
+    services: ["SEO", "PPC", "Content Marketing", "CRO", "Attribution"],
   },
   {
     slug: "trio-flatmount",
     title: "Trio Flatmount",
-    category: "eCommerce / Tech Accessories",
+    category: "E-Commerce / Tech Accessories",
     color: "#dde8d0",
     image: "/images/trio-cover.jpg",
     cursorHint: "+340% revenue growth",
@@ -105,17 +55,67 @@ export const caseStudies: CaseStudy[] = [
     client: "Trio Flatmount",
     tagline: "From niche Starlink accessory to the go-to mount for mobile internet.",
     overview:
-      "Trio Flatmount designs and sells mounting solutions for Starlink satellite dishes, targeting the fast-growing van life, RV, and mobile connectivity market. We built their brand and growth engine from the ground up.",
+      "Trio Flatmount sells mounting solutions for Starlink satellite dishes to the van life and RV crowd. We built their search-led growth system from scratch — brand, content, and paid all working together.",
     challenge:
-      "Trio Flatmount was entering a new product category with zero brand recognition. They needed to educate the market, build trust with a technical audience, and drive sales — all on a bootstrapped budget.",
+      "New product category, zero brand recognition, bootstrapped budget. They needed to educate a technical audience and capture search demand that didn't have a clear leader yet.",
     solution:
-      "We created a content-led growth strategy targeting the Starlink and mobile lifestyle communities. SEO-optimized product pages and how-to guides captured search demand, targeted social campaigns reached RV and van life enthusiasts, and a post-purchase email flow drove reviews and repeat purchases.",
+      "Our intelligence model showed search demand existed but nobody was owning it. We built SEO-optimized product pages and how-to content that captured that demand, ran targeted paid campaigns to the RV and van life community, and set up lifecycle emails that drove reviews and repeat buys.",
     results: [
       { metric: "Revenue growth", value: "+340%" },
       { metric: "Organic traffic", value: "+520%" },
       { metric: "Review count", value: "400+" },
       { metric: "Social followers", value: "+8K" },
     ],
-    services: ["SEO", "Paid Social", "Content Creation", "Email Marketing", "Brand Identity"],
+    services: ["SEO", "Paid Social", "Content Marketing", "Email Marketing", "Brand Identity"],
+  },
+  {
+    slug: "talitha-and-lofty",
+    title: "Talitha & Lofty",
+    category: "E-Commerce / Coffee & Roasters",
+    color: "#e8d5b7",
+    image: "/images/talitha-cover.jpg",
+    cursorHint: "+215% DTC revenue",
+    cursorColors: { fill: "#D97706", stroke: "#e8d5b7" },
+    year: "2025",
+    client: "Talitha & Lofty Coffee Roasters",
+    tagline: "Scaling a mission-driven coffee brand from local favorite to national presence.",
+    overview:
+      "Talitha & Lofty is a specialty coffee roaster on a mission — creating opportunities for survivors of trafficking. We built their intelligence model, found untapped search demand, and scaled DTC revenue without losing what makes them special.",
+    challenge:
+      "They had a loyal local following and a powerful story, but their online presence wasn't converting awareness into sales. Organic search had plateaued, paid campaigns underperformed, and the brand story wasn't translating to digital channels.",
+    solution:
+      "Data showed their mission was their biggest growth asset — it just wasn't reaching the right people through search. We built SEO content around their story and high-intent product terms, ran paid campaigns to qualified DTC audiences, and created lifecycle emails that turned first-time buyers into subscribers.",
+    results: [
+      { metric: "DTC revenue", value: "+215%" },
+      { metric: "Organic traffic", value: "+380%" },
+      { metric: "Email revenue", value: "+162%" },
+      { metric: "CAC reduction", value: "-41%" },
+    ],
+    services: ["SEO", "Paid Social", "Email Marketing", "Content Marketing", "CRO"],
+  },
+  {
+    slug: "rapid-garden",
+    title: "Rapid Garden",
+    category: "SaaS / Green Industry POS",
+    color: "#2d5a27",
+    image: "/images/rapid-garden-cover.png",
+    cursorHint: "+275% demo requests",
+    cursorColors: { fill: "#22C55E", stroke: "#2d5a27" },
+    year: "2025",
+    client: "Rapid Garden POS",
+    tagline: "Putting a niche POS platform in front of every garden center searching for a solution.",
+    overview:
+      "Rapid Garden POS builds point-of-sale software purpose-built for garden centers, nurseries, and landscape suppliers. We built their search-led growth system to capture high-intent buyers in a niche vertical.",
+    challenge:
+      "Rapid Garden had a strong product but low visibility. Garden centers searching for POS solutions were finding generic competitors. Paid spend was broad and inefficient, and organic search wasn't capturing the niche terms that drive demo requests.",
+    solution:
+      "Our intelligence model identified the exact search terms garden center operators use when looking for a POS. We built SEO content targeting those long-tail queries, restructured PPC to focus on high-intent industry keywords, and launched a content strategy around green industry pain points that positioned Rapid Garden as the specialist.",
+    results: [
+      { metric: "Demo requests", value: "+275%" },
+      { metric: "Organic traffic", value: "+410%" },
+      { metric: "Cost per lead", value: "-52%" },
+      { metric: "Search visibility", value: "3x" },
+    ],
+    services: ["SEO", "PPC", "Content Marketing", "CRO", "Digital PR"],
   },
 ];

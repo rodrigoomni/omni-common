@@ -46,7 +46,7 @@ export function Hero() {
               ease: [0.22, 1, 0.36, 1],
             }}
           >
-            Grow your brand,
+            Your growth,
           </motion.h1>
         </div>
         <div>
@@ -64,7 +64,7 @@ export function Hero() {
               ease: [0.22, 1, 0.36, 1],
             }}
           >
-            According to plan.
+            Our intelligence.
           </motion.h1>
         </div>
 
@@ -78,10 +78,10 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
         >
-          The first ever executive growth marketing agency built for businesses
-          ready to scale. We don't just run campaigns —{" "}
+          Search-led growth marketing for e-commerce, SaaS, and marketplace
+          brands doing $5M–$50M.{" "}
           <em style={{ color: "rgba(255,255,255,0.8)" }}>
-            we architect growth systems.
+            We build the growth model first, then execute.
           </em>
         </motion.p>
 

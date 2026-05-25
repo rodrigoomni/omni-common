@@ -9,19 +9,24 @@ import { useRef, useState } from "react";
 
 const faqs = [
   {
-    question: "What sets Omni Common apart from consultancy and digital marketing agencies?",
+    question: "What is the Intelligence Engine?",
     answer:
-      "Unlike traditional agencies, we don't just execute campaigns — we architect growth systems. Our marketing mix model (MMM) approach combines the strategic depth of a consultancy with the execution power of an agency, all driven by tactical data analysis. We become your Chief Marketing Organization, not just another vendor.",
+      "Before we run anything, we pull data from your platforms — GA4, Search Console, Google Ads, Shopify, Meta, Klaviyo, HubSpot — and build one clear picture of what's driving your growth and what isn't. AI-assisted analysis, interpreted by senior strategists. It's the foundation everything else is built on.",
   },
   {
-    question: "How do I decide which thing to do?",
+    question: "Is this for my business?",
     answer:
-      "It depends on where you are in your growth journey. If you need clarity, start with an Audit & Assess. If you have a team but need specialized firepower, our Bolt-On model fills the gaps. If you want full strategic ownership from roadmap to execution, we become your CMO. We'll help you figure out the right fit on a discovery call — no pressure, just data-driven advice.",
+      "We work with e-commerce, SaaS, and marketplace brands doing $5M–$50M in revenue. You have product-market fit and traction — you need a growth system, not more random tactics. If most of your revenue comes from or could come from search, we're probably a good fit.",
   },
   {
-    question: "How much does this cost?",
+    question: "How is this different from hiring separate agencies?",
     answer:
-      "Our engagements are custom-scoped based on your business size, growth stage, and the channels that will move the needle. We don't do cookie-cutter packages. After a discovery session, we'll present a clear proposal tied to projected ROI — so you know exactly what you're investing in and what to expect in return.",
+      "Most businesses hire one agency for SEO, another for PPC, maybe a freelancer for content. None of them talk to each other. We run the full search-led system under one strategy — so the channels compound instead of competing. Senior-led, not handed off to juniors.",
+  },
+  {
+    question: "How much does it cost?",
+    answer:
+      "Every engagement is scoped to your business, your stage, and the channels that will move the needle. No cookie-cutter packages. After a discovery call, we'll put together a clear proposal tied to projected ROI — so you know what you're investing and what to expect back.",
   },
 ];
 

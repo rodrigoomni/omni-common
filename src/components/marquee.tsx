@@ -104,20 +104,20 @@ function ShapeIcon({ shape, color }: { shape: string; color: string }) {
 }
 
 const services: { label: string; shape: string; color: string }[] = [
-  { label: "Content",       shape: "squiggle",   color: "#CFFC68" },
-  { label: "Social Media",  shape: "heart",      color: "#FF7EB3" },
-  { label: "Paid Ads",      shape: "bolt",       color: "#FFB347" },
-  { label: "Analytics",     shape: "bars",       color: "#A5FDF3" },
-  { label: "PR",            shape: "diamond",    color: "#7CC6FE" },
-  { label: "Lead Gen",      shape: "triangle",   color: "#FF6B6B" },
-  { label: "Automation",    shape: "spark",      color: "#C4B5FD" },
-  { label: "Partnerships",  shape: "circle",     color: "#34D399" },
-  { label: "UX Design",     shape: "halfmoon",   color: "#FCD34D" },
-  { label: "Innovation",    shape: "star",       color: "#CFFC68" },
-  { label: "Optimization",  shape: "eye",        color: "#A5FDF3" },
-  { label: "SEO",           shape: "cross",      color: "#FB923C" },
-  { label: "Branding",      shape: "drop",       color: "#F472B6" },
+  { label: "SEO",            shape: "bars",       color: "#CFFC68" },
+  { label: "PPC",            shape: "bolt",       color: "#FFB347" },
+  { label: "Content",       shape: "squiggle",   color: "#FF7EB3" },
+  { label: "Digital PR",    shape: "diamond",    color: "#7CC6FE" },
+  { label: "CRO",            shape: "eye",        color: "#A5FDF3" },
+  { label: "Attribution",   shape: "bars",       color: "#A5FDF3" },
+  { label: "Growth",        shape: "triangle",   color: "#FF6B6B" },
+  { label: "Revenue",       shape: "spark",      color: "#C4B5FD" },
+  { label: "Search",        shape: "circle",     color: "#34D399" },
+  { label: "Scale",         shape: "star",       color: "#CFFC68" },
+  { label: "Conversion",    shape: "halfmoon",   color: "#FCD34D" },
   { label: "Strategy",      shape: "semicircle", color: "#14545D" },
+  { label: "AI Search",     shape: "cross",      color: "#FB923C" },
+  { label: "Performance",   shape: "drop",       color: "#F472B6" },
 ];
 
 export function Marquee() {

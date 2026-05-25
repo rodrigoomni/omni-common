@@ -40,7 +40,7 @@ export function Footer() {
           </div>
 
           <p className="text-xs font-semibold uppercase tracking-[0.25em]" style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }}>
-            Ready to grow?
+            Start with a growth model
           </p>
 
           <h2 className="mt-6 text-5xl font-bold tracking-tighter md:text-7xl" style={{ fontFamily: "var(--font-archivo)", color: "var(--foreground)" }}>
@@ -48,8 +48,9 @@ export function Footer() {
           </h2>
 
           <p className="mt-4 max-w-md text-base" style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-muted)" }}>
-            Don't stress, we are very nice and won't bite. Tell us about
-            your goals and we'll architect the growth plan.
+            We&apos;ll build your intelligence model and show you where
+            your growth is hiding. No pitch deck — just a conversation
+            about what the data says.
           </p>
 
           <div className="mt-10">
@@ -70,7 +71,16 @@ export function Footer() {
             </MagneticButton>
           </div>
 
-          <div className="mt-24 flex flex-col justify-between gap-8 text-xs font-medium md:flex-row" style={{ fontFamily: "var(--font-inter)", color: "var(--foreground-subtle)" }}>
+          <div className="mt-16">
+            <p className="text-sm" style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-subtle)" }}>
+              Have multiple physical locations?{" "}
+              <a href="/local" className="underline transition-colors hover:text-foreground" style={{ color: "var(--teal)" }}>
+                We have a different playbook for that.
+              </a>
+            </p>
+          </div>
+
+          <div className="mt-12 flex flex-col justify-between gap-8 text-xs font-medium md:flex-row" style={{ fontFamily: "var(--font-inter)", color: "var(--foreground-subtle)" }}>
             <p>Omni Common &copy; All Rights Reserved {new Date().getFullYear()}.</p>
             <div className="flex gap-8">
               <a href="#" className="transition-colors hover:text-foreground">Twitter</a>

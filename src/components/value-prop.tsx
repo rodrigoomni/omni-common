@@ -33,22 +33,22 @@ function ChartIcon() {
 const capabilities = [
   {
     icon: GlobeIcon,
-    title: "CEOs call us",
-    desc: "We speak the language of growth, margins, and market share — not vanity metrics.",
+    title: "Intelligence-First",
+    desc: "We understand your growth before we touch your budget. Data first, execution second.",
     bg: "rgba(165,253,243,0.12)",
     dotColor: "var(--teal)",
   },
   {
     icon: PlantIcon,
-    title: "CFOs love us",
-    desc: "Every dollar is tracked, attributed, and optimized. Transparent ROI, always.",
+    title: "Senior-Led",
+    desc: "You're not getting handed to a junior team. Senior specialists run your strategy and execution.",
     bg: "rgba(207,252,104,0.14)",
     dotColor: "var(--lime)",
   },
   {
     icon: ChartIcon,
-    title: "CMOs want to be us",
-    desc: "We architect the growth systems that in-house teams aspire to build.",
+    title: "Outcome-Driven",
+    desc: "We're accountable to results, not deliverables. One team, one strategy, compounding returns.",
     bg: "rgba(255,253,239,0.55)",
     dotColor: "var(--foreground-subtle)",
   },
@@ -176,7 +176,7 @@ export function ValueProp() {
                 animate={contentRevealed ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.7, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
               >
-                From Our Founder
+                The Launch Lab
               </motion.p>
 
               {/* Headline */}
@@ -187,8 +187,8 @@ export function ValueProp() {
                 animate={contentRevealed ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
               >
-                Growth by honing your spend where it&apos;s{" "}
-                <span style={{ color: "var(--lime)" }}>statistically needed.</span>
+                Before we spend a dollar, we build{" "}
+                <span style={{ color: "var(--lime)" }}>your intelligence model.</span>
               </motion.h2>
 
               {/* Body */}
@@ -200,34 +200,26 @@ export function ValueProp() {
                 transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
               >
                 <p>
-                  Omni Common was initially born out of my consulting agency,
-                  thoughtfully developed over time into a talented team of
-                  &ldquo;make-it-grow&rdquo; experts who tackle the spend
-                  that&apos;s vital for your growth.
+                  Most agencies start with a proposal. We start with your data.
+                  The Intelligence Engine pulls from GA4, Search Console,
+                  Google Ads, Shopify, Meta, Klaviyo, HubSpot — wherever your
+                  numbers live — and builds one clear picture.
                 </p>
                 <p className="hidden md:block">
-                  For years, we&apos;ve worked with all types of businesses that
-                  lacked things such as a growth timeline at an executive level,
-                  a marketing team (or a big enough one), or simply felt like
-                  they plateaued. To help them grow, we developed a unique
-                  marketing mix model (MMM) approach with a foundation in
-                  tactical data analysis — unifying SEO, PPC, CRO, content
-                  marketing, and PR. Because a one-size-fits-all blanket
-                  strategy won&apos;t work — it&apos;s all about the variables
-                  you need.
+                  It shows us where your growth is actually coming from, where
+                  it isn&apos;t, and where the biggest opportunities are hiding.
+                  Attribution modeling, growth modeling, channel-level
+                  performance — all synthesized before we touch your budget.
                 </p>
                 <p>
-                  Only after determining where you need growth will your
-                  business start to efficiently scale up — what&apos;s the point
-                  of drumming up growth that has no ROI?
+                  AI-assisted analysis paired with senior human expertise.
+                  The tools surface the patterns. Our team interprets them
+                  and builds the plan.
                 </p>
                 <p className="hidden md:block">
-                  I believe in this omni-channel, data-and-deliverable-driven
-                  growth model so much, we built Omni Common from the ground up
-                  to execute it from anywhere you are on your journey. We will
-                  audit and assess, bolt on to your existing team, or simply
-                  become your CMO. Whatever the data says is needed, we&apos;ll
-                  show you, then get it done together.
+                  This is the foundation everything else is built on. We
+                  don&apos;t guess what channels to run. We know — because
+                  the data already told us.
                 </p>
               </motion.div>
 
@@ -317,9 +309,9 @@ export function ValueProp() {
                 className="mt-4 text-3xl font-bold leading-[1.15] tracking-tight md:text-[2.75rem]"
                 style={{ fontFamily: "var(--font-archivo)", color: "var(--foreground)" }}
               >
-                We Are Your{" "}
+                One Team. One Strategy.{" "}
                 <span style={{ color: "var(--teal)" }}>
-                  Chief Marketing Organization.
+                  Compounding Results.
                 </span>
               </h2>
             </div>
@@ -328,9 +320,8 @@ export function ValueProp() {
                 className="text-base leading-relaxed"
                 style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-secondary)" }}
               >
-                We don&apos;t just run campaigns — we architect growth systems using a
-                marketing mix model (MMM) approach and tactical data analysis to
-                unify organic and paid channels into one cohesive engine.
+                You could hire a separate agency for each channel. We do them
+                together — because that&apos;s how they compound.
               </p>
             </div>
           </motion.div>

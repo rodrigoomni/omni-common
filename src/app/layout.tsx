@@ -5,9 +5,9 @@ import { SmoothScroll } from "@/components/smooth-scroll";
 import { Navigation } from "@/components/navigation";
 
 export const metadata: Metadata = {
-  title: "Omni Common — Executive Growth Marketing Agency",
+  title: "Omni Common — Search-Led Growth Marketing",
   description:
-    "The first ever executive growth marketing agency built for businesses ready to scale. We don't just run campaigns — we architect growth systems.",
+    "Search-led growth marketing for e-commerce, SaaS, and marketplace brands doing $5M–$50M. We build the growth model first, then execute.",
   icons: {
     icon: [
       {

@@ -9,10 +9,10 @@ import { useGSAP } from "@gsap/react";
 gsap.registerPlugin(ScrollTrigger);
 
 const clients = [
-  "Skincare Junkie",
   "NumberBarn",
-  "Talitha & Lofty",
   "Trio Flatmount",
+  "Talitha & Lofty",
+  "Rapid Garden",
   "ClearHello",
   "Nordstrom",
   "Shopify Plus",
@@ -67,7 +67,7 @@ export function LogoCarousel() {
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 1 }}
         >
-          Trusted by brands ready to scale
+          Trusted by growth-driven brands
         </motion.p>
       </div>
 
