@@ -1,0 +1,160 @@
+{
+  "hero": {
+    "heading_line1": "Your growth,",
+    "heading_line2": "Our intelligence.",
+    "subheading": "Search-led growth marketing for e-commerce, SaaS, and marketplace brands doing $5M–$50M. We build the growth model first, then execute.",
+    "cta_button": "Start With a Growth Model"
+  },
+  "marquee": {
+    "services": [
+      "SEO",
+      "PPC",
+      "Content",
+      "Digital PR",
+      "CRO",
+      "Attribution",
+      "Growth",
+      "Revenue",
+      "Search",
+      "Scale",
+      "Conversion",
+      "Strategy",
+      "AI Search",
+      "Performance"
+    ]
+  },
+  "tension": {
+    "eyebrow": "Sound familiar?",
+    "heading_main": "You know most of your revenue comes through search.",
+    "heading_accent": "You just don't know if you're maximizing it.",
+    "subheading": "You're running channels. Maybe SEO, maybe paid, maybe both. But nothing feels connected and nobody can tell you exactly what's working.",
+    "questions": [
+      "What's actually driving my growth?",
+      "Where should I be putting more money?",
+      "Is there something we're missing?"
+    ],
+    "closer": "You don't need more services. You need a plan."
+  },
+  "intelligence": {
+    "eyebrow": "The Intelligence Engine",
+    "heading_main": "Before we spend a dollar, we build your",
+    "heading_accent": "intelligence model.",
+    "body_paragraphs": [
+      "We pull data from your platforms — GA4, Search Console, Google Ads, Shopify, Meta, Klaviyo, HubSpot — and build one clear picture of what's driving your growth and what isn't.",
+      "AI-assisted analysis, interpreted by senior strategists. We show you where your revenue is actually coming from, which channels deserve more investment, and where you're leaving money on the table. This is the foundation everything else is built on.",
+      "Every client asks the same question: \"What's working and where should I spend more?\" We have the answer."
+    ],
+    "founder_name": "Ryan Charles",
+    "founder_title": "CEO, Omni Common",
+    "cta_button": "Get Your Growth Model"
+  },
+  "why_omni_common": {
+    "eyebrow": "Why Omni Common",
+    "heading_main": "One Team. One Strategy.",
+    "heading_accent": "Compounding Results.",
+    "intro": "You could hire a separate agency for each channel. We do them together — because that's how they compound. Senior-led, not handed off to juniors.",
+    "capabilities": [
+      {
+        "title": "Intelligence-First",
+        "description": "We understand your growth before we touch your budget. Data drives every decision."
+      },
+      {
+        "title": "Senior-Led",
+        "description": "No junior handoffs. Senior specialists build your strategy and execute it."
+      },
+      {
+        "title": "Outcome-Driven",
+        "description": "We're accountable to revenue and growth — not deliverables and vanity metrics."
+      }
+    ]
+  },
+  "services": {
+    "eyebrow": "The Growth System",
+    "heading_line1": "Search Is the Spine.",
+    "heading_line2": "Everything Else Builds on It.",
+    "statement_quote_main": "You could hire a separate agency for each channel. We run them together — because that's how they",
+    "statement_quote_emphasis": "compound.",
+    "channels": [
+      {
+        "title": "Paid Channels",
+        "description": "PPC, Google Ads, Meta Ads, and paid social — we start here for short-term growth while the long game builds.",
+        "tags": ["PPC", "Google Ads", "Meta Ads", "Paid Social"]
+      },
+      {
+        "title": "Organic Growth",
+        "description": "Technical SEO, content marketing, digital PR, and link building — the compounding engine that drives long-term revenue.",
+        "tags": ["Technical SEO", "Content", "Digital PR", "Link Building"]
+      },
+      {
+        "title": "Convert & Optimize",
+        "description": "CRO, UX optimization, AI search visibility, and LLM optimization — maximizing the return on every channel.",
+        "tags": ["CRO", "UX Optimization", "AI Search", "LLM Visibility"]
+      }
+    ]
+  },
+  "who_its_for": {
+    "eyebrow": "Who This Is For",
+    "heading_main": "Built for brands with traction",
+    "heading_accent": ".",
+    "description": "You've got product-market fit. You don't need another freelancer — you need a growth system that compounds.",
+    "local_note": "Have multiple physical locations?",
+    "local_link_text": "We have a different playbook for that.",
+    "audiences": [
+      {
+        "label": "E-Commerce",
+        "range": "$5M – $50M",
+        "description": "DTC and marketplace brands scaling past their first growth plateau."
+      },
+      {
+        "label": "SaaS",
+        "range": "$5M – $50M",
+        "description": "Product-led companies where search drives demos, trials, and signups."
+      },
+      {
+        "label": "Marketplaces",
+        "range": "$5M – $50M",
+        "description": "Two-sided platforms capturing demand on both supply and buyer sides."
+      }
+    ]
+  },
+  "featured_work": {
+    "eyebrow": "Featured Projects",
+    "heading_main": "The Work Speaks",
+    "heading_accent": ".",
+    "cta_link": "View all"
+  },
+  "team": {
+    "eyebrow": "The Team",
+    "heading_line1": "Real people.",
+    "heading_line2": "Senior expertise",
+    "heading_accent": ".",
+    "description": "We're not a faceless agency. Every engagement is led by senior strategists with deep search expertise — the same people who build your intelligence model are the ones executing your growth plan.",
+    "cta_button": "Meet the full team",
+    "stats": [
+      { "label": "Years combined experience", "value": "40+" },
+      { "label": "Revenue grown for clients", "value": "$120M+" },
+      { "label": "Junior account managers", "value": "0", "note": "Senior-led, always" }
+    ]
+  },
+  "faq": {
+    "heading": "Frequently Asked Questions",
+    "items": [
+      {
+        "question": "What is the Intelligence Engine?",
+        "answer": "Before we run anything, we pull data from your platforms — GA4, Search Console, Google Ads, Shopify, Meta, Klaviyo, HubSpot — and build one clear picture of what's driving your growth and what isn't. AI-assisted analysis, interpreted by senior strategists. It's the foundation everything else is built on."
+      },
+      {
+        "question": "Is this for my business?",
+        "answer": "We work with e-commerce, SaaS, and marketplace brands doing $5M–$50M in revenue. You have product-market fit and traction — you need a growth system, not more random tactics. If most of your revenue comes from or could come from search, we're probably a good fit."
+      },
+      {
+        "question": "How is this different from hiring separate agencies?",
+        "answer": "Most businesses hire one agency for SEO, another for PPC, maybe a freelancer for content. None of them talk to each other. We run the full search-led system under one strategy — so the channels compound instead of competing. Senior-led, not handed off to juniors."
+      },
+      {
+        "question": "How much does it cost?",
+        "answer": "Every engagement is scoped to your business, your stage, and the channels that will move the needle. No cookie-cutter packages. After a discovery call, we'll put together a clear proposal tied to projected ROI — so you know what you're investing and what to expect back."
+      }
+    ]
+  }
+}

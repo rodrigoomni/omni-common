@@ -5,30 +5,46 @@ import { usePathname } from "next/navigation";
 import { motion, useMotionValueEvent, useScroll, AnimatePresence } from "motion/react";
 import { useState, useRef } from "react";
 import { MagneticButton } from "./magnetic-button";
+import global from "@/content/global.json";
+
+const { nav } = global;
 
 const links: {
   href: string;
   label: string;
   children?: { href: string; label: string }[];
 }[] = [
-  { href: "/", label: "Home" },
+  { href: "/", label: nav.home_label },
   {
     href: "/services",
-    label: "Insights",
+    label: nav.services_label,
     children: [
-      { href: "/services", label: "Services" },
-      { href: "/work", label: "Clients" },
+      { href: "/insights/ai-growth", label: nav.services_submenu.ai_growth },
+      { href: "/insights/local-marketing", label: nav.services_submenu.local_marketing },
+      { href: "/insights/seo", label: nav.services_submenu.seo },
+      { href: "/insights/llm-optimization", label: nav.services_submenu.llm_optimization },
+      { href: "/insights/content-marketing", label: nav.services_submenu.content_marketing },
+      { href: "/insights/digital-pr", label: nav.services_submenu.digital_pr },
+      { href: "/insights/ppc", label: nav.services_submenu.ppc },
+      { href: "/insights/paid-social", label: nav.services_submenu.paid_social },
     ],
   },
-  { href: "/work", label: "Work" },
-  { href: "/about", label: "About" },
+  { href: "/work", label: nav.work_label },
+  {
+    href: "/about",
+    label: nav.about_label,
+    children: [
+      { href: "/work", label: nav.about_submenu.clients },
+      { href: "/about/team", label: nav.about_submenu.team },
+    ],
+  },
 ];
 
 export function Navigation() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [openDropdownIdx, setOpenDropdownIdx] = useState<number | null>(null);
   const dropdownTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const navRef = useRef<HTMLDivElement>(null);
   const [pillStyle, setPillStyle] = useState({ left: 0, width: 0 });
@@ -79,13 +95,13 @@ export function Navigation() {
     }
   };
 
-  const openDropdown = () => {
+  const openDropdown = (idx: number) => {
     if (dropdownTimeout.current) clearTimeout(dropdownTimeout.current);
-    setDropdownOpen(true);
+    setOpenDropdownIdx(idx);
   };
 
   const closeDropdown = () => {
-    dropdownTimeout.current = setTimeout(() => setDropdownOpen(false), 150);
+    dropdownTimeout.current = setTimeout(() => setOpenDropdownIdx(null), 150);
   };
 
   return (
@@ -152,7 +168,7 @@ export function Navigation() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           >
-            Omni Common
+            {nav.logo_text}
           </motion.span>
         </Link>
 
@@ -205,10 +221,11 @@ export function Navigation() {
                   <div
                     onMouseEnter={(e) => {
                       handleHover(i, e);
-                      openDropdown();
+                      openDropdown(i);
                     }}
                   >
-                    <span
+                    <Link
+                      href={link.href}
                       className="relative z-10 flex items-center gap-1 rounded-full px-5 py-2 text-sm font-medium transition-colors duration-300"
                       style={{
                         fontFamily: "var(--font-inter)",
@@ -230,7 +247,7 @@ export function Navigation() {
                         fill="none"
                         className="transition-transform duration-200"
                         style={{
-                          transform: dropdownOpen ? "rotate(180deg)" : "rotate(0deg)",
+                          transform: openDropdownIdx === i ? "rotate(180deg)" : "rotate(0deg)",
                         }}
                       >
                         <path
@@ -241,11 +258,11 @@ export function Navigation() {
                           strokeLinejoin="round"
                         />
                       </svg>
-                    </span>
+                    </Link>
 
                     {/* Dropdown */}
                     <AnimatePresence>
-                      {dropdownOpen && (
+                      {openDropdownIdx === i && (
                         <motion.div
                           className="absolute left-0 top-full z-50 mt-2 min-w-[160px] overflow-hidden rounded-xl py-1"
                           style={{
@@ -264,7 +281,7 @@ export function Navigation() {
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -4 }}
                           transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                          onMouseEnter={openDropdown}
+                          onMouseEnter={() => openDropdown(i)}
                           onMouseLeave={closeDropdown}
                         >
                           {link.children.map((child) => (
@@ -355,7 +372,7 @@ export function Navigation() {
                       "0 0 15px rgba(20,84,93,0.4), 0 0 30px rgba(207,252,104,0.2)",
                   }}
                 />
-                <span className="relative">Let's Chat</span>
+                <span className="relative">{nav.cta_button}</span>
               </Link>
             </MagneticButton>
           </motion.div>
@@ -412,34 +429,48 @@ export function Navigation() {
         <div className="flex flex-col items-center gap-8">
           {links.map((link, i) =>
             link.children ? (
-              /* Mobile: show children directly */
-              link.children.map((child, j) => (
-                <motion.div
-                  key={child.href}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={
-                    menuOpen
-                      ? {
-                          opacity: 1,
-                          y: 0,
-                          transition: { delay: 0.15 * (i + j) + 0.2 },
-                        }
-                      : { opacity: 0, y: 30 }
-                  }
+              <motion.div
+                key={link.label}
+                className="flex flex-col items-center gap-4"
+                initial={{ opacity: 0, y: 30 }}
+                animate={
+                  menuOpen
+                    ? {
+                        opacity: 1,
+                        y: 0,
+                        transition: { delay: 0.15 * i + 0.2 },
+                      }
+                    : { opacity: 0, y: 30 }
+                }
+              >
+                <Link
+                  href={link.href}
+                  className="text-5xl font-bold tracking-tight"
+                  style={{
+                    fontFamily: "var(--font-archivo)",
+                    color: "var(--foreground)",
+                  }}
+                  onClick={() => setMenuOpen(false)}
                 >
-                  <Link
-                    href={child.href}
-                    className="text-5xl font-bold tracking-tight"
-                    style={{
-                      fontFamily: "var(--font-archivo)",
-                      color: "var(--foreground)",
-                    }}
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    {child.label}
-                  </Link>
-                </motion.div>
-              ))
+                  {link.label}
+                </Link>
+                <div className="flex flex-col items-center gap-2">
+                  {link.children.map((child) => (
+                    <Link
+                      key={child.href}
+                      href={child.href}
+                      className="text-lg font-medium"
+                      style={{
+                        fontFamily: "var(--font-inter)",
+                        color: "var(--foreground-muted)",
+                      }}
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      {child.label}
+                    </Link>
+                  ))}
+                </div>
+              </motion.div>
             ) : (
               <motion.div
                 key={link.href}

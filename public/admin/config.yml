@@ -1,0 +1,205 @@
+backend:
+  name: git-gateway
+  branch: master
+
+media_folder: public/images
+public_folder: /images
+
+collections:
+  - name: home
+    label: Home Page
+    files:
+      - name: home
+        label: Home Page Content
+        file: src/content/home.json
+        fields:
+          - label: Hero
+            name: hero
+            widget: object
+            fields:
+              - { label: "Heading Line 1", name: heading_line1, widget: string }
+              - { label: "Heading Line 2", name: heading_line2, widget: string }
+              - { label: Subheading, name: subheading, widget: text }
+              - { label: "CTA Button", name: cta_button, widget: string }
+
+          - label: Marquee
+            name: marquee
+            widget: object
+            fields:
+              - label: Services
+                name: services
+                widget: list
+                field: { label: Service, name: service, widget: string }
+
+          - label: "Tension / Problem"
+            name: tension
+            widget: object
+            fields:
+              - { label: Eyebrow, name: eyebrow, widget: string }
+              - { label: "Heading Main", name: heading_main, widget: string }
+              - { label: "Heading Accent", name: heading_accent, widget: string }
+              - { label: Subheading, name: subheading, widget: text }
+              - label: Questions
+                name: questions
+                widget: list
+                field: { label: Question, name: question, widget: string }
+              - { label: Closer, name: closer, widget: string }
+
+          - label: "Intelligence Engine"
+            name: intelligence
+            widget: object
+            fields:
+              - { label: Eyebrow, name: eyebrow, widget: string }
+              - { label: "Heading Main", name: heading_main, widget: string }
+              - { label: "Heading Accent", name: heading_accent, widget: string }
+              - label: "Body Paragraphs"
+                name: body_paragraphs
+                widget: list
+                field: { label: Paragraph, name: paragraph, widget: text }
+              - { label: "Founder Name", name: founder_name, widget: string }
+              - { label: "Founder Title", name: founder_title, widget: string }
+              - { label: "CTA Button", name: cta_button, widget: string }
+
+          - label: "Why Omni Common"
+            name: why_omni_common
+            widget: object
+            fields:
+              - { label: Eyebrow, name: eyebrow, widget: string }
+              - { label: "Heading Main", name: heading_main, widget: string }
+              - { label: "Heading Accent", name: heading_accent, widget: string }
+              - { label: Intro, name: intro, widget: text }
+              - label: Capabilities
+                name: capabilities
+                widget: list
+                fields:
+                  - { label: Title, name: title, widget: string }
+                  - { label: Description, name: description, widget: text }
+
+          - label: Services
+            name: services
+            widget: object
+            fields:
+              - { label: Eyebrow, name: eyebrow, widget: string }
+              - { label: "Heading Line 1", name: heading_line1, widget: string }
+              - { label: "Heading Line 2", name: heading_line2, widget: string }
+              - { label: "Statement Quote Main", name: statement_quote_main, widget: text }
+              - { label: "Statement Quote Emphasis", name: statement_quote_emphasis, widget: string }
+              - label: Channels
+                name: channels
+                widget: list
+                fields:
+                  - { label: Title, name: title, widget: string }
+                  - { label: Description, name: description, widget: text }
+                  - label: Tags
+                    name: tags
+                    widget: list
+                    field: { label: Tag, name: tag, widget: string }
+
+          - label: "Who It's For"
+            name: who_its_for
+            widget: object
+            fields:
+              - { label: Eyebrow, name: eyebrow, widget: string }
+              - { label: "Heading Main", name: heading_main, widget: string }
+              - { label: "Heading Accent", name: heading_accent, widget: string }
+              - { label: Description, name: description, widget: text }
+              - { label: "Local Note", name: local_note, widget: string }
+              - { label: "Local Link Text", name: local_link_text, widget: string }
+              - label: Audiences
+                name: audiences
+                widget: list
+                fields:
+                  - { label: Label, name: label, widget: string }
+                  - { label: Range, name: range, widget: string }
+                  - { label: Description, name: description, widget: text }
+
+          - label: "Featured Work"
+            name: featured_work
+            widget: object
+            fields:
+              - { label: Eyebrow, name: eyebrow, widget: string }
+              - { label: "Heading Main", name: heading_main, widget: string }
+              - { label: "Heading Accent", name: heading_accent, widget: string }
+              - { label: "CTA Link", name: cta_link, widget: string }
+
+          - label: Team
+            name: team
+            widget: object
+            fields:
+              - { label: Eyebrow, name: eyebrow, widget: string }
+              - { label: "Heading Line 1", name: heading_line1, widget: string }
+              - { label: "Heading Line 2", name: heading_line2, widget: string }
+              - { label: "Heading Accent", name: heading_accent, widget: string }
+              - { label: Description, name: description, widget: text }
+              - { label: "CTA Button", name: cta_button, widget: string }
+              - label: Stats
+                name: stats
+                widget: list
+                fields:
+                  - { label: Label, name: label, widget: string }
+                  - { label: Value, name: value, widget: string }
+                  - { label: Note, name: note, widget: string, required: false }
+
+          - label: FAQ
+            name: faq
+            widget: object
+            fields:
+              - { label: Heading, name: heading, widget: string }
+              - label: Items
+                name: items
+                widget: list
+                fields:
+                  - { label: Question, name: question, widget: string }
+                  - { label: Answer, name: answer, widget: text }
+
+  - name: global
+    label: "Global (Nav + Footer)"
+    files:
+      - name: global
+        label: "Navigation & Footer"
+        file: src/content/global.json
+        fields:
+          - label: Navigation
+            name: nav
+            widget: object
+            fields:
+              - { label: "Logo Text", name: logo_text, widget: string }
+              - { label: "Home Label", name: home_label, widget: string }
+              - { label: "Services Label", name: services_label, widget: string }
+              - label: "Services Submenu"
+                name: services_submenu
+                widget: object
+                fields:
+                  - { label: "AI Growth", name: ai_growth, widget: string }
+                  - { label: "Local Marketing", name: local_marketing, widget: string }
+                  - { label: SEO, name: seo, widget: string }
+                  - { label: "LLM Optimization", name: llm_optimization, widget: string }
+                  - { label: "Content Marketing", name: content_marketing, widget: string }
+                  - { label: "Digital PR", name: digital_pr, widget: string }
+                  - { label: PPC, name: ppc, widget: string }
+                  - { label: "Paid Social", name: paid_social, widget: string }
+              - { label: "Work Label", name: work_label, widget: string }
+              - { label: "About Label", name: about_label, widget: string }
+              - label: "About Submenu"
+                name: about_submenu
+                widget: object
+                fields:
+                  - { label: Clients, name: clients, widget: string }
+                  - { label: Team, name: team, widget: string }
+              - { label: "CTA Button", name: cta_button, widget: string }
+
+          - label: Footer
+            name: footer
+            widget: object
+            fields:
+              - { label: Eyebrow, name: eyebrow, widget: string }
+              - { label: Heading, name: heading, widget: string }
+              - { label: "Heading Accent", name: heading_accent, widget: string }
+              - { label: Description, name: description, widget: text }
+              - { label: "CTA Button", name: cta_button, widget: string }
+              - { label: "Local Note", name: local_note, widget: string }
+              - { label: "Local Link Text", name: local_link_text, widget: string }
+              - { label: "Copyright Prefix", name: copyright_prefix, widget: string }
+              - { label: "Social Twitter", name: social_twitter, widget: string }
+              - { label: "Social LinkedIn", name: social_linkedin, widget: string }
+              - { label: "Social Instagram", name: social_instagram, widget: string }

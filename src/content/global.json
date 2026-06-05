@@ -1,0 +1,37 @@
+{
+  "nav": {
+    "logo_text": "Omni Common",
+    "home_label": "Home",
+    "services_label": "Services",
+    "services_submenu": {
+      "ai_growth": "AI Growth",
+      "local_marketing": "Local Marketing",
+      "seo": "SEO",
+      "llm_optimization": "LLM Optimization",
+      "content_marketing": "Content Marketing",
+      "digital_pr": "Digital PR",
+      "ppc": "PPC",
+      "paid_social": "Paid Social (Meta)"
+    },
+    "work_label": "Work",
+    "about_label": "About",
+    "about_submenu": {
+      "clients": "Clients",
+      "team": "Team"
+    },
+    "cta_button": "Let's Chat"
+  },
+  "footer": {
+    "eyebrow": "Start with a growth model",
+    "heading": "Let's Chat",
+    "heading_accent": ".",
+    "description": "We'll build your intelligence model and show you where your growth is hiding. No pitch deck — just a conversation about what the data says.",
+    "cta_button": "Tell Us About You",
+    "local_note": "Have multiple physical locations?",
+    "local_link_text": "We have a different playbook for that.",
+    "copyright_prefix": "Omni Common © All Rights Reserved",
+    "social_twitter": "Twitter",
+    "social_linkedin": "LinkedIn",
+    "social_instagram": "Instagram"
+  }
+}
