@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import homeContent from "@/content/home.json";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -30,29 +31,17 @@ function ChartIcon() {
   );
 }
 
-const capabilities = [
-  {
-    icon: GlobeIcon,
-    title: "Intelligence-First",
-    desc: "We understand your growth before we touch your budget. Data first, execution second.",
-    bg: "rgba(165,253,243,0.12)",
-    dotColor: "var(--teal)",
-  },
-  {
-    icon: PlantIcon,
-    title: "Senior-Led",
-    desc: "You're not getting handed to a junior team. Senior specialists run your strategy and execution.",
-    bg: "rgba(207,252,104,0.14)",
-    dotColor: "var(--lime)",
-  },
-  {
-    icon: ChartIcon,
-    title: "Outcome-Driven",
-    desc: "We're accountable to results, not deliverables. One team, one strategy, compounding returns.",
-    bg: "rgba(255,253,239,0.55)",
-    dotColor: "var(--foreground-subtle)",
-  },
+const CAPABILITY_VISUALS = [
+  { icon: GlobeIcon, bg: "rgba(165,253,243,0.12)", dotColor: "var(--teal)" },
+  { icon: PlantIcon, bg: "rgba(207,252,104,0.14)", dotColor: "var(--lime)" },
+  { icon: ChartIcon, bg: "rgba(255,253,239,0.55)", dotColor: "var(--foreground-subtle)" },
 ];
+
+const capabilities = homeContent.why_omni_common.capabilities.map((cap, i) => ({
+  ...CAPABILITY_VISUALS[i % CAPABILITY_VISUALS.length],
+  title: cap.title,
+  desc: cap.description,
+}));
 
 export function ValueProp() {
   const introRef = useRef(null);
@@ -176,7 +165,7 @@ export function ValueProp() {
                 animate={contentRevealed ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.7, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
               >
-                The Launch Lab
+                {homeContent.intelligence.eyebrow}
               </motion.p>
 
               {/* Headline */}
@@ -187,8 +176,8 @@ export function ValueProp() {
                 animate={contentRevealed ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
               >
-                Before we spend a dollar, we build{" "}
-                <span style={{ color: "var(--lime)" }}>your intelligence model.</span>
+                {homeContent.intelligence.heading_main}{" "}
+                <span style={{ color: "var(--lime)" }}>{homeContent.intelligence.heading_accent}</span>
               </motion.h2>
 
               {/* Body */}
@@ -199,28 +188,9 @@ export function ValueProp() {
                 animate={contentRevealed ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
               >
-                <p>
-                  Most agencies start with a proposal. We start with your data.
-                  The Intelligence Engine pulls from GA4, Search Console,
-                  Google Ads, Shopify, Meta, Klaviyo, HubSpot — wherever your
-                  numbers live — and builds one clear picture.
-                </p>
-                <p className="hidden md:block">
-                  It shows us where your growth is actually coming from, where
-                  it isn&apos;t, and where the biggest opportunities are hiding.
-                  Attribution modeling, growth modeling, channel-level
-                  performance — all synthesized before we touch your budget.
-                </p>
-                <p>
-                  AI-assisted analysis paired with senior human expertise.
-                  The tools surface the patterns. Our team interprets them
-                  and builds the plan.
-                </p>
-                <p className="hidden md:block">
-                  This is the foundation everything else is built on. We
-                  don&apos;t guess what channels to run. We know — because
-                  the data already told us.
-                </p>
+                {homeContent.intelligence.body_paragraphs.map((p, i) => (
+                  <p key={i} className={i % 2 === 1 ? "hidden md:block" : undefined}>{p}</p>
+                ))}
               </motion.div>
 
               {/* Signature + avatar */}
@@ -240,7 +210,7 @@ export function ValueProp() {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="/images/ryan-charles.png"
-                    alt="Ryan Charles"
+                    alt={homeContent.intelligence.founder_name}
                     width={64}
                     height={64}
                     className="h-full w-full object-cover"
@@ -251,13 +221,13 @@ export function ValueProp() {
                     className="text-base font-semibold tracking-tight md:text-lg"
                     style={{ fontFamily: "var(--font-archivo)", color: "#fff" }}
                   >
-                    Ryan Charles
+                    {homeContent.intelligence.founder_name}
                   </p>
                   <p
                     className="mt-0.5 text-xs font-medium uppercase tracking-[0.15em] md:text-sm"
                     style={{ fontFamily: "var(--font-inter)", color: "var(--mint-dark)" }}
                   >
-                    CEO &amp; CMO, Omni Common
+                    {homeContent.intelligence.founder_title}
                   </p>
                 </div>
               </motion.div>
@@ -303,15 +273,15 @@ export function ValueProp() {
                 className="text-xs font-semibold uppercase tracking-[0.25em]"
                 style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }}
               >
-                Why Omni Common
+                {homeContent.why_omni_common.eyebrow}
               </p>
               <h2
                 className="mt-4 text-3xl font-bold leading-[1.15] tracking-tight md:text-[2.75rem]"
                 style={{ fontFamily: "var(--font-archivo)", color: "var(--foreground)" }}
               >
-                One Team. One Strategy.{" "}
+                {homeContent.why_omni_common.heading_main}{" "}
                 <span style={{ color: "var(--teal)" }}>
-                  Compounding Results.
+                  {homeContent.why_omni_common.heading_accent}
                 </span>
               </h2>
             </div>
@@ -320,8 +290,7 @@ export function ValueProp() {
                 className="text-base leading-relaxed"
                 style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-secondary)" }}
               >
-                You could hire a separate agency for each channel. We do them
-                together — because that&apos;s how they compound.
+                {homeContent.why_omni_common.intro}
               </p>
             </div>
           </motion.div>

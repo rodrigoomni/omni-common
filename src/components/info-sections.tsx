@@ -2,33 +2,13 @@
 
 import { motion, useInView, AnimatePresence } from "motion/react";
 import { useRef, useState } from "react";
+import homeContent from "@/content/home.json";
 
 /* ═══════════════════════════════════════════════
    FAQ Section
    ═══════════════════════════════════════════════ */
 
-const faqs = [
-  {
-    question: "What is the Intelligence Engine?",
-    answer:
-      "Before we run anything, we pull data from your platforms — GA4, Search Console, Google Ads, Shopify, Meta, Klaviyo, HubSpot — and build one clear picture of what's driving your growth and what isn't. AI-assisted analysis, interpreted by senior strategists. It's the foundation everything else is built on.",
-  },
-  {
-    question: "Is this for my business?",
-    answer:
-      "We work with e-commerce, SaaS, and marketplace brands doing $5M–$50M in revenue. You have product-market fit and traction — you need a growth system, not more random tactics. If most of your revenue comes from or could come from search, we're probably a good fit.",
-  },
-  {
-    question: "How is this different from hiring separate agencies?",
-    answer:
-      "Most businesses hire one agency for SEO, another for PPC, maybe a freelancer for content. None of them talk to each other. We run the full search-led system under one strategy — so the channels compound instead of competing. Senior-led, not handed off to juniors.",
-  },
-  {
-    question: "How much does it cost?",
-    answer:
-      "Every engagement is scoped to your business, your stage, and the channels that will move the needle. No cookie-cutter packages. After a discovery call, we'll put together a clear proposal tied to projected ROI — so you know what you're investing and what to expect back.",
-  },
-];
+const faqs = homeContent.faq.items;
 
 function FAQItem({ faq, index }: { faq: (typeof faqs)[0]; index: number }) {
   const [open, setOpen] = useState(false);
@@ -95,7 +75,7 @@ function FAQSection() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
         >
-          Frequently Asked Questions
+          {homeContent.faq.heading}
         </motion.h2>
 
         {/* Accordion — centered, max-width */}

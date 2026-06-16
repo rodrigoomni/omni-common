@@ -5,41 +5,22 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import homeContent from "@/content/home.json";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const services = [
-  {
-    number: "01",
-    title: "Paid Channels",
-    description: "PPC and paid social drive revenue now. We start here to generate momentum while long-term channels build. Every campaign tracked, every dollar attributed.",
-    tags: ["PPC", "Paid Social", "Google Ads", "Meta Ads"],
-    accent: "var(--mint)",
-    glassBg: "rgba(165,253,243,0.35)",
-    textColor: "rgba(235, 255, 253, 0.95)",
-    strokeColor: "rgba(26, 122, 122, 0.4)",
-  },
-  {
-    number: "02",
-    title: "Organic Growth",
-    description: "SEO, content marketing, and digital PR build the engine that compounds over time. This is where long-term, sustainable revenue lives — and where most agencies underinvest.",
-    tags: ["Technical SEO", "Content Marketing", "Digital PR", "Link Building"],
-    accent: "var(--lime)",
-    glassBg: "rgba(207,252,104,0.35)",
-    textColor: "rgba(225, 255, 130, 0.95)",
-    strokeColor: "rgba(26, 122, 122, 0.4)",
-  },
-  {
-    number: "03",
-    title: "Convert & Optimize",
-    description: "CRO, UX optimization, and AI search visibility (AEO, GEO) maximize the return on everything else. Search is changing — Google, LLMs, YouTube, LinkedIn — we're already there.",
-    tags: ["CRO", "UX Optimization", "AI Search", "LLM Visibility"],
-    accent: "var(--lime)",
-    glassBg: "rgba(255,253,239,0.7)",
-    textColor: "rgba(26, 122, 122, 0.85)",
-    strokeColor: "rgba(255, 255, 255, 0.6)",
-  },
+const VISUAL_CONFIG = [
+  { number: "01", accent: "var(--mint)",  glassBg: "rgba(165,253,243,0.35)", textColor: "rgba(235, 255, 253, 0.95)", strokeColor: "rgba(26, 122, 122, 0.4)" },
+  { number: "02", accent: "var(--lime)",  glassBg: "rgba(207,252,104,0.35)", textColor: "rgba(225, 255, 130, 0.95)", strokeColor: "rgba(26, 122, 122, 0.4)" },
+  { number: "03", accent: "var(--lime)",  glassBg: "rgba(255,253,239,0.7)",  textColor: "rgba(26, 122, 122, 0.85)", strokeColor: "rgba(255, 255, 255, 0.6)" },
 ];
+
+const services = homeContent.services.channels.map((ch, i) => ({
+  ...VISUAL_CONFIG[i % VISUAL_CONFIG.length],
+  title: ch.title,
+  description: ch.description,
+  tags: ch.tags,
+}));
 
 export function ServicesSection() {
   const ref = useRef(null);
@@ -81,12 +62,12 @@ export function ServicesSection() {
           transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
         >
           <p className="text-xs font-semibold uppercase tracking-[0.25em]" style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }}>
-            The Growth System
+            {homeContent.services.eyebrow}
           </p>
           <h2 className="mt-3 text-3xl font-bold tracking-tight md:text-5xl" style={{ fontFamily: "var(--font-archivo)", color: "var(--foreground)" }}>
-            Search Is the Spine.
+            {homeContent.services.heading_line1}
             <br />
-            <span style={{ color: "var(--teal)" }}>Everything Else Builds on It.</span>
+            <span style={{ color: "var(--teal)" }}>{homeContent.services.heading_line2}</span>
           </h2>
         </motion.div>
 

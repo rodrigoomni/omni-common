@@ -5,6 +5,7 @@ import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { caseStudies } from "@/data/case-studies";
+import homeContent from "@/content/home.json";
 
 function ProjectCard({ project, index }: { project: (typeof caseStudies)[0]; index: number }) {
   const ref = useRef(null);
@@ -98,14 +99,14 @@ export function FeaturedWork() {
         >
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.25em]" style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }}>
-              Featured Projects
+              {homeContent.featured_work.eyebrow}
             </p>
             <h2 className="mt-3 text-3xl font-bold tracking-tight md:text-5xl" style={{ fontFamily: "var(--font-archivo)", color: "var(--foreground)" }}>
-              The Work Speaks<span style={{ color: "var(--teal)" }}>.</span>
+              {homeContent.featured_work.heading_main}<span style={{ color: "var(--teal)" }}>{homeContent.featured_work.heading_accent}</span>
             </h2>
           </div>
           <Link href="/work" className="inline-flex items-center gap-1.5 text-sm font-semibold transition-colors hover:underline" style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }}>
-            View all <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+            {homeContent.featured_work.cta_link} <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
           </Link>
         </motion.div>
 

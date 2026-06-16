@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from "motion/react";
 import { HeroGrid } from "./hero-grid";
 import { MagneticButton } from "./magnetic-button";
 import { ConfettiSimple } from "./confetti-simple";
+import homeContent from "@/content/home.json";
 
 export function Hero() {
   const { scrollY } = useScroll();
@@ -46,7 +47,7 @@ export function Hero() {
               ease: [0.22, 1, 0.36, 1],
             }}
           >
-            Your growth,
+            {homeContent.hero.heading_line1}
           </motion.h1>
         </div>
         <div>
@@ -64,7 +65,7 @@ export function Hero() {
               ease: [0.22, 1, 0.36, 1],
             }}
           >
-            Our intelligence.
+            {homeContent.hero.heading_line2}
           </motion.h1>
         </div>
 
@@ -78,11 +79,7 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
         >
-          Search-led growth marketing for e-commerce, SaaS, and marketplace
-          brands doing $5M–$50M.{" "}
-          <em style={{ color: "rgba(255,255,255,0.8)" }}>
-            We build the growth model first, then execute.
-          </em>
+          {homeContent.hero.subheading}
         </motion.p>
 
         <motion.div
@@ -109,7 +106,7 @@ export function Hero() {
                     "0 0 20px rgba(207,252,104,0.5), 0 0 40px rgba(207,252,104,0.3), 0 0 60px rgba(207,252,104,0.15)",
                 }}
               />
-              <span className="relative">Let's Chat</span>
+              <span className="relative">{homeContent.hero.cta_button}</span>
               <span className="relative inline-block transition-transform group-hover:translate-x-1">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
               </span>

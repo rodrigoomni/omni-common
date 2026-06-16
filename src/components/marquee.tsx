@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "motion/react";
 import { useRef } from "react";
+import homeContent from "@/content/home.json";
 
 // Small inline SVG shapes — playful, colorful doodle-style icons
 function ShapeIcon({ shape, color }: { shape: string; color: string }) {
@@ -103,22 +104,27 @@ function ShapeIcon({ shape, color }: { shape: string; color: string }) {
   }
 }
 
-const services: { label: string; shape: string; color: string }[] = [
-  { label: "SEO",            shape: "bars",       color: "#CFFC68" },
-  { label: "PPC",            shape: "bolt",       color: "#FFB347" },
-  { label: "Content",       shape: "squiggle",   color: "#FF7EB3" },
-  { label: "Digital PR",    shape: "diamond",    color: "#7CC6FE" },
-  { label: "CRO",            shape: "eye",        color: "#A5FDF3" },
-  { label: "Attribution",   shape: "bars",       color: "#A5FDF3" },
-  { label: "Growth",        shape: "triangle",   color: "#FF6B6B" },
-  { label: "Revenue",       shape: "spark",      color: "#C4B5FD" },
-  { label: "Search",        shape: "circle",     color: "#34D399" },
-  { label: "Scale",         shape: "star",       color: "#CFFC68" },
-  { label: "Conversion",    shape: "halfmoon",   color: "#FCD34D" },
-  { label: "Strategy",      shape: "semicircle", color: "#14545D" },
-  { label: "AI Search",     shape: "cross",      color: "#FB923C" },
-  { label: "Performance",   shape: "drop",       color: "#F472B6" },
+const SHAPE_PALETTE: { shape: string; color: string }[] = [
+  { shape: "bars",       color: "#CFFC68" },
+  { shape: "bolt",       color: "#FFB347" },
+  { shape: "squiggle",   color: "#FF7EB3" },
+  { shape: "diamond",    color: "#7CC6FE" },
+  { shape: "eye",        color: "#A5FDF3" },
+  { shape: "bars",       color: "#A5FDF3" },
+  { shape: "triangle",   color: "#FF6B6B" },
+  { shape: "spark",      color: "#C4B5FD" },
+  { shape: "circle",     color: "#34D399" },
+  { shape: "star",       color: "#CFFC68" },
+  { shape: "halfmoon",   color: "#FCD34D" },
+  { shape: "semicircle", color: "#14545D" },
+  { shape: "cross",      color: "#FB923C" },
+  { shape: "drop",       color: "#F472B6" },
 ];
+
+const services = homeContent.marquee.services.map((label, i) => ({
+  label,
+  ...SHAPE_PALETTE[i % SHAPE_PALETTE.length],
+}));
 
 export function Marquee() {
   const ref = useRef(null);
