@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "cms": "decap-server",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
@@ -21,10 +22,12 @@
     "three": "^0.183.2"
   },
   "devDependencies": {
+    "@netlify/plugin-nextjs": "^5.15.11",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "decap-server": "^3.9.1",
     "eslint": "^9",
     "eslint-config-next": "^15.5.14",
     "tailwindcss": "^4",
