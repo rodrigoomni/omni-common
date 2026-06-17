@@ -18,10 +18,10 @@
     ]
   },
   "featured_work": {
-    "eyebrow": "Featured Projects",
-    "heading_main": "The Work Speaks",
+    "eyebrow": " ",
+    "heading_main": " ",
     "heading_accent": ".",
-    "cta_link": "View all"
+    "cta_link": " "
   },
   "who_its_for": {
     "eyebrow": "Who This Is For",
@@ -61,10 +61,8 @@
     "closer": "You don't need more services. You need a plan."
   },
   "logo_carousel": {
-    "label": "RBNRWTFBWR",
-    "clients": [
-      "FGN ERGN R"
-    ]
+    "label": " ",
+    "clients": []
   },
   "faq": {
     "heading": "Frequently Asked Questions",
