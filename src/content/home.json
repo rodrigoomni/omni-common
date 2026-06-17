@@ -49,7 +49,7 @@
     ]
   },
   "tension": {
-    "eyebrow": "Sound familiar??",
+    "eyebrow": "Sound familiar?",
     "heading_main": "You know most of your revenue comes through search.",
     "heading_accent": "You just don't know if you're maximizing it.",
     "subheading": "You're running channels. Maybe SEO, maybe paid, maybe both. But nothing feels connected and nobody can tell you exactly what's working.",
@@ -59,19 +59,6 @@
       "Is there something we're missing?"
     ],
     "closer": "You don't need more services. You need a plan."
-  },
-  "logo_carousel": {
-    "label": "Trusted by growth-driven brands",
-    "clients": [
-      "NumberBarn",
-      "Trio Flatmount",
-      "Talitha & Lofty",
-      "Rapid Garden",
-      "ClearHello",
-      "Nordstrom",
-      "Shopify Plus",
-      "HubSpot"
-    ]
   },
   "faq": {
     "heading": "Frequently Asked Questions",
@@ -95,7 +82,7 @@
     ]
   },
   "why_omni_common": {
-    "eyebrow": "Why Omni Commonn2",
+    "eyebrow": "Why Omni Common",
     "heading_main": "One Team. One Strategy.",
     "heading_accent": "Compounding Results.",
     "intro": "You could hire a separate agency for each channel. We do them together — because that's how they compound. Senior-led, not handed off to juniors.",
@@ -115,10 +102,10 @@
     ]
   },
   "hero": {
-    "heading_line1": "Grow your brand,",
-    "heading_line2": "According to plan.",
-    "subheading": "The first ever executive growth marketing agency built for businesses ready to scale. We don't just run campaigns — we architect growth systems.",
-    "cta_button": "Let’s Chat —>"
+    "heading_line1": "The Growth-System",
+    "heading_line2": "Marketing Agency",
+    "subheading": "Custom, Search-Led Intelligence Systems\nWe build smart bridges that lead to you. ",
+    "cta_button": "Let’s Chat —"
   },
   "team": {
     "eyebrow": "The Team",
@@ -144,7 +131,7 @@
     ]
   },
   "services": {
-    "eyebrow": "The Growth System yay",
+    "eyebrow": "The Growth System",
     "heading_line1": "Search Is the Spine.",
     "heading_line2": "Everything Else Builds on It.",
     "statement_quote_main": "You could hire a separate agency for each channel. We run them together — because that's how they",
