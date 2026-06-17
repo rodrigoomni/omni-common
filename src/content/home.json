@@ -60,12 +60,6 @@
     ],
     "closer": "You don't need more services. You need a plan."
   },
-  "logo_carousel": {
-    "label": "RBNRWTFBWR",
-    "clients": [
-      "FGN ERGN R"
-    ]
-  },
   "faq": {
     "heading": "Frequently Asked Questions",
     "items": [
@@ -110,7 +104,7 @@
   "hero": {
     "heading_line1": "The Growth-System",
     "heading_line2": "Marketing Agency",
-    "subheading": "Custom, Search-Led Intelligence Systems\nWe build smart bridges that lead to you. ",
+    "subheading": "Custom, Search-Led Intelligence Systems\n<p>We build smart bridges that lead to you. </p>",
     "cta_button": "Let’s Chat —"
   },
   "team": {
@@ -137,7 +131,7 @@
     ]
   },
   "services": {
-    "eyebrow": "The Growth System ",
+    "eyebrow": "The Growth System",
     "heading_line1": "Search Is the Spine.",
     "heading_line2": "Everything Else Builds on It.",
     "statement_quote_main": "You could hire a separate agency for each channel. We run them together — because that's how they",
