@@ -3,6 +3,9 @@
 import { motion, useInView } from "motion/react";
 import { useRef } from "react";
 import { MagneticButton } from "./magnetic-button";
+import globalContent from "@/content/global.json";
+
+const { footer } = globalContent;
 
 export function Footer() {
   const ref = useRef(null);
@@ -40,17 +43,15 @@ export function Footer() {
           </div>
 
           <p className="text-xs font-semibold uppercase tracking-[0.25em]" style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }}>
-            Start with a growth model
+            {footer.eyebrow}
           </p>
 
           <h2 className="mt-6 text-5xl font-bold tracking-tighter md:text-7xl" style={{ fontFamily: "var(--font-archivo)", color: "var(--foreground)" }}>
-            Let&apos;s Chat<span style={{ color: "var(--teal)" }}>.</span>
+            {footer.heading}<span style={{ color: "var(--teal)" }}>{footer.heading_accent}</span>
           </h2>
 
           <p className="mt-4 max-w-md text-base" style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-muted)" }}>
-            We&apos;ll build your intelligence model and show you where
-            your growth is hiding. No pitch deck — just a conversation
-            about what the data says.
+            {footer.description}
           </p>
 
           <div className="mt-10">
@@ -66,26 +67,26 @@ export function Footer() {
                 }}
               >
                 <span className="cta-glow pointer-events-none absolute inset-0 rounded-full opacity-0 transition-opacity duration-200" style={{ boxShadow: "0 0 15px rgba(207,252,104,0.4), 0 0 30px rgba(20,84,93,0.2)" }} />
-                <span className="relative inline-flex items-center gap-2">Tell Us About You <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+                <span className="relative inline-flex items-center gap-2">{footer.cta_button} <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
               </a>
             </MagneticButton>
           </div>
 
           <div className="mt-16">
             <p className="text-sm" style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-subtle)" }}>
-              Have multiple physical locations?{" "}
+              {footer.local_note}{" "}
               <a href="/local" className="underline transition-colors hover:text-foreground" style={{ color: "var(--teal)" }}>
-                We have a different playbook for that.
+                {footer.local_link_text}
               </a>
             </p>
           </div>
 
           <div className="mt-12 flex flex-col justify-between gap-8 text-xs font-medium md:flex-row" style={{ fontFamily: "var(--font-inter)", color: "var(--foreground-subtle)" }}>
-            <p>Omni Common &copy; All Rights Reserved {new Date().getFullYear()}.</p>
+            <p>{footer.copyright_prefix} {new Date().getFullYear()}.</p>
             <div className="flex gap-8">
-              <a href="#" className="transition-colors hover:text-foreground">Twitter</a>
-              <a href="#" className="transition-colors hover:text-foreground">LinkedIn</a>
-              <a href="#" className="transition-colors hover:text-foreground">Instagram</a>
+              <a href="#" className="transition-colors hover:text-foreground">{footer.social_twitter}</a>
+              <a href="#" className="transition-colors hover:text-foreground">{footer.social_linkedin}</a>
+              <a href="#" className="transition-colors hover:text-foreground">{footer.social_instagram}</a>
             </div>
           </div>
         </motion.div>

@@ -248,7 +248,7 @@ export function ValueProp() {
                     color: "#fff",
                   }}
                 >
-                  Let&apos;s Chat
+                  {homeContent.intelligence.cta_button}
                   <span className="text-base">&rarr;</span>
                 </a>
               </motion.div>

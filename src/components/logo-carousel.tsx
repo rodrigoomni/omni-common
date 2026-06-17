@@ -5,19 +5,11 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import homeContent from "@/content/home.json";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const clients = [
-  "NumberBarn",
-  "Trio Flatmount",
-  "Talitha & Lofty",
-  "Rapid Garden",
-  "ClearHello",
-  "Nordstrom",
-  "Shopify Plus",
-  "HubSpot",
-];
+const { label, clients } = homeContent.logo_carousel;
 
 export function LogoCarousel() {
   const ref = useRef(null);
@@ -67,7 +59,7 @@ export function LogoCarousel() {
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 1 }}
         >
-          Trusted by growth-driven brands
+          {label}
         </motion.p>
       </div>
 

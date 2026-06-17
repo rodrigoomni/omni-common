@@ -1,3 +1,5 @@
+local_backend: true
+
 backend:
   name: git-gateway
   branch: master
@@ -31,19 +33,23 @@ collections:
                 widget: list
                 field: { label: Service, name: service, widget: string }
 
-          - label: "Tension / Problem"
-            name: tension
+          - label: "Services (The Growth System)"
+            name: services
             widget: object
             fields:
               - { label: Eyebrow, name: eyebrow, widget: string }
-              - { label: "Heading Main", name: heading_main, widget: string }
-              - { label: "Heading Accent", name: heading_accent, widget: string }
-              - { label: Subheading, name: subheading, widget: text }
-              - label: Questions
-                name: questions
+              - { label: "Heading Line 1", name: heading_line1, widget: string }
+              - { label: "Heading Line 2", name: heading_line2, widget: string }
+              - label: Channels
+                name: channels
                 widget: list
-                field: { label: Question, name: question, widget: string }
-              - { label: Closer, name: closer, widget: string }
+                fields:
+                  - { label: Title, name: title, widget: string }
+                  - { label: Description, name: description, widget: text }
+                  - label: Tags
+                    name: tags
+                    widget: list
+                    field: { label: Tag, name: tag, widget: string }
 
           - label: "Intelligence Engine"
             name: intelligence
@@ -75,43 +81,15 @@ collections:
                   - { label: Title, name: title, widget: string }
                   - { label: Description, name: description, widget: text }
 
-          - label: Services
-            name: services
+          - label: "Logo Carousel (Client Bar)"
+            name: logo_carousel
             widget: object
             fields:
-              - { label: Eyebrow, name: eyebrow, widget: string }
-              - { label: "Heading Line 1", name: heading_line1, widget: string }
-              - { label: "Heading Line 2", name: heading_line2, widget: string }
-              - { label: "Statement Quote Main", name: statement_quote_main, widget: text }
-              - { label: "Statement Quote Emphasis", name: statement_quote_emphasis, widget: string }
-              - label: Channels
-                name: channels
+              - { label: Label, name: label, widget: string }
+              - label: Clients
+                name: clients
                 widget: list
-                fields:
-                  - { label: Title, name: title, widget: string }
-                  - { label: Description, name: description, widget: text }
-                  - label: Tags
-                    name: tags
-                    widget: list
-                    field: { label: Tag, name: tag, widget: string }
-
-          - label: "Who It's For"
-            name: who_its_for
-            widget: object
-            fields:
-              - { label: Eyebrow, name: eyebrow, widget: string }
-              - { label: "Heading Main", name: heading_main, widget: string }
-              - { label: "Heading Accent", name: heading_accent, widget: string }
-              - { label: Description, name: description, widget: text }
-              - { label: "Local Note", name: local_note, widget: string }
-              - { label: "Local Link Text", name: local_link_text, widget: string }
-              - label: Audiences
-                name: audiences
-                widget: list
-                fields:
-                  - { label: Label, name: label, widget: string }
-                  - { label: Range, name: range, widget: string }
-                  - { label: Description, name: description, widget: text }
+                field: { label: Client Name, name: client, widget: string }
 
           - label: "Featured Work"
             name: featured_work
@@ -121,24 +99,6 @@ collections:
               - { label: "Heading Main", name: heading_main, widget: string }
               - { label: "Heading Accent", name: heading_accent, widget: string }
               - { label: "CTA Link", name: cta_link, widget: string }
-
-          - label: Team
-            name: team
-            widget: object
-            fields:
-              - { label: Eyebrow, name: eyebrow, widget: string }
-              - { label: "Heading Line 1", name: heading_line1, widget: string }
-              - { label: "Heading Line 2", name: heading_line2, widget: string }
-              - { label: "Heading Accent", name: heading_accent, widget: string }
-              - { label: Description, name: description, widget: text }
-              - { label: "CTA Button", name: cta_button, widget: string }
-              - label: Stats
-                name: stats
-                widget: list
-                fields:
-                  - { label: Label, name: label, widget: string }
-                  - { label: Value, name: value, widget: string }
-                  - { label: Note, name: note, widget: string, required: false }
 
           - label: FAQ
             name: faq
