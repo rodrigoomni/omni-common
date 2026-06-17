@@ -110,7 +110,7 @@
   "hero": {
     "heading_line1": "The Growth-System",
     "heading_line2": "Marketing Agency",
-    "subheading": "Custom, Search-Led Intelligence Systems\nWe build smart bridges that lead to you. ",
+    "subheading": "Custom, Search-Led Intelligence Systems\n<p>We build smart bridges that lead to you. </p>",
     "cta_button": "Let’s Chat "
   },
   "team": {
