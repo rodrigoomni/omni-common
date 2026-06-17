@@ -17,19 +17,6 @@
       "Performance"
     ]
   },
-  "logo_carousel": {
-    "label": "Trusted by growth-driven brands",
-    "clients": [
-      "NumberBarn",
-      "Trio Flatmount",
-      "Talitha & Lofty",
-      "Rapid Garden",
-      "ClearHello",
-      "Nordstrom",
-      "Shopify Plus",
-      "HubSpot"
-    ]
-  },
   "featured_work": {
     "eyebrow": "Featured Projects",
     "heading_main": "The Work Speaks",
@@ -72,6 +59,19 @@
       "Is there something we're missing?"
     ],
     "closer": "You don't need more services. You need a plan."
+  },
+  "logo_carousel": {
+    "label": "Trusted by growth-driven brands",
+    "clients": [
+      "NumberBarn",
+      "Trio Flatmount",
+      "Talitha & Lofty",
+      "Rapid Garden",
+      "ClearHello",
+      "Nordstrom",
+      "Shopify Plus",
+      "HubSpot"
+    ]
   },
   "faq": {
     "heading": "Frequently Asked Questions",
@@ -144,7 +144,7 @@
     ]
   },
   "services": {
-    "eyebrow": "The Growth System",
+    "eyebrow": "The Growth System yay",
     "heading_line1": "Search Is the Spine.",
     "heading_line2": "Everything Else Builds on It.",
     "statement_quote_main": "You could hire a separate agency for each channel. We run them together — because that's how they",
