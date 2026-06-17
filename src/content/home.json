@@ -18,10 +18,10 @@
     ]
   },
   "featured_work": {
-    "eyebrow": " ",
-    "heading_main": " ",
+    "eyebrow": "Featured Projects",
+    "heading_main": "The Work Speaks",
     "heading_accent": ".",
-    "cta_link": " "
+    "cta_link": "View all"
   },
   "who_its_for": {
     "eyebrow": "Who This Is For",
@@ -103,8 +103,8 @@
   },
   "hero": {
     "heading_line1": "The Growth-System Marketing Agency",
-    "heading_line2": "Custom, Search-Led Intelligence Systems",
-    "subheading": "We build smart bridges that lead to you.",
+    "heading_line2": "We build smart bridges that lead to you.",
+    "subheading": "Custom, Search-Led Intelligence Systems",
     "cta_button": "Let’s Chat "
   },
   "team": {
