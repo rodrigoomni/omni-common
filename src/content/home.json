@@ -98,10 +98,6 @@
         "description": "We understand your growth before we touch your budget. Data drives every decision."
       },
       {
-        "title": "Senior-Led",
-        "description": "No junior handoffs. Senior specialists build your strategy and execute it."
-      },
-      {
         "title": "Outcome-Driven",
         "description": "We're accountable to revenue and growth — not deliverables and vanity metrics."
       }
@@ -180,8 +176,8 @@
     "heading_main": "We Build Intelligence Systems",
     "heading_accent": "A way to gather, process, analyze, and apply relevant information in order to make smarter decisions, solve problems, and automate reporting. (You know, the hard parts.)",
     "body_paragraphs": [
-      "We pull data from your platforms - GA4, Search Console, Google Ads, Shopify, Meta, Klaviyo, HubSpot - and build one clear picture of what's driving your growth and what isn't.",
       "My, my, where has all the growth gone…?",
+      "We pull data from your platforms - GA4, Search Console, Google Ads, Shopify, Meta, Klaviyo, HubSpot - and build one clear picture of what's driving your growth and what isn't.",
       "AI-assisted analysis, interpreted by senior strategists. We show you where your revenue is actually coming from, which channels deserve more investment, and where you're leaving money on the table. This is the foundation everything else is built on.",
       "Growing a business requires a multi-dimensional plan. (Not one thing.)\nSustaining that growth requires SEO/GEO execution, pin-point attribution, and just the right spend. (You gotta keep it up.)",
       "Every client asks the same question: \"What's working and where should I spend more?\" We calculate the answer."
