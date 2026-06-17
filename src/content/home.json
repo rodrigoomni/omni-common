@@ -137,15 +137,15 @@
     ]
   },
   "services": {
-    "eyebrow": "The Growth System ",
-    "heading_line1": "Search Is the Spine.",
-    "heading_line2": "Everything Else Builds on It.",
+    "eyebrow": "The Problem",
+    "heading_line1": "Your business isn’t hitting the target.",
+    "heading_line2": "You don’t know why. We do.",
     "statement_quote_main": "You could hire a separate agency for each channel. We run them together — because that's how they",
     "statement_quote_emphasis": "compound.",
     "channels": [
       {
-        "title": "Paid Channels",
-        "description": "PPC, Google Ads, Meta Ads, and paid social — we start here for short-term growth while the long game builds.",
+        "title": "Spend Misalignment",
+        "description": "You’re not sure if your spend is going to the right places.",
         "tags": [
           "PPC",
           "Google Ads",
@@ -154,8 +154,8 @@
         ]
       },
       {
-        "title": "Organic Growth",
-        "description": "Technical SEO, content marketing, digital PR, and link building — the compounding engine that drives long-term revenue.",
+        "title": "Declining Search",
+        "description": "Technical SEO, content marketing, digital PR, and link building - the compounding engine that drives long-term revenue.",
         "tags": [
           "Technical SEO",
           "Content",
@@ -164,7 +164,7 @@
         ]
       },
       {
-        "title": "Convert & Optimize",
+        "title": "Increasing CAC",
         "description": "CRO, UX optimization, AI search visibility, and LLM optimization — maximizing the return on every channel.",
         "tags": [
           "CRO",
