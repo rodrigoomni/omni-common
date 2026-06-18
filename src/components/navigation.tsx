@@ -114,7 +114,7 @@ export function Navigation() {
             ? "rgba(20,84,93,0.97)"
             : bgTheme === "navy"
               ? "rgba(10,43,71,0.98)"
-              : "rgba(250,250,248,0.98)",
+              : "rgba(255,255,255,0.98)",
         borderBottom: isHero
           ? "1px solid transparent"
           : isDark

@@ -2,7 +2,12 @@
 
 import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { motion, useInView, AnimatePresence } from "motion/react";
-import { caseStudies, type MediaBlock as MediaBlockType } from "@/data/case-studies";
+import {
+  caseStudies,
+  type MediaBlock as MediaBlockType,
+  type SnapshotBullet,
+  type ApproachStat,
+} from "@/data/case-studies";
 import { Footer } from "@/components/footer";
 import Image from "next/image";
 import Link from "next/link";
@@ -453,6 +458,129 @@ function MetricCard({
 }
 
 /* ──────────────────────────────────────────────────────────────────────────────
+   Snapshot stat card (used inside the Snapshot section grid)
+   ────────────────────────────────────────────────────────────────────────── */
+function SnapshotStatCard({ bullet, index }: { bullet: SnapshotBullet; index: number }) {
+  // Back-compat: render legacy `highlight + text` as a single inline row if value isn't set.
+  if (!bullet.value && (bullet.highlight || bullet.text)) {
+    return (
+      <motion.li
+        className="flex flex-col gap-1 border-l-2 pl-5 md:flex-row md:items-baseline md:gap-3"
+        style={{ borderColor: "var(--lime)" }}
+        initial={{ opacity: 0, x: -12 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, margin: "-40px" }}
+        transition={{ duration: 0.6, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+      >
+        {bullet.highlight && (
+          <span
+            className="shrink-0 text-base font-bold md:text-lg"
+            style={{
+              fontFamily: "var(--font-archivo)",
+              color: "var(--foreground)",
+              letterSpacing: "-0.01em",
+            }}
+          >
+            {bullet.highlight}
+          </span>
+        )}
+        {bullet.text && (
+          <span
+            className="text-base leading-relaxed"
+            style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-muted)" }}
+          >
+            — {bullet.text}
+          </span>
+        )}
+      </motion.li>
+    );
+  }
+
+  return (
+    <motion.div
+      className="relative flex flex-col rounded-xl border p-5 md:p-6"
+      style={{
+        borderColor: "var(--border)",
+        backgroundColor: "var(--surface-raised)",
+      }}
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.7, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <span
+        className="absolute left-0 top-6 h-8 w-1 rounded-r-full"
+        style={{ backgroundColor: "var(--lime)" }}
+      />
+      <p
+        className="font-black leading-[0.95] tracking-tighter"
+        style={{
+          fontFamily: "var(--font-archivo)",
+          color: "var(--foreground)",
+          fontSize: "clamp(2.25rem, 4.5vw, 3.5rem)",
+          letterSpacing: "-0.04em",
+        }}
+      >
+        {bullet.value}
+      </p>
+      {bullet.label && (
+        <p
+          className="mt-3 text-[11px] font-semibold uppercase tracking-[0.2em]"
+          style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }}
+        >
+          {bullet.label}
+        </p>
+      )}
+      {bullet.detail && (
+        <p
+          className="mt-3 text-sm leading-relaxed"
+          style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-muted)" }}
+        >
+          {bullet.detail}
+        </p>
+      )}
+    </motion.div>
+  );
+}
+
+/* ──────────────────────────────────────────────────────────────────────────────
+   Approach subsection trailing stat chip
+   ────────────────────────────────────────────────────────────────────────── */
+function ApproachStatChip({ stat }: { stat: ApproachStat }) {
+  return (
+    <motion.div
+      className="mt-6 inline-flex items-baseline gap-3 rounded-md py-2 pl-4 pr-5"
+      style={{
+        backgroundColor: "rgba(207, 252, 104, 0.18)",
+        borderLeft: "3px solid var(--teal)",
+      }}
+      initial={{ opacity: 0, x: -8 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <span
+        className="font-bold leading-none tracking-tight"
+        style={{
+          fontFamily: "var(--font-archivo)",
+          color: "var(--teal)",
+          fontSize: "clamp(1.5rem, 2.5vw, 2rem)",
+          letterSpacing: "-0.02em",
+        }}
+      >
+        {stat.value}
+      </span>
+      <span
+        className="text-[11px] font-semibold uppercase tracking-[0.2em]"
+        style={{ fontFamily: "var(--font-inter)", color: "var(--foreground-secondary)" }}
+      >
+        {stat.label}
+      </span>
+    </motion.div>
+  );
+}
+
+/* ──────────────────────────────────────────────────────────────────────────────
    Sticky table of contents
    ────────────────────────────────────────────────────────────────────────── */
 interface TocItem {
@@ -779,11 +907,11 @@ export default function CaseStudyView({ slug }: { slug: string }) {
                   {study.snapshot.intro}
                 </p>
 
-                <ul className="mt-12 space-y-6">
+                <div className="mt-12 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
                   {study.snapshot.bullets.map((bullet, i) => (
-                    <SnapshotBulletRow key={i} bullet={bullet} index={i} />
+                    <SnapshotStatCard key={i} bullet={bullet} index={i} />
                   ))}
-                </ul>
+                </div>
 
                 {study.snapshot.media && (
                   <MediaBlock block={study.snapshot.media} title={study.title} />
@@ -983,42 +1111,12 @@ function RichParagraph({ text }: { text: string }) {
   );
 }
 
-function SnapshotBulletRow({ bullet, index }: { bullet: { highlight: string; text: string }; index: number }) {
-  return (
-    <motion.li
-      className="flex flex-col gap-1 border-l-2 pl-5 md:flex-row md:items-baseline md:gap-3"
-      style={{ borderColor: "var(--lime)" }}
-      initial={{ opacity: 0, x: -12 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.6, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
-    >
-      <span
-        className="shrink-0 text-base font-bold md:text-lg"
-        style={{
-          fontFamily: "var(--font-archivo)",
-          color: "var(--foreground)",
-          letterSpacing: "-0.01em",
-        }}
-      >
-        {bullet.highlight}
-      </span>
-      <span
-        className="text-base leading-relaxed"
-        style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-muted)" }}
-      >
-        — {bullet.text}
-      </span>
-    </motion.li>
-  );
-}
-
 function ApproachSubsection({
   section,
   index,
   title,
 }: {
-  section: { title: string; body: string; media?: MediaBlockType };
+  section: { title: string; body: string; media?: MediaBlockType; stat?: ApproachStat };
   index: number;
   title: string;
 }) {
@@ -1055,6 +1153,7 @@ function ApproachSubsection({
       >
         {section.body}
       </p>
+      {section.stat && <ApproachStatChip stat={section.stat} />}
       {section.media && <MediaBlock block={section.media} title={title} />}
     </motion.div>
   );

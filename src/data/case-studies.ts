@@ -4,8 +4,21 @@ export interface CaseStudyMeta {
 }
 
 export interface SnapshotBullet {
-  highlight: string;
-  text: string;
+  /** Headline value, e.g. "−69%" or "46 → 60" */
+  value?: string;
+  /** Short label that sits under the value, e.g. "Account CAC YoY" */
+  label?: string;
+  /** Optional supporting line under the label */
+  detail?: string;
+  /** Legacy / fallback inline-row rendering when value/label aren't set */
+  highlight?: string;
+  text?: string;
+}
+
+/** Small metric callout that can trail an approach subsection */
+export interface ApproachStat {
+  value: string;
+  label: string;
 }
 
 export interface MediaItem {
@@ -29,6 +42,8 @@ export interface ApproachSection {
   title: string;
   body: string;
   media?: MediaBlock;
+  /** Trailing metric chip rendered at the end of the subsection */
+  stat?: ApproachStat;
 }
 
 export interface CaseStudy {
@@ -122,28 +137,34 @@ export const caseStudies: CaseStudy[] = [
         "NumberBarn had been growing — but paying for it with increasingly expensive paid search, as sales & marketing nearly doubled as a share of revenue (5.5% → 11%). Omni Common's thesis: shift acquisition toward organic, where the cost to land a buyer runs ~4× lower. In year one we reversed a multi-year slowdown and rebuilt the engine so growth compounds instead of having to be re-bought.",
       bullets: [
         {
-          highlight: "Account CAC fell 69%",
-          text: "year over year — the key lever in an acquisition-led business.",
+          value: "−69%",
+          label: "Account CAC YoY",
+          detail: "The key lever in an acquisition-led business.",
         },
         {
-          highlight: "Net-new buyers +270%",
-          text: "(3,664 → 13,544); unique buying accounts +35% YoY.",
+          value: "+270%",
+          label: "Net-new buyers",
+          detail: "3,664 → 13,544. Unique buying accounts +35% YoY.",
         },
         {
-          highlight: "Total purchases +20% YoY",
-          text: "(GA): organic search purchases +51%, paid +42%.",
+          value: "+20%",
+          label: "Total purchases YoY (GA)",
+          detail: "Organic search purchases +51%, paid +42%.",
         },
         {
-          highlight: "Domain Rating 46 → 60",
-          text: "(+14 pts in 24 months); top-3 keywords ~4× (~500 → ~2,000).",
+          value: "46 → 60",
+          label: "Domain Rating",
+          detail: "+14 pts in 24 months. Top-3 keywords ~4× (~500 → ~2,000).",
         },
         {
-          highlight: "Search impressions +288%",
-          text: "organic clicks ~+105% (trailing 90 days YoY).",
+          value: "+288%",
+          label: "Search impressions",
+          detail: "Organic clicks ~+105% (trailing 90 days YoY).",
         },
         {
-          highlight: "AI discovery emerged",
-          text: "ChatGPT-referred purchases +1,100% YoY, converting 68% above site average.",
+          value: "+1,100%",
+          label: "ChatGPT-referred purchases",
+          detail: "Converting 68% above site average. Now the 6th-highest purchase driver.",
         },
       ],
     },
@@ -188,22 +209,27 @@ export const caseStudies: CaseStudy[] = [
         {
           title: "Content Marketing",
           body: "49 blog posts published in 2025 across two tracks (purchase-adjacent education + refresh/consolidation). Tightened publishing/QA pipeline; aligned terminology and topic selection with the client's editorial lead. Culled and consolidated thin/dated posts (SEO hygiene) and shipped a blog redesign. Blog traffic +234% YoY (Q4'25 vs Q4'24); ~48K Google visits and 4.1M impressions.",
+          stat: { value: "+234%", label: "Blog traffic YoY · 4.1M impressions" },
         },
         {
           title: "Digital PR & Link Building",
           body: "557 links from 464 unique referring domains, average DR 69.73, 147 links at DR 71+. Original data-driven campaigns: Ghosting (125 placements), Debt Collection Calls and Phone Bills (avg DR ~80s), Robocalls and Phone Etiquette (sustained broadcast/publisher coverage). Drove NumberBarn DR from 46 → 60 and seeded AI-discovery signals.",
+          stat: { value: "557", label: "Links from 464 domains · avg DR 69.73" },
         },
         {
           title: "Technical SEO",
           body: "12 technical batches across the year surfacing 33 optimizations (template, crawl, indexing, Core Web Vitals); internal-linking automation for topical clusters; content consolidation redirecting/merging 58 older posts. New single-day organic-click highs of 1,197 (July) then 1,680 (Oct 21). Impressions +288%, organic clicks ~+105% (90-day YoY).",
+          stat: { value: "+288%", label: "Search impressions · 90-day YoY" },
         },
         {
           title: "Landing Page UXO & CRO",
           body: "17 top-level landing pages rewritten, redesigned, and coded for commercial intent (vanity, local/geo, toll-free, area-code, search, call-forwarding, purchase-and-port, lawyers, roofing) — development included at no upcharge, plug-and-play ready. /local launched Aug 31 and is competing in 100K+ monthly searches; /search redesign live June 30; homepage redesign through multiple review rounds; CRO experimentation (CrazyEgg on /number-parking). Biggest unlock ahead: publishing the finished pages.",
+          stat: { value: "17", label: "Landing pages built · 100K+ monthly searches" },
         },
         {
           title: "Paid Search (PPC)",
           body: "Full account ownership. Returned non-branded campaigns to Maximize Conversion Value w/ tROAS; continuous query/keyword hygiene; \"top keywords\" focus and exact-match tests; ad-copy testing (benefit themes beat personality-led); promo alignment for on-sale numbers. Best efficiency in three years — CPA ~−27%, ROAS ~+26% YoY on lower spend.",
+          stat: { value: "+26% ROAS", label: "On −27% CPA. Best efficiency in 3 years." },
         },
       ],
     },
