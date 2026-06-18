@@ -347,22 +347,39 @@ export function ValueProp() {
             })}
           </div>
 
-          {/* Desktop: horizontal row with overlap */}
+          {/* Desktop: horizontal row with overlap — adapts to capability count */}
           <div
             className="relative mt-24 -mx-12 hidden items-center justify-center md:flex lg:-mx-24"
             style={{
-              ["--d" as string]: "min(34vw, 620px)",
+              // Slightly larger diameter when only 2 circles — fills the space
+              ["--d" as string]:
+                capabilities.length === 2
+                  ? "min(42vw, 720px)"
+                  : "min(34vw, 620px)",
               height: "var(--d)",
             }}
           >
             {capabilities.map((cap, i) => {
               const Icon = cap.icon;
-              const zIndexes = [3, 1, 2];
-              const leftCalc = [
-                "calc(50% - var(--d) / 2 - var(--d) + 20px)",
-                "calc(50% - var(--d) / 2)",
-                "calc(50% - var(--d) / 2 + var(--d) - 20px)",
-              ];
+              const count = capabilities.length;
+
+              // Layered z-index per count — front circle is the most visually
+              // dominant one in the row.
+              const zIndex =
+                count === 2 ? (i === 0 ? 2 : 1) : [3, 1, 2][i] ?? 1;
+
+              // Two-circle layout: a true Venn overlap, centered horizontally.
+              // Three-circle layout: original left/center/right with overlap.
+              const left =
+                count === 2
+                  ? i === 0
+                    ? "calc(50% - var(--d) + 40px)"
+                    : "calc(50% - 40px)"
+                  : [
+                      "calc(50% - var(--d) / 2 - var(--d) + 20px)",
+                      "calc(50% - var(--d) / 2)",
+                      "calc(50% - var(--d) / 2 + var(--d) - 20px)",
+                    ][i];
 
               return (
                 <motion.div
@@ -371,8 +388,8 @@ export function ValueProp() {
                   style={{
                     width: "var(--d)",
                     height: "var(--d)",
-                    left: leftCalc[i],
-                    zIndex: zIndexes[i],
+                    left,
+                    zIndex,
                     backgroundColor: cap.bg,
                     border: "1px solid rgba(255,255,255,0.45)",
                     backdropFilter: "blur(18px) saturate(1.3)",
@@ -400,7 +417,7 @@ export function ValueProp() {
                       {cap.title}
                     </h3>
                     <p
-                      className="mt-2 max-w-[65%] text-xs leading-relaxed lg:text-sm"
+                      className="mt-2 max-w-[60%] text-xs leading-relaxed lg:text-sm"
                       style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-muted)" }}
                     >
                       {cap.desc}
