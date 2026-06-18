@@ -1,29 +1,33 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { motion, useInView, AnimatePresence } from "motion/react";
-import { useRef } from "react";
-import { caseStudies } from "@/data/case-studies";
+import { caseStudies, type MediaBlock as MediaBlockType } from "@/data/case-studies";
 import { Footer } from "@/components/footer";
 import Image from "next/image";
 import Link from "next/link";
 
-function MetricCard({ metric, value, index }: { metric: string; value: string; index: number }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
-  return (
-    <motion.div ref={ref} className="pl-6" style={{ borderLeft: "2px solid var(--teal)" }} initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}>
-      <p className="text-3xl font-bold tracking-tight md:text-4xl" style={{ fontFamily: "var(--font-archivo)", color: "var(--teal)" }}>{value}</p>
-      <p className="mt-2 text-xs font-semibold uppercase tracking-[0.2em]" style={{ fontFamily: "var(--font-inter)", color: "var(--foreground-subtle)" }}>{metric}</p>
-    </motion.div>
-  );
-}
-
-function FullscreenViewer({ images, title, startIndex, onClose }: { images: string[]; title: string; startIndex: number; onClose: () => void }) {
+/* ──────────────────────────────────────────────────────────────────────────────
+   Fullscreen image viewer
+   ────────────────────────────────────────────────────────────────────────── */
+function FullscreenViewer({
+  images,
+  title,
+  startIndex,
+  onClose,
+}: {
+  images: string[];
+  title: string;
+  startIndex: number;
+  onClose: () => void;
+}) {
   const [current, setCurrent] = useState(startIndex);
 
   const next = useCallback(() => setCurrent((c) => (c + 1) % images.length), [images.length]);
-  const prev = useCallback(() => setCurrent((c) => (c - 1 + images.length) % images.length), [images.length]);
+  const prev = useCallback(
+    () => setCurrent((c) => (c - 1 + images.length) % images.length),
+    [images.length]
+  );
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
@@ -38,42 +42,68 @@ function FullscreenViewer({ images, title, startIndex, onClose }: { images: stri
   return (
     <motion.div
       className="fixed inset-0 z-[9999] flex items-center justify-center"
-      style={{ backgroundColor: "rgba(0,0,0,0.92)" }}
+      style={{ backgroundColor: "rgba(8,18,28,0.94)" }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.25 }}
       onClick={onClose}
     >
       <button
         onClick={onClose}
-        className="absolute right-6 top-6 z-10 flex h-10 w-10 items-center justify-center rounded-full text-white/80 transition-colors hover:text-white"
-        style={{ backgroundColor: "rgba(255,255,255,0.1)" }}
+        className="absolute right-6 top-6 z-10 flex h-10 w-10 items-center justify-center rounded-full text-white/85 transition-colors hover:text-white"
+        style={{ backgroundColor: "rgba(255,255,255,0.08)" }}
         aria-label="Close fullscreen"
       >
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M18 6L6 18" />
+          <path d="M6 6l12 12" />
+        </svg>
       </button>
 
-      <div className="relative max-h-[90vh] max-w-[90vw]" onClick={(e) => e.stopPropagation()}>
+      <div className="relative max-h-[92vh] max-w-[92vw]" onClick={(e) => e.stopPropagation()}>
         <AnimatePresence mode="wait">
           <motion.div
             key={current}
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.3 }}
+            exit={{ opacity: 0, scale: 0.97 }}
+            transition={{ duration: 0.25 }}
           >
-            <Image src={images[current]} alt={`${title} — ${current + 1}`} width={1920} height={1080} className="max-h-[90vh] w-auto object-contain" />
+            <Image
+              src={images[current]}
+              alt={`${title} — ${current + 1}`}
+              width={2400}
+              height={1350}
+              className="max-h-[92vh] w-auto object-contain"
+              priority
+            />
           </motion.div>
         </AnimatePresence>
 
         {images.length > 1 && (
           <>
-            <button onClick={prev} className="absolute left-4 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full transition-all hover:scale-110" style={{ backgroundColor: "rgba(255,255,255,0.15)", color: "white" }} aria-label="Previous image">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5"/><path d="M11 18l-6-6 6-6"/></svg>
+            <button
+              onClick={prev}
+              className="absolute left-4 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full transition-all hover:scale-105"
+              style={{ backgroundColor: "rgba(255,255,255,0.12)", color: "white" }}
+              aria-label="Previous image"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M19 12H5" />
+                <path d="M11 18l-6-6 6-6" />
+              </svg>
             </button>
-            <button onClick={next} className="absolute right-4 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full transition-all hover:scale-110" style={{ backgroundColor: "rgba(255,255,255,0.15)", color: "white" }} aria-label="Next image">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+            <button
+              onClick={next}
+              className="absolute right-4 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full transition-all hover:scale-105"
+              style={{ backgroundColor: "rgba(255,255,255,0.12)", color: "white" }}
+              aria-label="Next image"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14" />
+                <path d="M13 6l6 6-6 6" />
+              </svg>
             </button>
           </>
         )}
@@ -82,7 +112,19 @@ function FullscreenViewer({ images, title, startIndex, onClose }: { images: stri
       {images.length > 1 && (
         <div className="absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 gap-2">
           {images.map((_, i) => (
-            <button key={i} onClick={(e) => { e.stopPropagation(); setCurrent(i); }} className="h-2 rounded-full transition-all duration-300" style={{ width: i === current ? "24px" : "8px", backgroundColor: i === current ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.3)" }} aria-label={`Go to image ${i + 1}`} />
+            <button
+              key={i}
+              onClick={(e) => {
+                e.stopPropagation();
+                setCurrent(i);
+              }}
+              className="h-1.5 rounded-full transition-all duration-300"
+              style={{
+                width: i === current ? "28px" : "8px",
+                backgroundColor: i === current ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.3)",
+              }}
+              aria-label={`Go to image ${i + 1}`}
+            />
           ))}
         </div>
       )}
@@ -90,83 +132,148 @@ function FullscreenViewer({ images, title, startIndex, onClose }: { images: stri
   );
 }
 
-function ImageGallery({ images, title, fallbackColor }: { images: string[]; title: string; fallbackColor: string }) {
+/* ──────────────────────────────────────────────────────────────────────────────
+   Big hero-style carousel — editorial, full-bleed
+   ────────────────────────────────────────────────────────────────────────── */
+function HeroCarousel({
+  images,
+  title,
+  fallbackColor,
+}: {
+  images: string[];
+  title: string;
+  fallbackColor: string;
+}) {
   const [current, setCurrent] = useState(0);
   const [fullscreenIndex, setFullscreenIndex] = useState<number | null>(null);
 
   const next = useCallback(() => setCurrent((c) => (c + 1) % images.length), [images.length]);
-  const prev = useCallback(() => setCurrent((c) => (c - 1 + images.length) % images.length), [images.length]);
+  const prev = useCallback(
+    () => setCurrent((c) => (c - 1 + images.length) % images.length),
+    [images.length]
+  );
 
   if (images.length === 0) {
     return (
-      <div className="flex aspect-[21/9] items-center justify-center rounded-2xl" style={{ backgroundColor: fallbackColor }}>
-        <span className="text-8xl font-black" style={{ fontFamily: "var(--font-archivo)", color: "rgba(20,84,93,0.08)" }}>{title}</span>
+      <div
+        className="flex aspect-[16/9] items-center justify-center"
+        style={{ backgroundColor: fallbackColor }}
+      >
+        <span
+          className="text-8xl font-black"
+          style={{ fontFamily: "var(--font-archivo)", color: "rgba(20,84,93,0.08)" }}
+        >
+          {title}
+        </span>
       </div>
     );
   }
 
   return (
     <>
-      <div className="relative w-full" data-cursor="image" data-cursor-hint="expand">
-        <div className="overflow-hidden">
-          <AnimatePresence mode="popLayout" initial={false}>
-            <motion.div
-              key={current}
-              initial={{ opacity: 0, x: 60 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -60 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              onClick={() => setFullscreenIndex(current)}
-            >
-              <Image
-                src={images[current]}
-                alt={`${title} — ${current + 1}`}
-                width={1920}
-                height={1080}
-                className="w-full h-auto"
-                style={{ display: "block" }}
-              />
-            </motion.div>
-          </AnimatePresence>
-        </div>
+      <div
+        className="relative w-full overflow-hidden"
+        style={{ backgroundColor: fallbackColor, aspectRatio: "16 / 9" }}
+        data-cursor="image"
+        data-cursor-hint="expand"
+      >
+        <AnimatePresence mode="popLayout" initial={false}>
+          <motion.div
+            key={current}
+            className="absolute inset-0"
+            initial={{ opacity: 0, scale: 1.02 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.99 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            onClick={() => setFullscreenIndex(current)}
+          >
+            <Image
+              src={images[current]}
+              alt={`${title} — ${current + 1}`}
+              fill
+              sizes="100vw"
+              priority
+              className="object-cover"
+            />
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Subtle bottom gradient for chrome legibility */}
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-32"
+          style={{
+            background: "linear-gradient(to top, rgba(0,0,0,0.35), transparent)",
+          }}
+        />
 
         {images.length > 1 && (
           <>
             <button
-              onClick={prev}
-              className="absolute left-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full transition-all hover:scale-110"
-              style={{ backgroundColor: "rgba(255,255,255,0.9)", color: "#262626" }}
+              onClick={(e) => {
+                e.stopPropagation();
+                prev();
+              }}
+              className="absolute left-6 top-1/2 z-10 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full backdrop-blur-md transition-all hover:scale-105 md:flex"
+              style={{
+                backgroundColor: "rgba(255,255,255,0.85)",
+                color: "#262626",
+                border: "1px solid rgba(255,255,255,0.6)",
+              }}
               aria-label="Previous image"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5"/><path d="M11 18l-6-6 6-6"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M19 12H5" />
+                <path d="M11 18l-6-6 6-6" />
+              </svg>
             </button>
             <button
-              onClick={next}
-              className="absolute right-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full transition-all hover:scale-110"
-              style={{ backgroundColor: "rgba(255,255,255,0.9)", color: "#262626" }}
+              onClick={(e) => {
+                e.stopPropagation();
+                next();
+              }}
+              className="absolute right-6 top-1/2 z-10 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full backdrop-blur-md transition-all hover:scale-105 md:flex"
+              style={{
+                backgroundColor: "rgba(255,255,255,0.85)",
+                color: "#262626",
+                border: "1px solid rgba(255,255,255,0.6)",
+              }}
               aria-label="Next image"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14" />
+                <path d="M13 6l6 6-6 6" />
+              </svg>
             </button>
 
-            <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-2">
+            {/* Counter — top right */}
+            <div
+              className="absolute right-6 top-6 z-10 rounded-full px-3 py-1.5 text-[11px] font-semibold tracking-wider backdrop-blur-md"
+              style={{
+                backgroundColor: "rgba(255,255,255,0.85)",
+                color: "#262626",
+                fontFamily: "var(--font-inter)",
+              }}
+            >
+              {String(current + 1).padStart(2, "0")} / {String(images.length).padStart(2, "0")}
+            </div>
+
+            {/* Dots — bottom center */}
+            <div className="absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 gap-2">
               {images.map((_, i) => (
                 <button
                   key={i}
-                  onClick={() => setCurrent(i)}
-                  className="h-2 rounded-full transition-all duration-300"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCurrent(i);
+                  }}
+                  className="h-1.5 rounded-full transition-all duration-300"
                   style={{
-                    width: i === current ? "24px" : "8px",
-                    backgroundColor: i === current ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.4)",
+                    width: i === current ? "32px" : "8px",
+                    backgroundColor: i === current ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.45)",
                   }}
                   aria-label={`Go to image ${i + 1}`}
                 />
               ))}
-            </div>
-
-            {/* Counter */}
-            <div className="absolute right-4 top-4 z-10 rounded-full px-3 py-1 text-xs font-semibold" style={{ backgroundColor: "rgba(0,0,0,0.5)", color: "white", fontFamily: "var(--font-inter)" }}>
-              {current + 1} / {images.length}
             </div>
           </>
         )}
@@ -186,107 +293,804 @@ function ImageGallery({ images, title, fallbackColor }: { images: string[]; titl
   );
 }
 
-export default function CaseStudyView({ slug }: { slug: string }) {
-  const study = caseStudies.find((s) => s.slug === slug);
-  if (!study) return <main className="flex h-screen items-center justify-center"><p style={{ color: "var(--foreground-muted)" }}>Case study not found.</p></main>;
+/* ──────────────────────────────────────────────────────────────────────────────
+   Inline media block — supports single/pair/grid/wide layouts
+   ────────────────────────────────────────────────────────────────────────── */
+function MediaBlock({ block, title }: { block: MediaBlockType; title: string }) {
+  const [fullscreenIndex, setFullscreenIndex] = useState<number | null>(null);
+  const layout = block.layout || "single";
+  const items = block.items;
 
-  const carouselImages = study.images || (study.image ? [study.image] : []);
+  if (items.length === 0) return null;
+
+  const gridClass =
+    layout === "pair"
+      ? "grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5"
+      : layout === "grid"
+      ? "grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4"
+      : "grid grid-cols-1";
+
+  // `wide` extends rightward past the reading column on lg+
+  const wrapperClass =
+    layout === "wide"
+      ? "my-14 lg:mr-[calc(720px-100%)] lg:max-w-none"
+      : "my-14";
+
+  const allSources = items.map((it) => it.src);
 
   return (
-    <main className="pt-32">
-      <div className="site-container px-6 md:px-12 lg:px-24">
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }} className="mb-8">
-          <Link href="/work" className="text-sm font-semibold transition-colors hover:text-foreground" style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }}>&larr; All Work</Link>
-        </motion.div>
-        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div>
-            <motion.p className="text-xs font-semibold uppercase tracking-[0.25em]" style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>{study.category}</motion.p>
-            <motion.h1 className="mt-3 text-5xl font-bold tracking-tighter md:text-8xl" style={{ fontFamily: "var(--font-archivo)", color: "var(--foreground)" }} initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}>{study.title}</motion.h1>
+    <motion.figure
+      className={wrapperClass}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {block.eyebrow && (
+        <p
+          className="mb-3 text-[10px] font-semibold uppercase tracking-[0.28em]"
+          style={{ fontFamily: "var(--font-inter)", color: "var(--foreground-subtle)" }}
+        >
+          {block.eyebrow}
+        </p>
+      )}
+
+      <div className={gridClass}>
+        {items.map((item, i) => (
+          <MediaItemView
+            key={`${item.src}-${i}`}
+            item={item}
+            isOnlyOne={items.length === 1}
+            onClick={() => setFullscreenIndex(i)}
+          />
+        ))}
+      </div>
+
+      {block.caption && (
+        <figcaption
+          className="mt-4 text-xs italic leading-relaxed md:text-sm"
+          style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-subtle)" }}
+        >
+          {block.caption}
+        </figcaption>
+      )}
+
+      <AnimatePresence>
+        {fullscreenIndex !== null && (
+          <FullscreenViewer
+            images={allSources}
+            title={title}
+            startIndex={fullscreenIndex}
+            onClose={() => setFullscreenIndex(null)}
+          />
+        )}
+      </AnimatePresence>
+    </motion.figure>
+  );
+}
+
+function MediaItemView({
+  item,
+  isOnlyOne,
+  onClick,
+}: {
+  item: { src: string; alt?: string; caption?: string; bg?: string };
+  isOnlyOne: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <div className="flex flex-col">
+      <button
+        type="button"
+        onClick={onClick}
+        className="group relative block w-full overflow-hidden rounded-xl text-left"
+        style={{
+          backgroundColor: item.bg || "var(--surface)",
+          aspectRatio: isOnlyOne ? "16 / 10" : "4 / 3",
+          border: "1px solid var(--border)",
+        }}
+        data-cursor="image"
+        data-cursor-hint="expand"
+        aria-label={item.alt || "Expand image"}
+      >
+        <Image
+          src={item.src}
+          alt={item.alt || ""}
+          fill
+          sizes={isOnlyOne ? "(min-width: 1024px) 720px, 100vw" : "(min-width: 768px) 360px, 100vw"}
+          className="object-cover transition-transform duration-700 group-hover:scale-[1.015]"
+        />
+      </button>
+      {item.caption && (
+        <p
+          className="mt-3 text-xs italic leading-relaxed"
+          style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-subtle)" }}
+        >
+          {item.caption}
+        </p>
+      )}
+    </div>
+  );
+}
+
+/* ──────────────────────────────────────────────────────────────────────────────
+   Metric card (results grid)
+   ────────────────────────────────────────────────────────────────────────── */
+function MetricCard({
+  metric,
+  value,
+  index,
+}: {
+  metric: string;
+  value: string;
+  index: number;
+}) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true });
+  return (
+    <motion.div
+      ref={ref}
+      className="border-l pl-6"
+      style={{ borderColor: "var(--teal)", borderLeftWidth: "2px" }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.7, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <p
+        className="text-3xl font-bold tracking-tight md:text-4xl"
+        style={{ fontFamily: "var(--font-archivo)", color: "var(--teal)" }}
+      >
+        {value}
+      </p>
+      <p
+        className="mt-2 text-[11px] font-semibold uppercase tracking-[0.2em]"
+        style={{ fontFamily: "var(--font-inter)", color: "var(--foreground-subtle)" }}
+      >
+        {metric}
+      </p>
+    </motion.div>
+  );
+}
+
+/* ──────────────────────────────────────────────────────────────────────────────
+   Sticky table of contents
+   ────────────────────────────────────────────────────────────────────────── */
+interface TocItem {
+  id: string;
+  label: string;
+}
+
+function TableOfContents({
+  items,
+  ctaText = "Want a growth system like this in your business?",
+}: {
+  items: TocItem[];
+  ctaText?: string;
+}) {
+  const [activeId, setActiveId] = useState<string>(items[0]?.id ?? "");
+
+  useEffect(() => {
+    const elements = items
+      .map(({ id }) => document.getElementById(id))
+      .filter((el): el is HTMLElement => Boolean(el));
+
+    if (elements.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible.length > 0) {
+          setActiveId(visible[0].target.id);
+        }
+      },
+      {
+        rootMargin: "-20% 0px -55% 0px",
+        threshold: [0, 0.25, 0.5, 0.75, 1],
+      }
+    );
+
+    elements.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [items]);
+
+  const handleClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    const target = document.getElementById(id);
+    if (!target) return;
+
+    const lenis = typeof window !== "undefined" ? window.__lenis : undefined;
+    if (lenis) {
+      lenis.scrollTo(target, { offset: -120, duration: 1.2 });
+    } else {
+      const y = target.getBoundingClientRect().top + window.scrollY - 120;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }
+  }, []);
+
+  return (
+    <nav aria-label="Case study contents" className="hidden lg:block">
+      <div className="sticky top-32">
+        {/* Heading row */}
+        <div className="border-t" style={{ borderColor: "var(--border)" }}>
+          <div
+            className="border-b py-3"
+            style={{ borderColor: "#d1d1d1" }}
+          >
+            <h2
+              className="text-[18px] font-bold leading-6 tracking-tight"
+              style={{ fontFamily: "var(--font-archivo)", color: "#262626" }}
+            >
+              Table of Contents
+            </h2>
           </div>
-          <motion.div className="flex gap-8" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 0.3 }}>
-            <div>
-              <p className="text-xs font-medium" style={{ fontFamily: "var(--font-inter)", color: "var(--foreground-subtle)" }}>Client</p>
-              <p className="mt-1 text-sm font-medium" style={{ fontFamily: "var(--font-encode)", color: "var(--foreground)" }}>{study.client}</p>
-            </div>
-            <div>
-              <p className="text-xs font-medium" style={{ fontFamily: "var(--font-inter)", color: "var(--foreground-subtle)" }}>Year</p>
-              <p className="mt-1 text-sm font-medium" style={{ fontFamily: "var(--font-encode)", color: "var(--foreground)" }}>{study.year}</p>
-            </div>
-          </motion.div>
+        </div>
+
+        {/* TOC items */}
+        <ul>
+          {items.map((item) => {
+            const isActive = item.id === activeId;
+            return (
+              <li
+                key={item.id}
+                className="border-b"
+                style={{ borderColor: "#d1d1d1" }}
+              >
+                <a
+                  href={`#${item.id}`}
+                  onClick={(e) => handleClick(e, item.id)}
+                  className="block py-3 transition-colors"
+                  style={{
+                    fontFamily: "var(--font-archivo)",
+                    fontWeight: isActive ? 700 : 500,
+                    fontSize: "15px",
+                    lineHeight: "22px",
+                    color: isActive ? "var(--teal)" : "#262626",
+                  }}
+                >
+                  {item.label}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+
+        {/* CTA block */}
+        <div className="pb-4 pr-12 pt-8">
+          <p
+            className="text-[20px] font-bold leading-[1.2] tracking-tight"
+            style={{ fontFamily: "var(--font-archivo)", color: "var(--teal)" }}
+          >
+            {ctaText}
+          </p>
+          <Link
+            href="/contact"
+            className="mt-5 inline-flex items-center justify-center rounded-full px-6 py-2 text-sm font-semibold transition-transform hover:-translate-y-0.5"
+            style={{
+              fontFamily: "var(--font-inter)",
+              backgroundColor: "var(--teal)",
+              color: "#fff",
+              boxShadow: "3px 4px 0px 0px var(--lime)",
+              lineHeight: "20px",
+            }}
+          >
+            Let&apos;s Chat
+          </Link>
         </div>
       </div>
+    </nav>
+  );
+}
 
-      <div className="site-container">
-        <motion.div
-          className="mx-6 mt-16 overflow-hidden rounded-2xl md:mx-12 lg:mx-24"
-          style={{ backgroundColor: study.color, boxShadow: `6px 6px 0px 0px ${study.image && study.cursorColors ? study.cursorColors.fill : "var(--teal)"}` }}
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-          data-cursor="image"
-          data-cursor-hint="expand"
+/* ──────────────────────────────────────────────────────────────────────────────
+   Section header (used inside content column)
+   ────────────────────────────────────────────────────────────────────────── */
+function SectionHeader({ eyebrow, heading }: { eyebrow?: string; heading: string }) {
+  return (
+    <div className="mb-8">
+      {eyebrow && (
+        <p
+          className="mb-3 text-[10px] font-semibold uppercase tracking-[0.28em]"
+          style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }}
         >
-          <ImageGallery images={carouselImages} title={study.title} fallbackColor={study.color} />
+          {eyebrow}
+        </p>
+      )}
+      <h2
+        className="text-2xl font-bold tracking-tight md:text-4xl"
+        style={{
+          fontFamily: "var(--font-archivo)",
+          color: "var(--foreground)",
+          letterSpacing: "-0.02em",
+        }}
+      >
+        {heading}
+      </h2>
+    </div>
+  );
+}
+
+/* ──────────────────────────────────────────────────────────────────────────────
+   Main view
+   ────────────────────────────────────────────────────────────────────────── */
+export default function CaseStudyView({ slug }: { slug: string }) {
+  const study = caseStudies.find((s) => s.slug === slug);
+
+  const carouselImages = useMemo(() => {
+    if (!study) return [];
+    return study.images && study.images.length > 0
+      ? study.images
+      : study.image
+      ? [study.image]
+      : [];
+  }, [study]);
+
+  // Build TOC items based on which sections actually exist
+  const tocItems = useMemo<TocItem[]>(() => {
+    if (!study) return [];
+    const items: TocItem[] = [];
+    if (study.snapshot) items.push({ id: "snapshot", label: "Snapshot" });
+    if (study.background) items.push({ id: "background", label: "Background" });
+    if (study.approach) items.push({ id: "approach", label: "Approach" });
+    // Fallbacks for simple case studies
+    if (!study.background && study.overview) items.push({ id: "overview", label: "Overview" });
+    if (!study.approach && (study.challenge || study.solution)) {
+      items.push({ id: "challenge", label: "The Challenge" });
+    }
+    items.push({ id: "results", label: "Results" });
+    if (study.opportunity) items.push({ id: "opportunity", label: "What's Next" });
+    return items;
+  }, [study]);
+
+  if (!study) {
+    return (
+      <main className="flex h-screen items-center justify-center">
+        <p style={{ color: "var(--foreground-muted)" }}>Case study not found.</p>
+      </main>
+    );
+  }
+
+  return (
+    <main className="pt-28 md:pt-32">
+      {/* ── Top: breadcrumb */}
+      <div className="site-container px-6 md:px-12 lg:px-24">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          className="mb-10"
+        >
+          <Link
+            href="/work"
+            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] transition-colors hover:opacity-70"
+            style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M19 12H5" />
+              <path d="M11 18l-6-6 6-6" />
+            </svg>
+            All Work
+          </Link>
         </motion.div>
       </div>
 
-      <div className="site-container">
-        <motion.p className="mx-auto mt-20 max-w-2xl px-6 text-center text-2xl font-bold leading-relaxed tracking-tight md:text-3xl" style={{ fontFamily: "var(--font-archivo)", color: "var(--foreground)" }} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}>{study.tagline}</motion.p>
+      {/* ── Hero: title + subtitle */}
+      <section className="site-container px-6 pb-12 md:px-12 md:pb-16 lg:px-24">
+        <motion.p
+          className="text-[11px] font-semibold uppercase tracking-[0.28em]"
+          style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          {study.category} · {study.year}
+        </motion.p>
 
-        <div className="mx-auto mt-20 max-w-4xl px-6">
-          <div className="grid gap-16 md:grid-cols-2">
-            <div>
-              <h3 className="text-xs font-semibold uppercase tracking-[0.25em]" style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }}>Overview</h3>
-              <p className="mt-4 text-sm leading-relaxed" style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-secondary)" }}>{study.overview}</p>
-            </div>
-            <div>
-              <h3 className="text-xs font-semibold uppercase tracking-[0.25em]" style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }}>Services</h3>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {study.services.map((s) => (
-                  <span key={s} className="rounded-full border px-3 py-1 text-xs font-medium" style={{ fontFamily: "var(--font-inter)", borderColor: "var(--border)", color: "var(--foreground-secondary)" }}>{s}</span>
+        <motion.h1
+          className="mt-4 text-5xl font-bold tracking-tighter md:text-7xl lg:text-[8.5rem] lg:leading-[0.95]"
+          style={{
+            fontFamily: "var(--font-archivo)",
+            color: "var(--foreground)",
+            letterSpacing: "-0.04em",
+          }}
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+        >
+          {study.title}
+        </motion.h1>
+
+        {study.subtitle && (
+          <motion.p
+            className="mt-6 max-w-2xl text-lg leading-relaxed md:text-xl"
+            style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-muted)" }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {study.subtitle}
+          </motion.p>
+        )}
+      </section>
+
+      {/* ── Big hero image carousel — full bleed within site-container */}
+      <motion.div
+        className="site-container"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1.1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <HeroCarousel
+          images={carouselImages}
+          title={study.title}
+          fallbackColor={study.color}
+        />
+      </motion.div>
+
+      {/* ── Meta strip below carousel */}
+      {study.meta && study.meta.length > 0 && (
+        <section
+          className="site-container px-6 md:px-12 lg:px-24"
+          style={{ borderBottom: "1px solid var(--border)" }}
+        >
+          <motion.dl
+            className="grid grid-cols-2 gap-y-6 py-10 md:grid-cols-4 md:py-12 lg:grid-cols-5"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+          >
+            {study.meta.map((item) => (
+              <div key={item.label} className="pr-4">
+                <dt
+                  className="text-[10px] font-semibold uppercase tracking-[0.28em]"
+                  style={{ fontFamily: "var(--font-inter)", color: "var(--foreground-subtle)" }}
+                >
+                  {item.label}
+                </dt>
+                <dd
+                  className="mt-2 text-sm leading-snug"
+                  style={{ fontFamily: "var(--font-encode)", color: "var(--foreground)" }}
+                >
+                  {item.value}
+                </dd>
+              </div>
+            ))}
+          </motion.dl>
+        </section>
+      )}
+
+      {/* ── Content with sticky TOC */}
+      <section className="site-container px-6 py-20 md:px-12 md:py-28 lg:px-24">
+        <div className="grid gap-16 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-20 xl:grid-cols-[300px_minmax(0,1fr)] xl:gap-24">
+          {/* Left: Sticky TOC */}
+          <TableOfContents items={tocItems} />
+
+          {/* Right: Content column */}
+          <div className="max-w-[720px]">
+            {/* Snapshot */}
+            {study.snapshot && (
+              <section id="snapshot" className="scroll-mt-32">
+                <SectionHeader eyebrow="01 — Snapshot" heading="The wins at a glance." />
+                <p
+                  className="text-lg leading-relaxed md:text-xl"
+                  style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-secondary)" }}
+                >
+                  {study.snapshot.intro}
+                </p>
+
+                <ul className="mt-12 space-y-6">
+                  {study.snapshot.bullets.map((bullet, i) => (
+                    <SnapshotBulletRow key={i} bullet={bullet} index={i} />
+                  ))}
+                </ul>
+
+                {study.snapshot.media && (
+                  <MediaBlock block={study.snapshot.media} title={study.title} />
+                )}
+              </section>
+            )}
+
+            {/* Background */}
+            {study.background ? (
+              <section id="background" className="mt-28 scroll-mt-32">
+                <SectionHeader eyebrow="02 — Background" heading={study.background.heading} />
+                <div className="space-y-6">
+                  {study.background.paragraphs.map((p, i) => (
+                    <RichParagraph key={i} text={p} />
+                  ))}
+                </div>
+                {study.background.media && (
+                  <MediaBlock block={study.background.media} title={study.title} />
+                )}
+              </section>
+            ) : (
+              <section id="overview" className="mt-28 scroll-mt-32">
+                <SectionHeader eyebrow="01 — Overview" heading={study.tagline} />
+                <RichParagraph text={study.overview} />
+              </section>
+            )}
+
+            {/* Approach */}
+            {study.approach ? (
+              <section id="approach" className="mt-28 scroll-mt-32">
+                <SectionHeader eyebrow="03 — Approach" heading={study.approach.heading} />
+                <RichParagraph text={study.approach.intro} />
+
+                {study.approach.media && (
+                  <MediaBlock block={study.approach.media} title={study.title} />
+                )}
+
+                <div className="mt-14 space-y-12">
+                  {study.approach.sections.map((section, i) => (
+                    <ApproachSubsection
+                      key={section.title}
+                      section={section}
+                      index={i}
+                      title={study.title}
+                    />
+                  ))}
+                </div>
+              </section>
+            ) : (
+              <section id="challenge" className="mt-28 scroll-mt-32">
+                <SectionHeader eyebrow="02 — The Challenge" heading="What we walked into." />
+                <RichParagraph text={study.challenge} />
+                <div className="mt-12">
+                  <h3
+                    className="mb-4 text-xs font-semibold uppercase tracking-[0.25em]"
+                    style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }}
+                  >
+                    Our Approach
+                  </h3>
+                  <RichParagraph text={study.solution} />
+                </div>
+              </section>
+            )}
+
+            {/* Results */}
+            <section id="results" className="mt-28 scroll-mt-32">
+              <SectionHeader
+                eyebrow={study.approach ? "04 — Results" : "03 — Results"}
+                heading={study.resultsSection?.heading || "What the numbers say."}
+              />
+              {study.resultsSection?.body && <RichParagraph text={study.resultsSection.body} />}
+
+              <div className="mt-14 grid grid-cols-2 gap-x-8 gap-y-12 md:grid-cols-4">
+                {study.results.map((r, i) => (
+                  <MetricCard key={r.metric} metric={r.metric} value={r.value} index={i} />
                 ))}
               </div>
-            </div>
+
+              {study.resultsSection?.media && (
+                <MediaBlock block={study.resultsSection.media} title={study.title} />
+              )}
+            </section>
+
+            {/* Opportunity ahead */}
+            {study.opportunity && (
+              <section id="opportunity" className="mt-28 scroll-mt-32">
+                <SectionHeader eyebrow="05 — What's Next" heading={study.opportunity.heading} />
+                <ul className="space-y-4">
+                  {study.opportunity.bullets.map((b, i) => (
+                    <motion.li
+                      key={i}
+                      className="flex gap-4 text-base leading-relaxed md:text-lg"
+                      style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-secondary)" }}
+                      initial={{ opacity: 0, y: 12 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: "-50px" }}
+                      transition={{ duration: 0.7, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                    >
+                      <span
+                        className="mt-3 inline-block h-1.5 w-1.5 shrink-0 rounded-full"
+                        style={{ backgroundColor: "var(--lime)" }}
+                      />
+                      <span>{b}</span>
+                    </motion.li>
+                  ))}
+                </ul>
+                <p
+                  className="mt-10 text-lg leading-relaxed md:text-xl"
+                  style={{
+                    fontFamily: "var(--font-encode)",
+                    color: "var(--foreground)",
+                    fontStyle: "italic",
+                  }}
+                >
+                  {study.opportunity.closer}
+                </p>
+
+                {study.opportunity.media && (
+                  <MediaBlock block={study.opportunity.media} title={study.title} />
+                )}
+              </section>
+            )}
+
+            {/* Services tags */}
+            <section className="mt-28">
+              <h3
+                className="mb-5 text-[10px] font-semibold uppercase tracking-[0.28em]"
+                style={{ fontFamily: "var(--font-inter)", color: "var(--foreground-subtle)" }}
+              >
+                Services delivered
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {study.services.map((s) => (
+                  <span
+                    key={s}
+                    className="rounded-full border px-3 py-1.5 text-xs font-medium"
+                    style={{
+                      fontFamily: "var(--font-inter)",
+                      borderColor: "var(--border)",
+                      color: "var(--foreground-secondary)",
+                    }}
+                  >
+                    {s}
+                  </span>
+                ))}
+              </div>
+            </section>
+
+            {/* Footnote */}
+            {study.footnote && (
+              <p
+                className="mt-20 border-t pt-8 text-xs leading-relaxed"
+                style={{
+                  fontFamily: "var(--font-encode)",
+                  color: "var(--foreground-subtle)",
+                  borderColor: "var(--border)",
+                  fontStyle: "italic",
+                }}
+              >
+                {study.footnote}
+              </p>
+            )}
           </div>
         </div>
+      </section>
 
-        <div className="mx-auto mt-24 max-w-4xl space-y-16 px-6">
-          <div>
-            <h3 className="text-xs font-semibold uppercase tracking-[0.25em]" style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }}>The Challenge</h3>
-            <p className="mt-4 text-lg leading-relaxed" style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-secondary)" }}>{study.challenge}</p>
-          </div>
-          <div>
-            <h3 className="text-xs font-semibold uppercase tracking-[0.25em]" style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }}>Our Approach</h3>
-            <p className="mt-4 text-lg leading-relaxed" style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-secondary)" }}>{study.solution}</p>
-          </div>
-        </div>
-
-        <div className="mx-auto mt-24 max-w-4xl px-6">
-          <h3 className="mb-10 text-xs font-semibold uppercase tracking-[0.25em]" style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }}>Results</h3>
-          <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
-            {study.results.map((r, i) => <MetricCard key={r.metric} metric={r.metric} value={r.value} index={i} />)}
-          </div>
-        </div>
-
-        {/* Next Project — light grey background */}
-        <div className="mt-32 rounded-2xl px-6 py-24 md:px-12 lg:px-24" style={{ backgroundColor: "var(--surface)" }}>
+      {/* ── Next Project */}
+      <div className="site-container px-6 md:px-12 lg:px-24">
+        <div
+          className="rounded-2xl px-8 py-20 md:px-16 md:py-28"
+          style={{ backgroundColor: "var(--surface)" }}
+        >
           <NextProject currentSlug={study.slug} />
         </div>
       </div>
+
       <Footer />
     </main>
   );
 }
 
+/* ──────────────────────────────────────────────────────────────────────────────
+   Reusable content blocks
+   ────────────────────────────────────────────────────────────────────────── */
+function RichParagraph({ text }: { text: string }) {
+  return (
+    <motion.p
+      className="text-base leading-[1.75] md:text-[17px] md:leading-[1.7]"
+      style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-secondary)" }}
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {text}
+    </motion.p>
+  );
+}
+
+function SnapshotBulletRow({ bullet, index }: { bullet: { highlight: string; text: string }; index: number }) {
+  return (
+    <motion.li
+      className="flex flex-col gap-1 border-l-2 pl-5 md:flex-row md:items-baseline md:gap-3"
+      style={{ borderColor: "var(--lime)" }}
+      initial={{ opacity: 0, x: -12 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.6, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <span
+        className="shrink-0 text-base font-bold md:text-lg"
+        style={{
+          fontFamily: "var(--font-archivo)",
+          color: "var(--foreground)",
+          letterSpacing: "-0.01em",
+        }}
+      >
+        {bullet.highlight}
+      </span>
+      <span
+        className="text-base leading-relaxed"
+        style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-muted)" }}
+      >
+        — {bullet.text}
+      </span>
+    </motion.li>
+  );
+}
+
+function ApproachSubsection({
+  section,
+  index,
+  title,
+}: {
+  section: { title: string; body: string; media?: MediaBlockType };
+  index: number;
+  title: string;
+}) {
+  return (
+    <motion.div
+      className="border-t pt-8"
+      style={{ borderColor: "var(--border)" }}
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.7, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <div className="flex items-baseline gap-4">
+        <span
+          className="text-[11px] font-semibold uppercase tracking-[0.25em]"
+          style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }}
+        >
+          {String(index + 1).padStart(2, "0")}
+        </span>
+        <h3
+          className="text-xl font-bold tracking-tight md:text-2xl"
+          style={{
+            fontFamily: "var(--font-archivo)",
+            color: "var(--foreground)",
+            letterSpacing: "-0.015em",
+          }}
+        >
+          {section.title}
+        </h3>
+      </div>
+      <p
+        className="mt-4 text-base leading-[1.75] md:text-[17px] md:leading-[1.7]"
+        style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-secondary)" }}
+      >
+        {section.body}
+      </p>
+      {section.media && <MediaBlock block={section.media} title={title} />}
+    </motion.div>
+  );
+}
+
+/* ──────────────────────────────────────────────────────────────────────────────
+   Next project block
+   ────────────────────────────────────────────────────────────────────────── */
 function NextProject({ currentSlug }: { currentSlug: string }) {
   const idx = caseStudies.findIndex((s) => s.slug === currentSlug);
   const next = caseStudies[(idx + 1) % caseStudies.length];
   return (
     <Link href={`/work/${next.slug}`} className="group block">
-      <p className="text-xs font-semibold uppercase tracking-[0.25em]" style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }}>Next Project</p>
-      <h2 className="mt-3 text-4xl font-bold tracking-tighter transition-opacity group-hover:opacity-70 md:text-6xl" style={{ fontFamily: "var(--font-archivo)", color: "var(--foreground)" }}>
-        {next.title} <span style={{ color: "var(--teal)" }}>&rarr;</span>
+      <p
+        className="text-[10px] font-semibold uppercase tracking-[0.28em]"
+        style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }}
+      >
+        Next Project
+      </p>
+      <h2
+        className="mt-3 text-4xl font-bold tracking-tighter transition-opacity group-hover:opacity-70 md:text-6xl"
+        style={{ fontFamily: "var(--font-archivo)", color: "var(--foreground)" }}
+      >
+        {next.title}{" "}
+        <span style={{ color: "var(--teal)" }} className="inline-block transition-transform group-hover:translate-x-2">
+          &rarr;
+        </span>
       </h2>
+      {next.tagline && (
+        <p
+          className="mt-4 max-w-xl text-base leading-relaxed"
+          style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-muted)" }}
+        >
+          {next.tagline}
+        </p>
+      )}
     </Link>
   );
 }

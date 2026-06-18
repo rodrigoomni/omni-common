@@ -1,3 +1,36 @@
+export interface CaseStudyMeta {
+  label: string;
+  value: string;
+}
+
+export interface SnapshotBullet {
+  highlight: string;
+  text: string;
+}
+
+export interface MediaItem {
+  src: string;
+  alt?: string;
+  caption?: string;
+  /** Fallback background while image loads or to frame transparent/short assets */
+  bg?: string;
+}
+
+export interface MediaBlock {
+  /** `single` — one image. `pair` — two side-by-side. `grid` — 3+ in a grid. `wide` — extends past the reading column on lg+. */
+  layout?: "single" | "pair" | "grid" | "wide";
+  items: MediaItem[];
+  caption?: string;
+  /** Optional small eyebrow above the block, e.g. "Figure 01" */
+  eyebrow?: string;
+}
+
+export interface ApproachSection {
+  title: string;
+  body: string;
+  media?: MediaBlock;
+}
+
 export interface CaseStudy {
   slug: string;
   title: string;
@@ -15,6 +48,38 @@ export interface CaseStudy {
   solution: string;
   results: { metric: string; value: string }[];
   services: string[];
+
+  // Rich case study fields (optional — populated for hero studies)
+  subtitle?: string;
+  meta?: CaseStudyMeta[];
+  snapshot?: {
+    intro: string;
+    bullets: SnapshotBullet[];
+    media?: MediaBlock;
+  };
+  background?: {
+    heading: string;
+    paragraphs: string[];
+    media?: MediaBlock;
+  };
+  approach?: {
+    heading: string;
+    intro: string;
+    sections: ApproachSection[];
+    media?: MediaBlock;
+  };
+  resultsSection?: {
+    heading: string;
+    body: string;
+    media?: MediaBlock;
+  };
+  opportunity?: {
+    heading: string;
+    bullets: string[];
+    closer: string;
+    media?: MediaBlock;
+  };
+  footnote?: string;
 }
 
 export const caseStudies: CaseStudy[] = [
@@ -24,11 +89,12 @@ export const caseStudies: CaseStudy[] = [
     category: "SaaS / Telecom Marketplace",
     color: "#1e3a5f",
     image: "/images/numberbarn-cover.png",
+    images: ["/images/numberbarn-cover.png"],
     cursorHint: "+100% impression growth",
     cursorColors: { fill: "#3B82F6", stroke: "#1e3a5f" },
     year: "2025",
     client: "NumberBarn",
-    tagline: "Turning a phone number marketplace into a search-led growth engine.",
+    tagline: "Rebuilding the engine under NumberBarn's growth.",
     overview:
       "NumberBarn is a marketplace where people buy, sell, and park phone numbers. We built their intelligence model first — then executed a search-led strategy that doubled their visibility and grew transactions by 40%.",
     challenge:
@@ -36,12 +102,139 @@ export const caseStudies: CaseStudy[] = [
     solution:
       "We pulled data from their full stack, built an attribution model, and identified high-intent search gaps nobody was capturing. SEO and content targeted real buyer search behavior, PPC was reallocated to the highest-converting terms, and the entire funnel was optimized for conversions.",
     results: [
-      { metric: "Impression growth", value: "+100%" },
-      { metric: "Organic traffic", value: "+40%" },
-      { metric: "Transaction growth", value: "+40%" },
-      { metric: "Search visibility", value: "2x" },
+      { metric: "Account CAC", value: "−69%" },
+      { metric: "Net-new buyers", value: "+270%" },
+      { metric: "Total purchases YoY", value: "+20%" },
+      { metric: "Domain Rating", value: "46 → 60" },
     ],
-    services: ["SEO", "PPC", "Content Marketing", "CRO", "Attribution"],
+    services: ["SEO", "Digital PR", "Content", "Landing Page UXO", "Paid Search"],
+
+    subtitle: "Rebuilding the engine under NumberBarn's growth.",
+    meta: [
+      { label: "Client", value: "NumberBarn" },
+      { label: "Industry", value: "Telecom / virtual phone numbers" },
+      { label: "Engagement", value: "Q4 2024 – Present" },
+      { label: "Focus", value: "Search-Led Growth Engine" },
+      { label: "Channels", value: "SEO · Digital PR · Content · Landing Page UXO · Paid Search" },
+    ],
+    snapshot: {
+      intro:
+        "NumberBarn had been growing — but paying for it with increasingly expensive paid search, as sales & marketing nearly doubled as a share of revenue (5.5% → 11%). Omni Common's thesis: shift acquisition toward organic, where the cost to land a buyer runs ~4× lower. In year one we reversed a multi-year slowdown and rebuilt the engine so growth compounds instead of having to be re-bought.",
+      bullets: [
+        {
+          highlight: "Account CAC fell 69%",
+          text: "year over year — the key lever in an acquisition-led business.",
+        },
+        {
+          highlight: "Net-new buyers +270%",
+          text: "(3,664 → 13,544); unique buying accounts +35% YoY.",
+        },
+        {
+          highlight: "Total purchases +20% YoY",
+          text: "(GA): organic search purchases +51%, paid +42%.",
+        },
+        {
+          highlight: "Domain Rating 46 → 60",
+          text: "(+14 pts in 24 months); top-3 keywords ~4× (~500 → ~2,000).",
+        },
+        {
+          highlight: "Search impressions +288%",
+          text: "organic clicks ~+105% (trailing 90 days YoY).",
+        },
+        {
+          highlight: "AI discovery emerged",
+          text: "ChatGPT-referred purchases +1,100% YoY, converting 68% above site average.",
+        },
+      ],
+    },
+    background: {
+      heading: "Background — a big ship with slowing momentum",
+      paragraphs: [
+        "NumberBarn is a phone number marketplace, specializing in helping people purchase, store, and forward numbers. They also serve business owners with tools to improve their marketing and business tech stack.",
+        "When Omni Common first engaged, NumberBarn stored scattered customer data but didn't really know WHO their customers were, WHAT mattered to them, or HOW to talk to them. We analyzed their data and conducted customer surveys and interviews to develop a full funnel understanding of their consumer make-up as well as map their journey through every touch point. We identified distinct behaviors, needs, and patterns that aided in the development of ICPs and marketing message mapping.",
+        "Most importantly, we discovered a key differentiator between certain customer segments: those who WANTED to buy, store, forward a number and those who NEEDED to based on certain life circumstances. This insight informed our ICP specific marketing messaging and resulted in clearer, more customer-focused messaging across the site.",
+        "Virtual phone numbers: vanity, toll-free, area-code, parking, forwarding, porting. Real assets (established base, domain authority, brand) but decelerating growth that was increasingly bought, not earned. The business is acquisition-led: ~80–85% of buyers each year are new, repeat frequency flat (~1.4×/yr). Without organic investment, growth was drifting toward flat — the reason for engaging Omni Common in Q4 2024.",
+      ],
+      media: {
+        layout: "single",
+        eyebrow: "Fig. 01",
+        items: [
+          {
+            src: "/images/numberbarn-cover.png",
+            alt: "NumberBarn marketplace, the legacy state before our engagement",
+            caption: "The NumberBarn marketplace prior to engagement — strong assets, no clear picture of where growth was coming from.",
+            bg: "#1e3a5f",
+          },
+        ],
+      },
+    },
+    approach: {
+      heading: "Approach — SEO as a formula",
+      intro:
+        "Four interdependent systems that multiply each other — technical, content, digital PR, landing-page UXO — with paid managed alongside so the channels reinforce rather than cannibalize.",
+      media: {
+        layout: "single",
+        eyebrow: "Fig. 02 — The Growth Formula",
+        items: [
+          {
+            src: "/images/seo-illustration.svg",
+            alt: "Diagram of the four interdependent systems",
+            caption: "Search-led growth, modeled as four channels that compound when run as one system.",
+            bg: "var(--surface)",
+          },
+        ],
+      },
+      sections: [
+        {
+          title: "Content Marketing",
+          body: "49 blog posts published in 2025 across two tracks (purchase-adjacent education + refresh/consolidation). Tightened publishing/QA pipeline; aligned terminology and topic selection with the client's editorial lead. Culled and consolidated thin/dated posts (SEO hygiene) and shipped a blog redesign. Blog traffic +234% YoY (Q4'25 vs Q4'24); ~48K Google visits and 4.1M impressions.",
+        },
+        {
+          title: "Digital PR & Link Building",
+          body: "557 links from 464 unique referring domains, average DR 69.73, 147 links at DR 71+. Original data-driven campaigns: Ghosting (125 placements), Debt Collection Calls and Phone Bills (avg DR ~80s), Robocalls and Phone Etiquette (sustained broadcast/publisher coverage). Drove NumberBarn DR from 46 → 60 and seeded AI-discovery signals.",
+        },
+        {
+          title: "Technical SEO",
+          body: "12 technical batches across the year surfacing 33 optimizations (template, crawl, indexing, Core Web Vitals); internal-linking automation for topical clusters; content consolidation redirecting/merging 58 older posts. New single-day organic-click highs of 1,197 (July) then 1,680 (Oct 21). Impressions +288%, organic clicks ~+105% (90-day YoY).",
+        },
+        {
+          title: "Landing Page UXO & CRO",
+          body: "17 top-level landing pages rewritten, redesigned, and coded for commercial intent (vanity, local/geo, toll-free, area-code, search, call-forwarding, purchase-and-port, lawyers, roofing) — development included at no upcharge, plug-and-play ready. /local launched Aug 31 and is competing in 100K+ monthly searches; /search redesign live June 30; homepage redesign through multiple review rounds; CRO experimentation (CrazyEgg on /number-parking). Biggest unlock ahead: publishing the finished pages.",
+        },
+        {
+          title: "Paid Search (PPC)",
+          body: "Full account ownership. Returned non-branded campaigns to Maximize Conversion Value w/ tROAS; continuous query/keyword hygiene; \"top keywords\" focus and exact-match tests; ad-copy testing (benefit themes beat personality-led); promo alignment for on-sale numbers. Best efficiency in three years — CPA ~−27%, ROAS ~+26% YoY on lower spend.",
+        },
+      ],
+    },
+    resultsSection: {
+      heading: "Results — growth was decelerating; we reversed it",
+      body: "Run together the services compounded: total purchases +20% YoY, organic +51%, paid +42%. The number that ties it together is account CAC, down 69% — in a business that re-acquires most of its revenue each year, acquisition cost governs everything. Channels reinforce: organic + paid presence together converts at 17.5% vs. 4.2% organic alone. A new tailwind also arrived — AI discovery: ChatGPT-referred purchases +1,100% YoY at a 4.23% conversion rate (68% above site average), now the 6th-highest purchase driver.",
+      media: {
+        layout: "single",
+        eyebrow: "Fig. 03 — Trailing 12 months",
+        items: [
+          {
+            src: "/images/growth-illustration.svg",
+            alt: "Growth chart illustrating the compounded results",
+            caption: "Compounded performance across organic and paid search, year over year.",
+            bg: "var(--surface)",
+          },
+        ],
+      },
+    },
+    opportunity: {
+      heading: "The opportunity ahead",
+      bullets: [
+        "A major competitor's mid-2025 rebrand collapsed its organic traffic 99.5%, redistributing ~640K monthly area-code clicks; NumberBarn captures ~1.9% today.",
+        "The enterprise incumbent has shed ~75% of ranking pages in 24 months — winnable now.",
+        "The 17 landing pages are built and ready; publishing them is the single highest-leverage action remaining.",
+      ],
+      closer:
+        "Holding SEO investment steady, the marginal cost of each new transaction keeps falling — blended CAC down as volume grows several-fold, bringing marketing's share of revenue back toward earlier levels.",
+    },
+    footnote:
+      "Metrics sourced from Google Analytics 4, Google Search Console, Google Ads, and Ahrefs (2024–2026). Figures reflect 2025 full-year actuals/forecast vs. prior year unless noted.",
   },
   {
     slug: "trio-flatmount",
