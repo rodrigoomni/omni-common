@@ -130,14 +130,7 @@ collections:
                 name: services_submenu
                 widget: object
                 fields:
-                  - { label: "AI Growth", name: ai_growth, widget: string }
                   - { label: "Local Marketing", name: local_marketing, widget: string }
-                  - { label: SEO, name: seo, widget: string }
-                  - { label: "LLM Optimization", name: llm_optimization, widget: string }
-                  - { label: "Content Marketing", name: content_marketing, widget: string }
-                  - { label: "Digital PR", name: digital_pr, widget: string }
-                  - { label: PPC, name: ppc, widget: string }
-                  - { label: "Paid Social", name: paid_social, widget: string }
               - { label: "Work Label", name: work_label, widget: string }
               - { label: "About Label", name: about_label, widget: string }
               - label: "About Submenu"

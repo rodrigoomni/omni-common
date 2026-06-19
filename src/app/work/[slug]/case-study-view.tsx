@@ -9,6 +9,7 @@ import {
   type ApproachStat,
 } from "@/data/case-studies";
 import { Footer } from "@/components/footer";
+import { TableOfContents, type TocItem } from "@/components/table-of-contents";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -321,7 +322,10 @@ function MediaBlock({ block, title }: { block: MediaBlockType; title: string }) 
       ? "my-14 lg:mr-[calc(720px-100%)] lg:max-w-none"
       : "my-14";
 
-  const allSources = items.map((it) => it.src);
+  // Only real (non-placeholder) sources are fullscreen-able.
+  const allSources = items
+    .filter((it) => !it.placeholder && it.src)
+    .map((it) => it.src as string);
 
   return (
     <motion.figure
@@ -343,10 +347,10 @@ function MediaBlock({ block, title }: { block: MediaBlockType; title: string }) 
       <div className={gridClass}>
         {items.map((item, i) => (
           <MediaItemView
-            key={`${item.src}-${i}`}
+            key={`${item.src ?? "ph"}-${i}`}
             item={item}
             isOnlyOne={items.length === 1}
-            onClick={() => setFullscreenIndex(i)}
+            onClick={item.placeholder ? undefined : () => setFullscreenIndex(i)}
           />
         ))}
       </div>
@@ -379,10 +383,58 @@ function MediaItemView({
   isOnlyOne,
   onClick,
 }: {
-  item: { src: string; alt?: string; caption?: string; bg?: string };
+  item: {
+    src?: string;
+    alt?: string;
+    caption?: string;
+    bg?: string;
+    placeholder?: boolean;
+    aspect?: string;
+  };
   isOnlyOne: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 }) {
+  const aspect = item.aspect || (isOnlyOne ? "16 / 10" : "4 / 3");
+
+  // Placeholder box — no image, no fullscreen, subtle grey block with hint label.
+  if (item.placeholder || !item.src) {
+    return (
+      <div className="flex flex-col">
+        <div
+          className="relative flex w-full items-center justify-center overflow-hidden rounded-xl"
+          style={{
+            backgroundColor: item.bg || "#E5E5E0",
+            aspectRatio: aspect,
+            border: "1px dashed var(--border)",
+          }}
+          aria-label={item.alt || "Image placeholder"}
+        >
+          <div className="flex flex-col items-center gap-2 opacity-60">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--foreground-subtle)" }}>
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+              <circle cx="8.5" cy="8.5" r="1.5" />
+              <polyline points="21 15 16 10 5 21" />
+            </svg>
+            <span
+              className="text-[10px] font-semibold uppercase tracking-[0.25em]"
+              style={{ fontFamily: "var(--font-inter)", color: "var(--foreground-subtle)" }}
+            >
+              {item.alt || "Image to come"}
+            </span>
+          </div>
+        </div>
+        {item.caption && (
+          <p
+            className="mt-3 text-xs italic leading-relaxed"
+            style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-subtle)" }}
+          >
+            {item.caption}
+          </p>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col">
       <button
@@ -391,7 +443,7 @@ function MediaItemView({
         className="group relative block w-full overflow-hidden rounded-xl text-left"
         style={{
           backgroundColor: item.bg || "var(--surface)",
-          aspectRatio: isOnlyOne ? "16 / 10" : "4 / 3",
+          aspectRatio: aspect,
           border: "1px solid var(--border)",
         }}
         data-cursor="image"
@@ -580,136 +632,8 @@ function ApproachStatChip({ stat }: { stat: ApproachStat }) {
   );
 }
 
-/* ──────────────────────────────────────────────────────────────────────────────
-   Sticky table of contents
-   ────────────────────────────────────────────────────────────────────────── */
-interface TocItem {
-  id: string;
-  label: string;
-}
-
-function TableOfContents({
-  items,
-  ctaText = "Want a growth system like this in your business?",
-}: {
-  items: TocItem[];
-  ctaText?: string;
-}) {
-  const [activeId, setActiveId] = useState<string>(items[0]?.id ?? "");
-
-  useEffect(() => {
-    const elements = items
-      .map(({ id }) => document.getElementById(id))
-      .filter((el): el is HTMLElement => Boolean(el));
-
-    if (elements.length === 0) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        if (visible.length > 0) {
-          setActiveId(visible[0].target.id);
-        }
-      },
-      {
-        rootMargin: "-20% 0px -55% 0px",
-        threshold: [0, 0.25, 0.5, 0.75, 1],
-      }
-    );
-
-    elements.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, [items]);
-
-  const handleClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
-    e.preventDefault();
-    const target = document.getElementById(id);
-    if (!target) return;
-
-    const lenis = typeof window !== "undefined" ? window.__lenis : undefined;
-    if (lenis) {
-      lenis.scrollTo(target, { offset: -120, duration: 1.2 });
-    } else {
-      const y = target.getBoundingClientRect().top + window.scrollY - 120;
-      window.scrollTo({ top: y, behavior: "smooth" });
-    }
-  }, []);
-
-  return (
-    <nav aria-label="Case study contents" className="hidden lg:block">
-      <div className="sticky top-32">
-        {/* Heading row */}
-        <div className="border-t" style={{ borderColor: "var(--border)" }}>
-          <div
-            className="border-b py-3"
-            style={{ borderColor: "#d1d1d1" }}
-          >
-            <h2
-              className="text-[18px] font-bold leading-6 tracking-tight"
-              style={{ fontFamily: "var(--font-archivo)", color: "#262626" }}
-            >
-              Table of Contents
-            </h2>
-          </div>
-        </div>
-
-        {/* TOC items */}
-        <ul>
-          {items.map((item) => {
-            const isActive = item.id === activeId;
-            return (
-              <li
-                key={item.id}
-                className="border-b"
-                style={{ borderColor: "#d1d1d1" }}
-              >
-                <a
-                  href={`#${item.id}`}
-                  onClick={(e) => handleClick(e, item.id)}
-                  className="block py-3 transition-colors"
-                  style={{
-                    fontFamily: "var(--font-archivo)",
-                    fontWeight: isActive ? 700 : 500,
-                    fontSize: "15px",
-                    lineHeight: "22px",
-                    color: isActive ? "var(--teal)" : "#262626",
-                  }}
-                >
-                  {item.label}
-                </a>
-              </li>
-            );
-          })}
-        </ul>
-
-        {/* CTA block */}
-        <div className="pb-4 pr-12 pt-8">
-          <p
-            className="text-[20px] font-bold leading-[1.2] tracking-tight"
-            style={{ fontFamily: "var(--font-archivo)", color: "var(--teal)" }}
-          >
-            {ctaText}
-          </p>
-          <Link
-            href="/contact"
-            className="mt-5 inline-flex items-center justify-center rounded-full px-6 py-2 text-sm font-semibold transition-transform hover:-translate-y-0.5"
-            style={{
-              fontFamily: "var(--font-inter)",
-              backgroundColor: "var(--teal)",
-              color: "#fff",
-              boxShadow: "3px 4px 0px 0px var(--lime)",
-              lineHeight: "20px",
-            }}
-          >
-            Let&apos;s Chat
-          </Link>
-        </div>
-      </div>
-    </nav>
-  );
-}
+/* TableOfContents lives in `@/components/table-of-contents` (shared by case
+   studies and the local marketing page). Import TocItem from there too. */
 
 /* ──────────────────────────────────────────────────────────────────────────────
    Section header (used inside content column)
@@ -896,6 +820,11 @@ export default function CaseStudyView({ slug }: { slug: string }) {
 
           {/* Right: Content column */}
           <div className="max-w-[720px]">
+            {/* Inline TOC — mobile only, before the first section */}
+            <div className="mb-14 lg:hidden">
+              <TableOfContents items={tocItems} variant="inline" />
+            </div>
+
             {/* Snapshot */}
             {study.snapshot && (
               <section id="snapshot" className="scroll-mt-32">

@@ -4,14 +4,7 @@
     "home_label": "Home",
     "services_label": "Services",
     "services_submenu": {
-      "ai_growth": "AI Growth",
-      "local_marketing": "Local Marketing",
-      "seo": "SEO",
-      "llm_optimization": "LLM Optimization",
-      "content_marketing": "Content Marketing",
-      "digital_pr": "Digital PR",
-      "ppc": "PPC",
-      "paid_social": "Paid Social (Meta)"
+      "local_marketing": "Local Marketing"
     },
     "work_label": "Work",
     "about_label": "About",

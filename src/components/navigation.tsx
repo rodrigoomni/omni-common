@@ -19,14 +19,8 @@ const links: {
     href: "/services",
     label: nav.services_label,
     children: [
-      { href: "/insights/ai-growth", label: nav.services_submenu.ai_growth },
+      { href: "/services", label: "All Services" },
       { href: "/insights/local-marketing", label: nav.services_submenu.local_marketing },
-      { href: "/insights/seo", label: nav.services_submenu.seo },
-      { href: "/insights/llm-optimization", label: nav.services_submenu.llm_optimization },
-      { href: "/insights/content-marketing", label: nav.services_submenu.content_marketing },
-      { href: "/insights/digital-pr", label: nav.services_submenu.digital_pr },
-      { href: "/insights/ppc", label: nav.services_submenu.ppc },
-      { href: "/insights/paid-social", label: nav.services_submenu.paid_social },
     ],
   },
   { href: "/work", label: nav.work_label },
@@ -273,8 +267,8 @@ export function Navigation() {
                               ? "1px solid rgba(255,255,255,0.1)"
                               : "1px solid rgba(0,0,0,0.08)",
                             boxShadow: isDark
-                              ? "0 8px 30px rgba(0,0,0,0.3)"
-                              : "0 8px 30px rgba(0,0,0,0.08)",
+                              ? "0 6px 20px rgba(0, 0, 0, 0.18)"
+                              : "0 6px 20px rgba(15, 23, 42, 0.08)",
                             backdropFilter: "blur(12px)",
                           }}
                           initial={{ opacity: 0, y: -4 }}
