@@ -13,8 +13,9 @@ import { TableOfContents, type TocItem } from "@/components/table-of-contents";
 
 const HERO = {
   eyebrow: "Local + Omnichannel Growth",
-  heading_main: "Your stores exist in the real world.",
-  heading_accent: "Your marketing should too.",
+  heading_line1_lead: "Your stores exist",
+  heading_line1_accent: "in the real world.",
+  heading_line2: "Your marketing should too.",
   description:
     "Multi-location brands don't grow from ads alone. They grow because people in the community know them, trust them, and talk about them. We build the marketing engine that makes that happen — and ties it directly to both foot traffic and eCommerce revenue.",
   tags: [
@@ -496,14 +497,28 @@ export default function LocalMarketingPage() {
       <section
         className="relative overflow-hidden"
         style={{
-          background:
-            "linear-gradient(135deg, #ffffff 0%, #ffffff 45%, #FFFDEF 100%)",
+          backgroundColor: "#ffffff",
+          backgroundImage: [
+            // Bottom-right warm anchor — large and soft, sits off-canvas so the falloff fills the viewport
+            "radial-gradient(120% 80% at 100% 100%, rgba(255, 246, 213, 0.85) 0%, rgba(255, 251, 235, 0.45) 35%, rgba(255, 255, 255, 0) 70%)",
+            // Top-left subtle cool wash — adds depth and direction without competing
+            "radial-gradient(80% 60% at 0% 0%, rgba(245, 250, 252, 0.6) 0%, rgba(255, 255, 255, 0) 60%)",
+            // Base vertical drift — very subtle white → ivory wash
+            "linear-gradient(180deg, #ffffff 0%, #ffffff 40%, #FFFCEC 100%)",
+          ].join(", "),
+          borderBottom: "1px solid #E0E0DC",
         }}
       >
-        <div className="site-container relative px-6 pb-32 pt-4 md:px-12 md:pb-40 md:pt-6 lg:px-24 lg:pb-48">
+
+        <div className="site-container relative px-6 pb-32 pt-4 md:px-12 md:pb-40 md:pt-10 lg:px-24 lg:pb-48 lg:pt-16">
           <motion.p
-            className="text-[11px] font-semibold uppercase tracking-[0.28em]"
-            style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }}
+            className="text-[11.5px] font-semibold uppercase"
+            style={{
+              fontFamily: "var(--font-inter)",
+              color: "var(--teal)",
+              letterSpacing: "2.88px",
+              lineHeight: "15.36px",
+            }}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -512,24 +527,35 @@ export default function LocalMarketingPage() {
           </motion.p>
 
           <motion.h1
-            className="mt-4 text-4xl font-bold tracking-tighter md:text-6xl lg:text-7xl xl:text-[6.5rem] lg:leading-[1.02]"
+            className="mt-3 font-extrabold"
             style={{
               fontFamily: "var(--font-archivo)",
-              color: "var(--foreground)",
-              letterSpacing: "-0.04em",
-              maxWidth: "22ch",
+              color: "#262626",
+              letterSpacing: "-0.016em",
             }}
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
           >
-            {HERO.heading_main}{" "}
-            <span style={{ color: "var(--teal)" }}>{HERO.heading_accent}</span>
+            <span className="block text-[40px] leading-[1] md:text-5xl lg:text-[58px] xl:text-[72px]">
+              {HERO.heading_line1_lead}{" "}
+              <span style={{ color: "var(--teal)" }}>
+                {HERO.heading_line1_accent}
+              </span>
+            </span>
+            <span className="mt-1 block text-[44px] leading-[1] md:text-[58px] lg:text-[72px] xl:text-[92px]">
+              {HERO.heading_line2}
+            </span>
           </motion.h1>
 
           <motion.p
-            className="mt-8 max-w-2xl text-base leading-relaxed md:text-lg"
-            style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-muted)" }}
+            className="mt-8 text-base"
+            style={{
+              fontFamily: "var(--font-encode)",
+              color: "#3D3D3D",
+              lineHeight: "26px",
+              maxWidth: "646px",
+            }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
@@ -538,7 +564,7 @@ export default function LocalMarketingPage() {
           </motion.p>
 
           <motion.div
-            className="mt-8 flex flex-wrap gap-2"
+            className="mt-8 flex flex-wrap gap-1.5"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.3 }}
@@ -546,11 +572,13 @@ export default function LocalMarketingPage() {
             {HERO.tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded-full border px-3 py-1.5 text-xs font-medium"
+                className="inline-flex items-center rounded-full border px-[13px] py-[5px] text-[11px] font-medium uppercase"
                 style={{
                   fontFamily: "var(--font-inter)",
-                  borderColor: "var(--border)",
-                  color: "var(--foreground-secondary)",
+                  borderColor: "#088391",
+                  color: "var(--teal)",
+                  letterSpacing: "0.55px",
+                  lineHeight: "16.5px",
                 }}
               >
                 {tag}
@@ -559,19 +587,21 @@ export default function LocalMarketingPage() {
           </motion.div>
 
           <motion.div
-            className="mt-10 flex flex-col items-start gap-5 sm:flex-row sm:items-center"
+            className="mt-10 flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:gap-8"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
             <Link
               href={HERO.primary_cta.href}
-              className="inline-flex items-center gap-2 rounded-full px-7 py-3 text-sm font-semibold transition-transform hover:-translate-y-0.5"
+              className="inline-flex items-center gap-2 rounded-full text-base font-semibold transition-transform hover:-translate-y-0.5"
               style={{
                 fontFamily: "var(--font-inter)",
                 backgroundColor: "var(--teal)",
                 color: "#fff",
-                boxShadow: "3px 4px 0px 0px var(--lime)",
+                padding: "20px 40px",
+                boxShadow: "6px 6px 0px 0px var(--lime)",
+                lineHeight: "24px",
               }}
             >
               {HERO.primary_cta.label}
@@ -581,16 +611,17 @@ export default function LocalMarketingPage() {
             </Link>
             <Link
               href={HERO.secondary_cta.href}
-              className="inline-flex items-center gap-1.5 text-sm font-semibold transition-opacity hover:opacity-70"
-              style={{ fontFamily: "var(--font-inter)", color: "var(--foreground)" }}
+              className="inline-flex items-center gap-1.5 text-base font-semibold transition-opacity hover:opacity-70"
+              style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }}
             >
               {HERO.secondary_cta.label} <span aria-hidden="true">→</span>
             </Link>
           </motion.div>
 
-          {/* Hero illustration — bottom right, smaller */}
+          {/* Hero illustration — bottom right */}
           <motion.div
-            className="pointer-events-none absolute right-4 bottom-6 w-[140px] sm:right-8 sm:w-[180px] md:right-12 md:bottom-10 md:w-[220px] lg:right-24 lg:bottom-14 lg:w-[260px]"
+            className="pointer-events-none absolute right-4 bottom-6 w-[140px] sm:right-8 sm:w-[180px] md:right-12 md:bottom-10 md:w-[240px] lg:right-24 lg:bottom-14 lg:w-[300px]"
+            style={{ mixBlendMode: "multiply" }}
             initial={{ opacity: 0, scale: 0.92, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 1.1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
@@ -718,23 +749,17 @@ export default function LocalMarketingPage() {
                 {SERVICES.description}
               </p>
 
-              <div className="mt-12 grid grid-cols-1 md:grid-cols-2">
+              <div
+                className="mt-12 grid grid-cols-1 md:grid-cols-2"
+                style={{ borderBottom: "1px solid #d1d1d1" }}
+              >
                 {SERVICES.items.map((item, i) => {
-                  const isFirstRow = i < 2;
                   const isLeftCol = i % 2 === 0;
                   return (
                     <div
                       key={item.title}
-                      className="pb-10 pt-10 md:pb-[40px] md:pt-[40px]"
-                      style={{
-                        borderBottom:
-                          i >= SERVICES.items.length - (SERVICES.items.length % 2 === 0 ? 2 : 1)
-                            ? "none"
-                            : "1px solid #d1d1d1",
-                        borderTop: isFirstRow ? "1px solid #d1d1d1" : "none",
-                        paddingRight: isLeftCol ? "0" : "0",
-                        paddingLeft: isLeftCol ? "0" : "40px",
-                      }}
+                      className={`border-t py-6 md:py-10 ${isLeftCol ? "md:pr-6" : "md:pl-10"}`}
+                      style={{ borderColor: "#d1d1d1" }}
                     >
                       <ServiceCard
                         title={item.title}
@@ -776,7 +801,7 @@ export default function LocalMarketingPage() {
       <section
         className="relative"
         style={{
-          backgroundColor: "rgba(255, 253, 239, 0.6)",
+          backgroundColor: "rgba(255, 253, 239, 0.7)",
           borderTop: "1px solid var(--border)",
         }}
       >
