@@ -512,17 +512,10 @@ function MetricCard({
 /* ──────────────────────────────────────────────────────────────────────────────
    Snapshot stat card (used inside the Snapshot section grid)
    ────────────────────────────────────────────────────────────────────────── */
-const STAT_CARD_COLORS = [
-  "#14545D", // teal
-  "#B5470C", // terracotta
-  "#5A35B0", // purple
-  "#0F6B4D", // forest green
-  "#C4375A", // rose
-  "#1E6B9E", // ocean blue
-];
+const STAT_CARD_ACCENT = "#14545D";
 
 function SnapshotStatCard({ bullet, index }: { bullet: SnapshotBullet; index: number }) {
-  const accent = STAT_CARD_COLORS[index % STAT_CARD_COLORS.length];
+  const accent = STAT_CARD_ACCENT;
 
   // Back-compat: render legacy `highlight + text` as a single inline row if value isn't set.
   if (!bullet.value && (bullet.highlight || bullet.text)) {

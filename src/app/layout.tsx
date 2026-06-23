@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
 import { CustomCursor } from "@/components/custom-cursor";
-import { SmoothScroll } from "@/components/smooth-scroll";
 import { Navigation } from "@/components/navigation";
 
 export const metadata: Metadata = {
@@ -33,7 +32,6 @@ export default function RootLayout({
   return (
     <html lang="en" className="antialiased">
       <body className="grain">
-        <SmoothScroll />
         <CustomCursor />
         <Navigation />
         {children}
