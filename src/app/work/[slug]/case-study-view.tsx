@@ -512,13 +512,24 @@ function MetricCard({
 /* ──────────────────────────────────────────────────────────────────────────────
    Snapshot stat card (used inside the Snapshot section grid)
    ────────────────────────────────────────────────────────────────────────── */
+const STAT_CARD_COLORS = [
+  "#14545D", // teal
+  "#B5470C", // terracotta
+  "#5A35B0", // purple
+  "#0F6B4D", // forest green
+  "#C4375A", // rose
+  "#1E6B9E", // ocean blue
+];
+
 function SnapshotStatCard({ bullet, index }: { bullet: SnapshotBullet; index: number }) {
+  const accent = STAT_CARD_COLORS[index % STAT_CARD_COLORS.length];
+
   // Back-compat: render legacy `highlight + text` as a single inline row if value isn't set.
   if (!bullet.value && (bullet.highlight || bullet.text)) {
     return (
       <motion.li
         className="flex flex-col gap-1 border-l-2 pl-5 md:flex-row md:items-baseline md:gap-3"
-        style={{ borderColor: "var(--lime)" }}
+        style={{ borderColor: accent }}
         initial={{ opacity: 0, x: -12 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true, margin: "-40px" }}
@@ -529,7 +540,7 @@ function SnapshotStatCard({ bullet, index }: { bullet: SnapshotBullet; index: nu
             className="shrink-0 text-base font-bold md:text-lg"
             style={{
               fontFamily: "var(--font-archivo)",
-              color: "var(--foreground)",
+              color: accent,
               letterSpacing: "-0.01em",
             }}
           >
@@ -552,8 +563,8 @@ function SnapshotStatCard({ bullet, index }: { bullet: SnapshotBullet; index: nu
     <motion.div
       className="relative flex flex-col rounded-xl border p-5 md:p-6"
       style={{
-        borderColor: "var(--border)",
-        backgroundColor: "var(--surface-raised)",
+        borderColor: `${accent}26`,
+        backgroundColor: `${accent}08`,
       }}
       initial={{ opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -562,13 +573,13 @@ function SnapshotStatCard({ bullet, index }: { bullet: SnapshotBullet; index: nu
     >
       <span
         className="absolute left-0 top-6 h-8 w-1 rounded-r-full"
-        style={{ backgroundColor: "var(--lime)" }}
+        style={{ backgroundColor: accent }}
       />
       <p
         className="font-black leading-[0.95] tracking-tighter"
         style={{
           fontFamily: "var(--font-archivo)",
-          color: "var(--foreground)",
+          color: accent,
           fontSize: "clamp(2.25rem, 4.5vw, 3.5rem)",
           letterSpacing: "-0.04em",
         }}
@@ -578,7 +589,7 @@ function SnapshotStatCard({ bullet, index }: { bullet: SnapshotBullet; index: nu
       {bullet.label && (
         <p
           className="mt-3 text-[11px] font-semibold uppercase tracking-[0.2em]"
-          style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }}
+          style={{ fontFamily: "var(--font-inter)", color: accent }}
         >
           {bullet.label}
         </p>
