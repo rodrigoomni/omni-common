@@ -20,6 +20,7 @@ const links: {
     label: nav.services_label,
     children: [
       { href: "/services", label: "All Services" },
+      { href: "/services/executive-growth", label: "Executive Growth" },
       { href: "/insights/local-marketing", label: nav.services_submenu.local_marketing },
     ],
   },
