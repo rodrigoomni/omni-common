@@ -298,47 +298,47 @@ export const caseStudies: CaseStudy[] = [
       { label: "Brand allocation", value: "90% RapidGarden · 10% parent" },
     ],
     snapshot: {
+      heading:
+        "A turnaround that ended on <span class=\"rt-blue\">record highs</span>",
       intro:
-        "<p>RapidPOS had built a loyal customer base on highly specialized POS software, but marketing had plateaued. Growth was flat YoY, lead quality was inconsistent, and inherited account chaos was poisoning the conversion signal.</p><p>We took over as fractional CMO and full execution partner, identified RapidGarden POS as the highest-leverage vertical, and rebuilt the digital foundation from the ground up. Stabilization first, then acceleration.</p>",
+        "<p class=\"rt-subheading\">Problem</p><p>Growth was flat, lead quality was inconsistent, and RapidPOS&rsquo;s digital presence hadn&rsquo;t kept pace with where their best buyers were searching. With five distinct brands and limited bandwidth, their first question was simple: <b class=\"rt-blue\">where should we focus?</b></p><p>After a paid discovery and on-site deep dive with leadership, Omni Common identified RapidGarden POS as the highest-leverage vertical &mdash; a 12,000-target addressable market with strong momentum and real room to grow.</p><p class=\"rt-subheading\">Omni Common&rsquo;s Solution</p><p>By the close of the engagement, <b class=\"rt-blue\">the stabilized account was delivering its best performance on record</b> &mdash; the highest MQL volume in its history and the lowest blended cost per lead, driven overwhelmingly by the Garden vertical.</p>",
       bullets: [
         {
           value: "−55%",
-          label: "Cost per lead",
-          detail: "From peak CPL during account stabilization to record-low at engagement close.",
+          label: "Reduction in cost per lead",
+          detail: "From peak CPL during stabilization to record-low at engagement close.",
         },
         {
           value: "+157%",
-          label: "Monthly MQL volume",
+          label: "Increase in monthly MQL volume",
           detail: "From trough during inherited account chaos to best-ever month on record.",
         },
         {
           value: "+90%",
           label: "PPC engagement rate YoY",
-          detail: "+30% engaged sessions · +36% form fill rate.",
+          detail: "Jun–Oct 2025 vs. prior year — more engaged paid traffic.",
         },
         {
           value: "+60%",
           label: "Organic engaged sessions YoY",
-          detail: "+20% organic sessions · +32% organic engagement rate.",
+          detail: "On +20% organic sessions and +32% organic engagement rate.",
         },
         {
           value: "+88%",
-          label: "Form fills vs 2023 baseline",
-          detail: "+62% form-fill conversion rate · +16% overall sessions.",
+          label: "Total form fills vs. 2023 baseline",
+          detail: "With form fill rate up 62% and overall sessions up 16%.",
         },
         {
-          value: "6%",
-          label: "Non-branded organic share at audit",
-          detail: "Starting point in early 2025 — rebuilt the discovery engine from scratch.",
+          value: "4 + 19",
+          label: "Digital PR placements",
+          detail: "Secured, with a 19-placement pipeline including a Forbes feature.",
         },
       ],
     },
     background: {
-      heading: "Background — a company with multiple brands, one clear opportunity",
+      heading: "A rocky start — and what we found under the hood",
       paragraphs: [
-        "RapidPOS is a San Diego-based point-of-sale company built on NCR Counterpoint software, customized for highly specific retail verticals — including gun stores, garden centers, specialty grocery, and feed & tack. Over two decades they had grown a loyal customer base of 200+ garden centers and 320+ gun stores, yet their marketing had plateaued. Growth was flat year-over-year, lead quality was inconsistent, and their digital presence hadn't kept pace with where their best buyers were going to find solutions.",
-        "When RapidPOS engaged Omni Common, their first question was simple: where should we focus? With five distinct brands and limited marketing bandwidth, they needed strategic clarity before execution. After a thorough paid discovery — including an on-site deep dive with their leadership team — we identified RapidGarden POS as the highest-leverage vertical: a 12,000-target addressable market, strong existing momentum, and a brand ready for a real digital growth push.",
-        "&ldquo;If we crush it at Specialty Grocery and Garden, that&rsquo;s all the growth we need.&rdquo; — Bart, RapidPOS CEO",
+        "<p><b class=\"rt-blue\">The inherited Google Ads account had four compounding issues</b> that had to be diagnosed and corrected before growth could resume.</p><p class=\"rt-subheading\">1. Legacy DSA campaigns had been the silent workhorse</p><p>Dynamic Search Ads paused in November 2024 had been driving enormous volumes of cheap traffic. Their removal created a performance cliff that wasn&rsquo;t immediately visible &mdash; but was bleeding results over time.</p><p class=\"rt-subheading\">2. February bid strategy changes destabilized the entire account</p><p>Prior to Omni Common&rsquo;s involvement, target CPAs had been dramatically raised with bid limits &mdash; disrupting campaign learning cycles and compounding the effects of the DSA removal for months.</p><p class=\"rt-subheading\">3. Spam form submissions poisoned Google&rsquo;s conversion signals</p><p>In April and May 2025, spam form fills were being registered as qualified leads and fed back into Google&rsquo;s algorithms &mdash; actively training campaigns to target the wrong audience.</p><p class=\"rt-subheading\">4. Performance Max was volatile and uncontrollable</p><p>PMAX campaigns delivered wildly inconsistent results with irrelevant search terms, requiring a full pivot back to manual search campaigns to regain control of spend and lead quality.</p>",
       ],
       media: {
         layout: "single",
@@ -353,53 +353,53 @@ export const caseStudies: CaseStudy[] = [
       },
     },
     approach: {
-      heading: "The work — stabilization, then acceleration",
+      heading: "Focus, Stabilize, Accelerate",
       intro:
-        "<p>Acting as a fractional CMO and full execution partner, Omni Common took on the full marketing stack for RapidGarden POS. Brand effort allocation was deliberate: 90% of activity focused on RapidGarden POS, with the remainder supporting the parent brand.</p><p>The first months were stabilization — diagnosing a broken signal environment and rebuilding the digital foundation — before any meaningful acceleration could compound.</p>",
+        "<p>Rather than chase quick wins, we ran the engagement in <b class=\"rt-blue\">three deliberate phases.</b></p><p class=\"rt-subheading\">Focus</p><p>A paid discovery and on-site deep dive with leadership identified RapidGarden POS as the primary vertical and mapped the opportunity across every channel.</p><p class=\"rt-subheading\">Stabilize</p><p>We rebuilt the website and SEO foundation, then diagnosed and corrected the inherited Google Ads issues &mdash; spam signal contamination, unstable bid strategies, and an over-reliance on Performance Max &mdash; holding steady through 30&ndash;60 day learning windows rather than reacting.</p><p class=\"rt-subheading\">Accelerate</p><p>With the foundation clean, we layered on content marketing, Digital PR, and lifecycle email to build compounding authority. By January 2026, <b class=\"rt-blue\">the stabilized account delivered its best results on record</b> &mdash; the highest MQL volume in its history and a record-low blended CPL, led by the Garden vertical.</p>",
       sections: [
         {
-          title: "Paid Search (PPC) — stabilization, then precision",
+          title: "Website & UX Redesign: Start With the Core",
           body:
-            "<p>When we took over, the account was a mess. Legacy Dynamic Search Ads paused in November 2024 had been the silent workhorse, and their removal created a performance cliff. February bid-strategy changes (target CPAs raised with bid limits) had destabilized the learning cycles. Spam form submissions in April–May 2025 were being registered as qualified leads and fed back into Google&rsquo;s algorithms — actively training campaigns to target the wrong audience. Performance Max was volatile and uncontrollable, requiring a full pivot back to manual search to regain control of spend and lead quality.</p><p>We corrected the spam contamination, reverted to proven bid strategies, eliminated PMAX over-reliance, and instituted 30–60 day stability windows. The goal was never more traffic — it was the right traffic.</p>",
+            "<p><b class=\"rt-blue\">The other channels needed a foundation worth sending traffic to.</b></p><p>Working in Figma and shipping to production, we redesigned the site&rsquo;s core pages around a clear brief: a professional feel that communicated RapidGarden&rsquo;s deep customization capabilities, with distinct, conversion-focused CTAs the old site lacked. The redesign covered a new homepage (launched August 2025), contact and request-demo pages, rebuilt blog templates with social-share sections, and new vertical-specific landing pages including Nursery Management Software and Landscape Management Software.</p><p>Crucially, the redesign was SEO-informed rather than purely cosmetic. Every page was built from a content map tying it to specific keyword targets &mdash; the homepage, for example, structured around &ldquo;Garden Center POS&rdquo; woven through its H1, meta title, subheadings, and copy, prioritizing a transactional-first flow.</p>",
           stat: {
-            value: "−55% / +157%",
-            label: "CPL · monthly MQLs (peak → record-low · trough → best-ever)",
+            value: "Aug 2025",
+            label: "New homepage launched · contact, request-demo & vertical LPs rebuilt",
           },
         },
         {
-          title: "Website UX & SEO Foundation",
+          title: "Paid Search (PPC): Quality Over Volume",
           body:
-            "<p>Redesigned the homepage with optimized imagery (WebP, sub-100KB). Updated meta titles site-wide. Implemented schema markup. Designed five new vertical-specific landing pages. The SEO audit showed strong health scores (90s), but critical gaps in link building, internal linking, and content pace — gaps we addressed at every layer.</p>",
+            "<p><b class=\"rt-blue\">The PPC turnaround came from the inside out &mdash; fixing what was broken before chasing growth.</b></p><p>The account inherited in April 2025 had corrupted conversion signals, destabilized bid strategies, and a dependence on a traffic source (cheap DSA clicks) that no longer existed. By restoring signal integrity and holding proven strategies steady, the account found its footing. By month 9, CPL had dropped 55% from its peak and MQL volume climbed 157% to a record high, with engagement rate up 90% YoY.</p><p>The key insight: the account wasn&rsquo;t getting less traffic because of bad targeting &mdash; it was getting more qualified traffic that was more likely to convert. The work shifted from volume to precision, and the metrics followed.</p>",
           stat: {
-            value: "+20% / +60%",
-            label: "Organic sessions YoY · organic engaged sessions YoY",
+            value: "+90% / +30% / +36%",
+            label: "PPC engagement rate · engaged sessions · form fill rate YoY (Jun–Oct 2025)",
           },
         },
         {
-          title: "Content Marketing — building topical authority from scratch",
+          title: "Content Marketing: Building Topical Authority From Scratch",
           body:
-            "<p>The strategy was built around a clear principle: write for the decision-maker, not the product. Content needed to meet garden center owners at their real operational challenges — inventory overflows, dead stock, slow checkouts, loyalty program gaps — and earn a position in search before the buyer was ready to evaluate software.</p><p>Two parallel tracks: new posts targeting high-intent, non-branded keywords, and refreshes of existing URLs rebuilt with sharper SEO structure. A content map was built in advance of each production cycle — every piece had a defined target keyword, search intent, and internal linking plan before writing began.</p>",
+            "<p><b class=\"rt-blue\">The strategy: write for the decision-maker, not the product.</b></p><p>Content met garden center owners at their real operational problems &mdash; inventory, dead stock, slow checkouts, loyalty gaps &mdash; earning search position before buyers were ready to evaluate software. From August through November we ran a steady two-posts-a-month cadence built on a deliberate rhythm: each new article targeting high-intent, non-branded keywords was paired with a refresh of an existing page, capturing fresh demand while reviving dormant authority. Every piece was mapped to a target keyword and internal linking plan before writing began.</p><p>Over 6 months we created or refreshed 10+ blog posts. Keyword themes spanned garden center POS, nursery management software, dead stock, loyalty programs, checkout speed, and more. And we built the editorial infrastructure to keep it all consistent &mdash; including a tone &amp; voice guide so the brand read the same across every channel.</p>",
           stat: {
-            value: "10+ / 5 / 2",
-            label: "Posts published or refreshed · new landing pages · data-led PR assets",
+            value: "10+ posts",
+            label: "Created or refreshed over 6 months · 2-posts-a-month cadence",
           },
         },
         {
-          title: "Digital PR & Link Building",
+          title: "Digital PR: Authority Building in a B2B Landscape",
           body:
-            "<p>An original research study on garden center loyalty programs — seeded into trade publications — surfaced a striking finding: 30% of garden centers using loyalty programs generate 56% of participating stores&rsquo; revenue. This gave RapidGarden POS a credible, data-backed voice in industry conversations, alongside 4 high-authority placements secured (including Greenhouse Grower and Brewer Magazine) with a 19-placement pipeline in development — including a Forbes feature.</p>",
+            "<p><b class=\"rt-blue\">A Digital PR program targeting high-authority trade publications</b> in the garden center and specialty retail verticals earned backlinks that compound SEO authority over time, and positioned RapidGarden POS as a recognized voice in the publications its buyers already read.</p><p>The standout asset was an original research study spanning 148 garden centers, seeded into trade press: it found that 30% of garden centers using loyalty programs generate 56% of those stores&rsquo; revenue &mdash; a data-backed hook that gave RapidGarden a credible voice in industry conversations. By the end of the engagement, four high-authority placements had been secured &mdash; including Greenhouse Grower and Brewer Magazine &mdash; with a deep pipeline still in development.</p>",
           stat: {
-            value: "4 secured · 19 in pipeline",
-            label: "Trade & national placements (incl. Forbes feature)",
+            value: "4 + 19",
+            label: "Placements secured · pipeline in development (incl. Forbes feature)",
           },
         },
         {
-          title: "Email Marketing",
+          title: "SEO + UXO: Building the Foundation for Compounding Returns",
           body:
-            "<p>Lifecycle email infrastructure rounded out the funnel — capturing demand generated upstream by paid, organic, and content, and converting it through nurture sequences tied to vertical-specific buyer journeys.</p>",
+            "<p><b class=\"rt-blue\">Only 6% of organic traffic was non-branded when we audited in early 2025.</b> Nearly all of it was people who already knew RapidPOS &mdash; overflow from paid campaigns and conference awareness &mdash; typing the brand name directly. The site had no meaningful organic discovery engine.</p><p>The SEO work addressed this at every layer. Technical health was already strong (scores in the 90s), so the focus went to the areas that were genuinely underdeveloped: internal linking, schema markup, meta title optimization, content velocity, and link building through Digital PR. Five new landing pages were designed and built. A consistent content calendar was established around high-value, vertical-specific keywords.</p><p>The results reflected a foundation being built for long-term compounding rather than a quick spike &mdash; and the numbers showed meaningful early traction. Organic sessions grew 20% year-over-year, while organic engaged sessions &mdash; a far more meaningful signal &mdash; grew 60%. The organic engagement rate climbed 32%, indicating the new content and on-page improvements were resonating with visitors who arrived through search.</p><p>Against the 2023 baseline (the fair comparison, given 2024&rsquo;s anomalous DSA traffic spike), the picture is even stronger: overall form fills up 88% and the form fill rate up 62% &mdash; meaning not only were more people arriving, but a significantly higher proportion of them were taking action.</p>",
           stat: {
-            value: "+88%",
-            label: "Total form fills vs 2023 normalized baseline",
+            value: "+20% / +60% / +32%",
+            label: "Organic sessions · engaged sessions · engagement rate YoY",
           },
         },
       ],
@@ -407,7 +407,7 @@ export const caseStudies: CaseStudy[] = [
     resultsSection: {
       heading: "What Omni Common Accomplished",
       body:
-        "The RapidGarden POS engagement drove the account to its best-performing metrics on record across paid, organic, and content channels simultaneously. By the close of the engagement, CPL had dropped 55% from its peak and MQL volume had climbed 157% from trough to record high. PPC engagement rate was up 90% YoY, engaged sessions up 30%, and the form fill rate up 36%. On the organic and content side, sessions grew 20% YoY, engaged sessions grew 60%, and the organic engagement rate climbed 32%. Against the 2023 baseline (the true comparable, since 2024 was inflated by a temporary DSA traffic anomaly), form fills were up 88% and the form fill rate up 62%. \"Our organic stuff for what we paid and built last year did phenomenal.\" — Bart, RapidPOS CEO.",
+        "<p><b class=\"rt-blue\">The RapidGarden POS engagement shows what it takes to take over a complex, inherited marketing ecosystem:</b> diagnose a broken signal environment, rebuild the foundation, and drive best-on-record performance across paid, organic, and content at once.</p><p>The lesson &mdash; <b>signal integrity and strategic patience outperform reactivity.</b></p><p>Restoring clean data and holding steady dropped CPL 55% and more than doubled MQL volume, while content, SEO, and earned media built an asset that compounds independent of ad spend.</p>",
       media: {
         layout: "single",
         eyebrow: "Fig. 05 — Channel performance",
@@ -419,17 +419,6 @@ export const caseStudies: CaseStudy[] = [
           },
         ],
       },
-    },
-    opportunity: {
-      heading: "Takeaway",
-      bullets: [
-        "Signal integrity and strategic patience outperform reactivity every time.",
-        "On the paid side, restoring clean conversion data and holding bid strategies steady through volatility created the conditions for CPL to drop 55% and MQL volume to more than double.",
-        "On the organic and content side, consistent production, technical optimization, and earned media links built an asset that compounds — independent of ad spend.",
-        "The content program was still in its early compounding phase at close of engagement — the bulk of keyword authority gains projected to materialize in the months following.",
-      ],
-      closer:
-        "\"I really wish we didn't have to cut budgets there — we're finally on the track of getting successful PPC at a strong cost per lead.\" — Bliss, RapidPOS Marketing Lead.",
     },
     footnote:
       "Metrics from Google Ads, Google Analytics, Google Search Console, and Omni Common's integrated KPI dashboards (2023–2026). Engagement spanned Jan 2025 – Feb 2026. 2024 was inflated by a temporary DSA traffic anomaly — 2023 is used as the comparable baseline where noted.",
