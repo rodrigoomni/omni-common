@@ -151,8 +151,8 @@ export function Hero() {
               <Image
                 src="/images/hero-cta-avatars.png"
                 alt=""
-                width={143}
-                height={45}
+                width={154}
+                height={81}
                 priority
                 aria-hidden
                 className="relative h-[45px] w-auto"
