@@ -141,11 +141,11 @@
     }
   },
   "hero": {
-    "heading_line1": "Grow your brand",
-    "heading_line2": "According to plan",
+    "heading_line1": "Grow Your Brand",
+    "heading_line2": "According to Plan",
     "subheading_bold": "A Marketing Agency For Search-Led Growth",
-    "subheading": "We design (and put into action) “Intelligence System” growth models for e-commerce, SaaS, and marketplace brands. We rapidly speed up the pace of your company’s growth.",
-    "growth_line": "",
+    "subheading": "We design (and put into action) “Intelligence System” growth models for e-commerce, SaaS, and marketplace brands.",
+    "growth_line": "We rapidly speed up the pace of your company’s growth.",
     "cta_button": "Let’s Talk"
   },
   "team": {

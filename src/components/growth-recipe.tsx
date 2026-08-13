@@ -23,7 +23,7 @@ const ITEMS = [
     active: false,
     line: (
       <>
-        <span style={{ color: "#CFFC68", fontWeight: 800 }}>2 lbs</span>
+        <span style={{ color: "#CFFC68", fontWeight: 800 }}>2 lbs.</span>
         <span style={{ color: "#fff", fontWeight: 400 }}> of customer behavior research</span>
       </>
     ),
@@ -236,7 +236,7 @@ export function GrowthRecipe() {
               }}
             >
               It&apos;s not a limp &ldquo;audit.&rdquo; It&apos;s not confusing analytics
-              software. Not another random marketing campaign.
+              software. It&apos;s your new source of truth for ROI.
             </p>
 
             <div className="mt-10">

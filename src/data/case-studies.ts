@@ -426,7 +426,7 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: "talitha",
     title: "Talitha",
-    category: "Multi-location Café · Mission-Driven Roaster",
+    category: "Multi-location Cafe · Mission-Driven Roaster",
     color: "#e8d5b7",
     image: "/images/case-studies-thumbnails/talitha.webp",
     thumbnail: "/images/case-studies-thumbnails/talitha.webp",
@@ -438,14 +438,14 @@ export const caseStudies: CaseStudy[] = [
     tagline:
       "Refocusing a stretched national DTC budget into a local, compounding growth system — and lifting the whole business in the process.",
     overview:
-      "Talitha was trying to behave like a nationwide DTC ecommerce brand without the budget to win nationally. We concentrated that spend on the San Diego metro — investing in the cafés, the rebrand, and a community-development engine tied to the mission — and let DTC ecommerce grow as a by-product of a stronger local brand.",
+      "Talitha was trying to behave like a nationwide DTC ecommerce brand without the budget to win nationally. We concentrated that spend on the San Diego metro — investing in the cafes, the rebrand, and a community-development engine tied to the mission — and let DTC ecommerce grow as a by-product of a stronger local brand.",
     challenge:
-      "National ambition without national spend, an identity transition from The WestBean Coffee Roasters to Talitha, scattered marketing efforts, no marketing infrastructure to support a café rebrand, and a website built for ecommerce, not local. Reach was high; revenue conversion wasn't.",
+      "National ambition without national spend, an identity transition from The WestBean Coffee Roasters to Talitha, scattered marketing efforts, no marketing infrastructure to support a cafe rebrand, and a website built for ecommerce, not local. Reach was high; revenue conversion wasn't.",
     solution:
-      "Concentrate the budget locally where it stacks, build the mid-funnel that captures reach (Klaviyo email + SMS, lifecycle, paid social), rebuild local SEO and the website around the café experience, and run a deliberately national influencer program in parallel as the DTC growth lever.",
+      "Concentrate the budget locally where it stacks, build the mid-funnel that captures reach (Klaviyo email + SMS, lifecycle, paid social), rebuild local SEO and the website around the cafe experience, and run a deliberately national influencer program in parallel as the DTC growth lever.",
     results: [
-      { metric: "Café AOV", value: "+33%" },
-      { metric: "Q1 2026 café sales", value: "+21%" },
+      { metric: "Cafe AOV", value: "+33%" },
+      { metric: "Q1 2026 cafe sales", value: "+21%" },
       { metric: "DTC ecommerce orders", value: "+571%" },
       { metric: "Brand reach YoY", value: "+343%" },
     ],
@@ -463,7 +463,7 @@ export const caseStudies: CaseStudy[] = [
     meta: [
       { label: "Client", value: "Talitha Coffee (formerly The WestBean Coffee Roasters)" },
       { label: "Location", value: "San Diego, CA" },
-      { label: "Industry", value: "Multi-location café & specialty coffee roaster — mission-driven" },
+      { label: "Industry", value: "Multi-location cafe & specialty coffee roaster — mission-driven" },
       { label: "Service", value: "Community Growth Engine" },
       { label: "Engagement", value: "February 2025 – Present" },
     ],
@@ -471,12 +471,12 @@ export const caseStudies: CaseStudy[] = [
       heading:
         "<span class=\"rt-blue\">The Main Problem:</span> trying to become a nationwide, direct-to-consumer coffee brand (without the organic budget)",
       intro:
-        "<p class=\"rt-subheading\">Problem</p><p>Talitha had ambitions to become a nationwide direct-to-consumer coffee brand, but like many startup brands, lacked the organic budget to win nationally. Their spend was thinly spread across the country with little ROI to show for it.</p><p class=\"rt-subheading\">Omni Common&rsquo;s Solution</p><p><b class=\"rt-blue\">We concentrated their budget locally, where we predicted it would compound.</b></p><p>We invested in their San Diego caf&eacute;s and the Talitha brand. The idea was that local inertia would lift the entire business more efficiently. DTC ecommerce growth followed as a by-product. (Plus, the one deliberately non-local lever, influencer marketing, became the single biggest driver of that online growth.)</p><p>Despite Talitha&rsquo;s marketing engine being shared across three business lines &mdash; retail caf&eacute;s, DTC ecommerce, and wholesale &mdash; the local investment lifted the entire company, not just the caf&eacute;s. (The trick was investing into each one at the right level.)</p>",
+        "<p class=\"rt-subheading\">Problem</p><p>Talitha had ambitions to become a nationwide direct-to-consumer coffee brand, but like many startup brands, lacked the organic budget to win nationally. Their spend was thinly spread across the country with little ROI to show for it.</p><p class=\"rt-subheading\">Omni Common&rsquo;s Solution</p><p><b class=\"rt-blue\">We concentrated their budget locally, where we predicted it would compound.</b></p><p>We invested in their San Diego cafes and the Talitha brand. The idea was that local inertia would lift the entire business more efficiently. DTC ecommerce growth followed as a by-product. (Plus, the one deliberately non-local lever, influencer marketing, became the single biggest driver of that online growth.)</p><p>Despite Talitha&rsquo;s marketing engine being shared across three business lines &mdash; retail cafes, DTC ecommerce, and wholesale &mdash; the local investment lifted the entire company, not just the cafes. (The trick was investing into each one at the right level.)</p>",
       bullets: [
         {
           value: "+33%",
-          label: "Café average order value",
-          detail: "+9%–12% at all three café locations post-rebrand.",
+          label: "Cafe average order value",
+          detail: "+9%–12% at all three cafe locations post-rebrand.",
         },
         {
           value: "+16%",
@@ -485,7 +485,7 @@ export const caseStudies: CaseStudy[] = [
         },
         {
           value: "+21%",
-          label: "Q1 2026 vs Q1 2025 café sales",
+          label: "Q1 2026 vs Q1 2025 cafe sales",
           detail: "70%–82% of post-rebrand customers were entirely new to the brand.",
         },
         {
@@ -506,13 +506,13 @@ export const caseStudies: CaseStudy[] = [
       ],
       media: {
         layout: "single",
-        eyebrow: "Fig. 01 — In-café AOV and reach growth",
+        eyebrow: "Fig. 01 — In-cafe AOV and reach growth",
         items: [
           {
             placeholder: true,
             alt: "AOV and reach growth chart",
             caption:
-              "Café AOV up +33% post-rebrand; brand reach +343% YoY built on ~29 press placements.",
+              "Cafe AOV up +33% post-rebrand; brand reach +343% YoY built on ~29 press placements.",
           },
         ],
       },
@@ -525,18 +525,18 @@ export const caseStudies: CaseStudy[] = [
       ],
       media: {
         layout: "pair",
-        eyebrow: "Fig. 02 — Three San Diego cafés",
+        eyebrow: "Fig. 02 — Three San Diego cafes",
         items: [
           { placeholder: true, alt: "Bankers Hill location" },
           { placeholder: true, alt: "Clairemont / Liberty Station" },
         ],
-        caption: "Three San Diego cafés plus the roastery anchor the local brand.",
+        caption: "Three San Diego cafes plus the roastery anchor the local brand.",
       },
     },
     approach: {
       heading: "Focus the Budget Locally, Then Compound",
       intro:
-        "<p><b class=\"rt-blue\">We calculated that a dollar invested on building brand gravity locally would do more, and compound further, than a dollar invested nationally.</b></p><p>Rather than chasing the whole country on a budget that ultimately wouldn&rsquo;t build their brand, we hyper-concentrated Talitha&rsquo;s spend on the San Diego metro, where marketing exposure across caf&eacute;s, local events, media placements and local search could stack and reinforce. (What we additionally discovered was that DTC ecommerce resulted far more quickly than anticipated!)</p><p>At the center of our local investment was the <b>Community Growth Engine.</b></p><p>Every event we developed became fuel for every other marketing channel: social content, a PR hook, an influencer moment, and coordinated email and text&hellip; all resulting from one event! And because community growth was shared across Talitha&rsquo;s caf&eacute;s, DTC ecommerce, and wholesale, we could invest in each at one level, lifting all three at the same time.</p><p><b>Here&rsquo;s what happened:</b></p>",
+        "<p><b class=\"rt-blue\">We calculated that a dollar invested on building brand gravity locally would do more, and compound further, than a dollar invested nationally.</b></p><p>Rather than chasing the whole country on a budget that ultimately wouldn&rsquo;t build their brand, we hyper-concentrated Talitha&rsquo;s spend on the San Diego metro, where marketing exposure across cafes, local events, media placements and local search could stack and reinforce. (What we additionally discovered was that DTC ecommerce resulted far more quickly than anticipated!)</p><p>At the center of our local investment was the <b>Community Growth Engine.</b></p><p>Every event we developed became fuel for every other marketing channel: social content, a PR hook, an influencer moment, and coordinated email and text&hellip; all resulting from one event! And because community growth was shared across Talitha&rsquo;s cafes, DTC ecommerce, and wholesale, we could invest in each at one level, lifting all three at the same time.</p><p><b>Here&rsquo;s what happened:</b></p>",
       media: {
         layout: "single",
         eyebrow: "Fig. 03 — The Community Growth Engine",
@@ -553,16 +553,16 @@ export const caseStudies: CaseStudy[] = [
         {
           title: "Community Development: The Engine",
           body:
-            "<p>We amped up Talitha&rsquo;s in-person presence all across San Diego. Over 12 months, we executed 49 (!) Talitha-branded events: booth appearances, coffee donations, sponsorships, and unique in-caf&eacute; gatherings. These reached an estimated 74,000+ people.</p><p><b class=\"rt-blue\">How does a marketing agency run events?</b> <b>Smartly, of course;</b> we coordinated full-funnel campaigns with social countdowns, Facebook events, targeted email blasts, and outreached to local schools and businesses.</p><p>We also built an event-operations infrastructure from scratch: partnership screening and engagement, day-of logistics, Square POS coupon tracking, and ROI that was measured all the way back to each cash register.</p>",
+            "<p>We amped up Talitha&rsquo;s in-person presence all across San Diego. Over 12 months, we executed 49 (!) Talitha-branded events: booth appearances, coffee donations, sponsorships, and unique in-cafe gatherings. These reached an estimated 74,000+ people.</p><p><b class=\"rt-blue\">How does a marketing agency run events?</b> <b>Smartly, of course;</b> we coordinated full-funnel campaigns with social countdowns, Facebook events, targeted email blasts, and outreached to local schools and businesses.</p><p>We also built an event-operations infrastructure from scratch: partnership screening and engagement, day-of logistics, Square POS coupon tracking, and ROI that was measured all the way back to each cash register.</p>",
           stat: {
             value: "$1.80–$3.59",
-            label: "Cost per café visit · 49 events · ~74K reached",
+            label: "Cost per cafe visit · 49 events · ~74K reached",
           },
         },
         {
           title: "Social Media",
           body:
-            "<p>The brand&rsquo;s pre-existing content consisted mostly of polished stock-style imagery. We rebuilt Talitha&rsquo;s content engine to be centered around memorable brand traits, leaning on people-first storytelling (e.g., founder interviews, barista and event spotlights, etc.).</p><p><b class=\"rt-blue\">Talitha events became a content flywheel</b>; every Talitha booth, product launch, and caf&eacute; moment was converted into social content.</p>",
+            "<p>The brand&rsquo;s pre-existing content consisted mostly of polished stock-style imagery. We rebuilt Talitha&rsquo;s content engine to be centered around memorable brand traits, leaning on people-first storytelling (e.g., founder interviews, barista and event spotlights, etc.).</p><p><b class=\"rt-blue\">Talitha events became a content flywheel</b>; every Talitha booth, product launch, and cafe moment was converted into social content.</p>",
           stat: {
             value: "+235%",
             label: "Instagram growth · 2,260 → 7,569 followers",
@@ -571,7 +571,7 @@ export const caseStudies: CaseStudy[] = [
         {
           title: "Local SEM, SEO & Website",
           body:
-            "<p>When Omni Common began, Talitha&rsquo;s caf&eacute;s had effectively no local SEO.</p><p><b>So we built their local SEO signals from the ground up:</b> Google Business Profile optimization across all caf&eacute; locations, Apple Maps listings, SMS and email review campaigns for Google and Yelp, BrightLocal citation building per location, neighborhood city pages with embedded Google Maps, neighborhood blog content written by real locals, and a Homepage/About redesign that leads with the caf&eacute; and local brand story, rather than through a national ecommerce lens. Phew!</p>",
+            "<p>When Omni Common began, Talitha&rsquo;s cafes had effectively no local SEO.</p><p><b>So we built their local SEO signals from the ground up:</b> Google Business Profile optimization across all cafe locations, Apple Maps listings, SMS and email review campaigns for Google and Yelp, BrightLocal citation building per location, neighborhood city pages with embedded Google Maps, neighborhood blog content written by real locals, and a Homepage/About redesign that leads with the cafe and local brand story, rather than through a national ecommerce lens. Phew!</p>",
           stat: {
             value: "+128%",
             label: "Monthly website traffic · 1,567 → 3,569 visits",
@@ -580,7 +580,7 @@ export const caseStudies: CaseStudy[] = [
         {
           title: "Mid-funnel? Email, Lifecycle & Paid Social",
           body:
-            "<p>Talitha had discovery and checkouts. <b class=\"rt-blue\">What was truly missing was the mid-funnel, so we built it</b>.</p><p><b>We built an email marketing engine in Klaviyo + Square POS from scratch</b> &mdash; not by touching their existing ecommerce flows, but by developing a content strategy around what we discovered Talitha customers actually wanted from the brand: insight into the mission, and how Talitha was making a difference.</p><p>All that content tied directly into the Community Growth Engine idea. We used email and SMS as a direct event-attendance acquisition channel, communicating loyalty promotions to encourage caf&eacute; visits with incentives and urgency, and we set up customer-review request flows. (Not to mention we also ran Paid social awareness-and-traffic campaigns, which drove Google Business Profile clicks at $0.12 CPC while reaching 25,000+ people per week.)</p>",
+            "<p>Talitha had discovery and checkouts. <b class=\"rt-blue\">What was truly missing was the mid-funnel, so we built it</b>.</p><p><b>We built an email marketing engine in Klaviyo + Square POS from scratch</b> &mdash; not by touching their existing ecommerce flows, but by developing a content strategy around what we discovered Talitha customers actually wanted from the brand: insight into the mission, and how Talitha was making a difference.</p><p>All that content tied directly into the Community Growth Engine idea. We used email and SMS as a direct event-attendance acquisition channel, communicating loyalty promotions to encourage cafe visits with incentives and urgency, and we set up customer-review request flows. (Not to mention we also ran Paid social awareness-and-traffic campaigns, which drove Google Business Profile clicks at $0.12 CPC while reaching 25,000+ people per week.)</p>",
           stat: {
             value: "$168K+",
             label: "Attributable purchases · ~+$0.46 per email sent · $0.12 paid-social CPC",
@@ -609,26 +609,26 @@ export const caseStudies: CaseStudy[] = [
     resultsSection: {
       heading: "What Omni Common Accomplished",
       body:
-        "<p><b class=\"rt-blue\">Where the budget went did exactly what our math said it would do.</b></p><p>Average order value rose +9%&ndash;12% at every one of their three locations (and +33% overall). Repeat customer revenue rose +16% ($63,600 &rarr; $73,600/month). Meanwhile, Q1 2026 caf&eacute; sales tracked 21% above Q1 2025, with 70%&ndash;82% of post-rebrand customers being entirely new to the brand.</p><p>Talitha also went from near-zero earned media to dozens of placements, with +343% reach growth YoY and ~30% brand recognition at the international 2025 Coffee Fest, incidentally held in San Diego that year.</p><p>Finally, DTC ecommerce also grew, even though it wasn&rsquo;t the direct focus: <b>national orders grew +571%, revenue roughly doubled from the start of the year, and their coffee subscription base grew +66% among active subscriptions and +80% among unique subscribers</b>. In other words, because the marketing engine is shared across all their businesses, local investment fed their wholesale pipeline too.</p><p>Not bad for reallocating funds, if we say so ourselves.</p>",
+        "<p><b class=\"rt-blue\">Where the budget went did exactly what our math said it would do.</b></p><p>Average order value rose +9%&ndash;12% at every one of their three locations (and +33% overall). Repeat customer revenue rose +16% ($63,600 &rarr; $73,600/month). Meanwhile, Q1 2026 cafe sales tracked 21% above Q1 2025, with 70%&ndash;82% of post-rebrand customers being entirely new to the brand.</p><p>Talitha also went from near-zero earned media to dozens of placements, with +343% reach growth YoY and ~30% brand recognition at the international 2025 Coffee Fest, incidentally held in San Diego that year.</p><p>Finally, DTC ecommerce also grew, even though it wasn&rsquo;t the direct focus: <b>national orders grew +571%, revenue roughly doubled from the start of the year, and their coffee subscription base grew +66% among active subscriptions and +80% among unique subscribers</b>. In other words, because the marketing engine is shared across all their businesses, local investment fed their wholesale pipeline too.</p><p>Not bad for reallocating funds, if we say so ourselves.</p>",
       media: {
         layout: "single",
         eyebrow: "Fig. 04 — Local gravity, then DTC",
         items: [
           {
             placeholder: true,
-            alt: "Café and DTC growth charts",
-            caption: "Local-first investment lifted in-café metrics; DTC grew in parallel as the by-product.",
+            alt: "Cafe and DTC growth charts",
+            caption: "Local-first investment lifted in-cafe metrics; DTC grew in parallel as the by-product.",
           },
         ],
       },
     },
     footnote:
-      "Metrics sourced from Shopify, Square POS, Klaviyo, Google Analytics, Google Search Console, BrightLocal, and Omni Common's integrated KPI dashboards (2024–2026). DTC ecommerce and subscription figures from the Talitha KPI dashboard; café and customer figures from the Talitha Master Growth Analysis (June 2026). All performance figures are expressed as relative change.",
+      "Metrics sourced from Shopify, Square POS, Klaviyo, Google Analytics, Google Search Console, BrightLocal, and Omni Common's integrated KPI dashboards (2024–2026). DTC ecommerce and subscription figures from the Talitha KPI dashboard; cafe and customer figures from the Talitha Master Growth Analysis (June 2026). All performance figures are expressed as relative change.",
   },
   {
     slug: "lofty-coffee",
     title: "Lofty Coffee Co.",
-    category: "Multi-location Café · Specialty Coffee Roaster",
+    category: "Multi-location Cafe · Specialty Coffee Roaster",
     color: "#9CA3A4",
     image: "/images/case-studies-thumbnails/lofty.webp",
     thumbnail: "/images/case-studies-thumbnails/lofty.webp",
@@ -640,7 +640,7 @@ export const caseStudies: CaseStudy[] = [
     tagline:
       "Turning a 15-year-old local favorite into a retention-driven growth machine.",
     overview:
-      "After 15 years of growing on craftsmanship and word of mouth alone, Lofty had never run a real marketing program. In our first year as their growth partner, we built one from zero — and reversed a multi-year decline in new-customer acquisition in a café market that was contracting around them.",
+      "After 15 years of growing on craftsmanship and word of mouth alone, Lofty had never run a real marketing program. In our first year as their growth partner, we built one from zero — and reversed a multi-year decline in new-customer acquisition in a cafe market that was contracting around them.",
     challenge:
       "A beloved brand with a 15-year head start, plateauing organic traffic, and an enormous untapped retention opportunity: a database of ~700,000 customer records with fewer than 200 email opt-ins, no loyalty program, no segmentation, no lifecycle infrastructure. The customer wasn't at the center of the growth strategy because there wasn't one.",
     solution:
@@ -665,7 +665,7 @@ export const caseStudies: CaseStudy[] = [
     meta: [
       { label: "Client", value: "Lofty Coffee Co." },
       { label: "Location", value: "San Diego, CA" },
-      { label: "Industry", value: "Multi-location café & specialty coffee roaster" },
+      { label: "Industry", value: "Multi-location cafe & specialty coffee roaster" },
       { label: "Service", value: "Community Growth Engine" },
       { label: "Engagement", value: "February 2025 – Present" },
     ],
@@ -703,7 +703,7 @@ export const caseStudies: CaseStudy[] = [
           value: "+10.3%",
           label: "2026 revenue forecast",
           detail:
-            "On +7.7% transactions (surrounding café market was estimated to be down 5–10%).",
+            "On +7.7% transactions (surrounding cafe market was estimated to be down 5–10%).",
         },
         {
           value: "~10×",
@@ -834,7 +834,7 @@ export const caseStudies: CaseStudy[] = [
           {
             placeholder: true,
             alt: "Revenue and transactions trend",
-            caption: "Revenue and transaction growth YoY against an estimated −5–10% café market.",
+            caption: "Revenue and transaction growth YoY against an estimated −5–10% cafe market.",
           },
         ],
       },
