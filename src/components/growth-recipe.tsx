@@ -228,11 +228,11 @@ export function GrowthRecipe() {
             </h3>
 
             <p
-              className="mt-6 leading-[1.45]"
+              className="mt-6 leading-[1.3]"
               style={{
                 fontFamily: "var(--font-encode)",
                 color: "#fff",
-                fontSize: "clamp(1rem, 1.6vw, 22px)",
+                fontSize: "clamp(1.5rem, 2.9vw, 40px)",
               }}
             >
               It&apos;s not a limp &ldquo;audit.&rdquo; It&apos;s not confusing analytics

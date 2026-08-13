@@ -17,18 +17,18 @@ const STEPS: Step[] = [
     image: "/images/letters/a.png",
     label: (
       <>
-        (Up to the Day)
+        (Up To The Day)
         <br />
         SEO/GEO
       </>
     ),
   },
   { letter: "B", image: "/images/letters/b.png", label: "Execution Plans" },
-  { letter: "C", image: "/images/letters/c.png", label: "Triangulated Attribution" },
+  { letter: "C", image: "/images/letters/c.png", label: "Custom Attribution Models" },
   { letter: "D", image: "/images/letters/d.png", label: "Multi-Platform Data Synthesis" },
   { letter: "E", image: "/images/letters/e.png", label: "Beautiful Designs & Content" },
   { letter: "F", image: "/images/letters/f.png", label: "Honed PPC, CRO, LLMs" },
-  { letter: "G", image: "/images/letters/g.png", label: "Senior-Level Check-Ins" },
+  { letter: "G", image: "/images/letters/g.png", label: "Senior-Level Strategy" },
 ];
 
 const PLATFORMS = [
@@ -330,7 +330,7 @@ export function GrowthMultiplier() {
           >
             <Image
               src="/images/letters/mobile-timeline.png"
-              alt="A. (Up to the Day) SEO/GEO. B. Execution Plans. C. Triangulated Attribution. D. Multi-Platform Data Synthesis. E. Beautiful Designs & Content. F. Honed PPC, CRO, LLMs. G. Senior-Level Check-Ins."
+              alt="A. (Up To The Day) SEO/GEO. B. Execution Plans. C. Custom Attribution Models. D. Multi-Platform Data Synthesis. E. Beautiful Designs & Content. F. Honed PPC, CRO, LLMs. G. Senior-Level Strategy."
               width={360}
               height={596}
               className="h-auto w-full"
