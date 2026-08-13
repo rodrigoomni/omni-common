@@ -1,27 +1,38 @@
 {
   "nav": {
     "logo_text": "Omni Common",
-    "home_label": "Home",
-    "services_label": "Services",
-    "services_submenu": {
+    "what_we_do_label": "What We Do",
+    "what_we_do_submenu": {
+      "all_services": "All Services",
       "local_marketing": "Local Marketing"
     },
-    "work_label": "Work",
-    "about_label": "About",
-    "about_submenu": {
-      "clients": "Clients",
-      "team": "Team"
+    "case_studies_label": "Case Studies",
+    "case_studies_submenu": {
+      "all_case_studies": "All Case Studies",
+      "numberbarn": "NumberBarn",
+      "rapid_garden": "RapidGarden POS",
+      "talitha": "Talitha"
     },
+    "who_we_are_label": "Who We Are",
     "cta_button": "Let's Chat"
   },
   "footer": {
-    "eyebrow": "Start with a growth model",
+    "eyebrow": "Want to see your growth model?",
     "heading": "Let's Chat",
     "heading_accent": ".",
-    "description": "We'll build your intelligence model and show you where your growth is hiding. No pitch deck — just a conversation about what the data says.",
-    "cta_button": "Tell Us About You",
-    "local_note": "Have multiple physical locations?",
+    "description": "We'll build your intelligence model and show you where your growth is hiding. No pitch deck, just a conversation about what the data says.",
+    "email": "contact@omnicommon.com",
+    "cta_button": "Let's Chat",
+    "local_note_bold": "Local business with multiple locations?",
     "local_link_text": "We have a different playbook for that.",
+    "form": {
+      "name_label": "Full Name",
+      "name_placeholder": "Your name",
+      "email_label": "Email",
+      "email_placeholder": "you@company.com",
+      "message_label": "Tell us about your project",
+      "message_placeholder": "Budget, timeline, goals..."
+    },
     "copyright_prefix": "Omni Common © All Rights Reserved",
     "social_twitter": "Twitter",
     "social_linkedin": "LinkedIn",

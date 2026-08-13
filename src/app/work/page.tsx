@@ -37,14 +37,14 @@ export default function WorkPage() {
                 {/* Thumbnail */}
                 <div
                   className="relative aspect-[16/10] w-full flex-shrink-0 overflow-hidden rounded-2xl transition-transform duration-500 group-hover:scale-[1.02] md:w-80"
-                  style={{ backgroundColor: study.color, boxShadow: `4px 4px 0px 0px ${study.image && study.cursorColors ? study.cursorColors.fill : "var(--teal)"}` }}
+                  style={{ backgroundColor: study.color, boxShadow: `4px 4px 0px 0px ${(study.thumbnail || study.image) && study.cursorColors ? study.cursorColors.fill : "var(--teal)"}` }}
                 >
-                  {study.image ? (
+                  {study.thumbnail || study.image ? (
                     <Image
-                      src={study.image}
+                      src={(study.thumbnail || study.image) as string}
                       alt={study.title}
                       fill
-                      className="object-cover"
+                      className="object-cover object-center"
                     />
                   ) : (
                     <div className="flex h-full items-center justify-center">
@@ -95,7 +95,7 @@ export default function WorkPage() {
             From early-stage DTC brands to established enterprises, our work spans industries and scales. Reach out to hear more.
           </p>
           <Link
-            href="/contact"
+            href="#lets-chat"
             className="mt-8 inline-flex items-center gap-2 rounded-full px-8 py-3 text-sm font-semibold text-white transition-all hover:scale-105"
             style={{ fontFamily: "var(--font-inter)", backgroundColor: "var(--teal)", boxShadow: "4px 4px 0px 0px var(--lime)" }}
           >

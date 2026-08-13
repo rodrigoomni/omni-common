@@ -57,6 +57,8 @@ export interface CaseStudy {
   category: string;
   color: string;
   image?: string;
+  /** Optional homepage thumbnail — falls back to `image` when unset. */
+  thumbnail?: string;
   images?: string[];
   cursorHint: string;
   cursorColors?: { fill: string; stroke: string };
@@ -73,6 +75,8 @@ export interface CaseStudy {
   subtitle?: string;
   meta?: CaseStudyMeta[];
   snapshot?: {
+    /** Optional section heading override — falls back to "The wins at a glance." Supports inline HTML markup. */
+    heading?: string;
     intro: string;
     bullets: SnapshotBullet[];
     media?: MediaBlock;
@@ -83,6 +87,8 @@ export interface CaseStudy {
     media?: MediaBlock;
   };
   approach?: {
+    /** Optional eyebrow override, e.g. "03 — Omni Common's Approach". Defaults to "03 — Approach". */
+    eyebrow?: string;
     heading: string;
     intro: string;
     sections: ApproachSection[];
@@ -108,8 +114,9 @@ export const caseStudies: CaseStudy[] = [
     title: "NumberBarn",
     category: "SaaS / Telecom Marketplace",
     color: "#1e3a5f",
-    image: "/images/numberbarn-cover.png",
-    images: ["/images/numberbarn-cover.png"],
+    image: "/images/case-studies-thumbnails/numberbarn.webp",
+    thumbnail: "/images/case-studies-thumbnails/numberbarn.webp",
+    images: ["/images/case-studies-thumbnails/numberbarn.webp"],
     cursorHint: "+100% impression growth",
     cursorColors: { fill: "#3B82F6", stroke: "#1e3a5f" },
     year: "2025",
@@ -132,137 +139,116 @@ export const caseStudies: CaseStudy[] = [
     subtitle: "Rebuilding the engine under NumberBarn's growth.",
     meta: [
       { label: "Client", value: "NumberBarn" },
-      { label: "Industry", value: "Telecom / virtual phone numbers" },
+      { label: "Industry", value: "Telecom / Virtual phone numbers" },
       { label: "Engagement", value: "Q4 2024 – Present" },
       { label: "Focus", value: "Search-Led Growth Engine" },
       { label: "Channels", value: "SEO · Digital PR · Content · Landing Page UXO · Paid Search" },
     ],
     snapshot: {
+      heading:
+        "<span class=\"rt-blue\">The Main Problem:</span> &lsquo;Paid&rsquo; was becoming too expensive for obtaining customers",
       intro:
-        "NumberBarn had been growing — but paying for it with increasingly expensive paid search, as sales & marketing nearly doubled as a share of revenue (5.5% → 11%). Omni Common's thesis: shift acquisition toward organic, where the cost to land a buyer runs ~4× lower. In year one we reversed a multi-year slowdown and rebuilt the engine so growth compounds instead of having to be re-bought.",
+        "<p class=\"rt-subheading\">Problem</p><p>Before Omni Common, NumberBarn was growing, yet paying heavily for it through increasingly expensive Paid search. In a short window of time, their Sales &amp; Marketing budget had nearly doubled.</p><p>While their revenue was growing, their YoY growth rate had fallen four years running (40.7% → 29.5% → 20.0% → 13.3%). Their no-investment trajectory for 2025 was projected at +1.5%–7.4%. As 80%–85% of their revenue is re-acquired from new buyers each year, they were spending more to grow less.</p><p class=\"rt-subheading\">Omni Common&rsquo;s Solution</p><p>The fix wasn&rsquo;t more spend, it was changing the mix. Omni Common&rsquo;s thesis: <b class=\"rt-blue\">shift customer acquisition toward Organic</b><span class=\"rt-blue\">.</span> (There, the cost to land a customer runs <span class=\"rt-dark\">~4× lower</span>.) <b class=\"rt-navy\">In year one</b>, <b class=\"rt-navy\">we reversed a multi-year slowdown and completely rebuilt their marketing trends</b>, allowing their growth to compound by itself, rather than having to be repurchased again and again.</p>",
       bullets: [
         {
           value: "−69%",
-          label: "Account CAC YoY",
+          label: "Account CAC, YoY",
           detail: "The key lever in an acquisition-led business.",
         },
         {
           value: "+270%",
-          label: "Net-new buyers",
-          detail: "3,664 → 13,544. Unique buying accounts +35% YoY.",
+          label: "Net-New Buyers",
+          detail: "3,664 → 13,544 · Unique buying accounts +35% YoY.",
         },
         {
           value: "+20%",
-          label: "Total purchases YoY (GA)",
-          detail: "Organic search purchases +51%, paid +42%.",
+          label: "Total Purchases YoY (GA)",
+          detail: "Organic search purchases +51%, Paid +42%.",
         },
         {
           value: "46 → 60",
           label: "Domain Rating",
-          detail: "+14 pts in 24 months. Top-3 keywords ~4× (~500 → ~2,000).",
+          detail: "+14 pts in 24 months · Top-3 keywords ~4× (~500 → ~2,000).",
         },
         {
           value: "+288%",
-          label: "Search impressions",
+          label: "Search Impressions",
           detail: "Organic clicks ~+105% (trailing 90 days YoY).",
         },
         {
           value: "+1,100%",
-          label: "ChatGPT-referred purchases",
-          detail: "Converting 68% above site average. Now the 6th-highest purchase driver.",
+          label: "ChatGPT-Referred Purchases",
+          detail: "Converting 68% above site average, now the 6th-highest purchase driver.",
         },
       ],
     },
     background: {
-      heading: "Background — a big ship with slowing momentum",
+      heading: "A Big Ship With Slowing Momentum",
       paragraphs: [
-        "NumberBarn is a phone number marketplace, specializing in helping people purchase, store, and forward numbers. They also serve business owners with tools to improve their marketing and business tech stack.",
-        "When Omni Common first engaged, NumberBarn stored scattered customer data but didn't really know WHO their customers were, WHAT mattered to them, or HOW to talk to them. We analyzed their data and conducted customer surveys and interviews to develop a full funnel understanding of their consumer make-up as well as map their journey through every touch point. We identified distinct behaviors, needs, and patterns that aided in the development of ICPs and marketing message mapping.",
-        "Most importantly, we discovered a key differentiator between certain customer segments: those who WANTED to buy, store, forward a number and those who NEEDED to based on certain life circumstances. This insight informed our ICP specific marketing messaging and resulted in clearer, more customer-focused messaging across the site.",
-        "Virtual phone numbers: vanity, toll-free, area-code, parking, forwarding, porting. Real assets (established base, domain authority, brand) but decelerating growth that was increasingly bought, not earned. The business is acquisition-led: ~80–85% of buyers each year are new, repeat frequency flat (~1.4×/yr). Without organic investment, growth was drifting toward flat — the reason for engaging Omni Common in Q4 2024.",
+        "<b class=\"rt-blue\">NumberBarn is a phone number marketplace, specializing in helping people purchase, store, and forward numbers.</b> They also serve business owners tools to improve their marketing and business tech stack.",
+        "When Omni Common first came on the scene, NumberBarn stored all their customer data, but didn't fully know <b>WHO</b> their customers were, <b>WHAT</b> mattered to them, or <b>HOW</b> to talk to them. (No worries, that&rsquo;s a surprisingly common problem.)",
+        "In addition, their marketing channels were calibrated in such a way where long-term growth was unlikely. Their company vitals were getting all jumbled up.",
+        "<ul class=\"cs-bullets\"><li><b>Channel mix was dangerously Paid-heavy:</b> Paid 50% of transactions / 45% of revenue; Organic only 27% of transactions. A large tracked Direct bucket masked a thin Organic base.</li><li><b>Customer Acquisition Cost (CAC) was climbing:</b> There was no structural mechanism to bring down CAC with Paid being dominant and Organic being flat, YoY.</li><li><b>Average Order Value &ldquo;decline&rdquo; misread:</b> Price per phone number barely moved; number of sales per customer actually fell because of an influx of first-time single-number buyers, a true-blue sign of successful acquisition in action, not a pricing problem!</li><li><b>Untapped landing-page opportunity:</b> Area-code pages were on broken query-string URLs; a full set of pages designed/written/built, yet none had gone live.</li></ul>",
       ],
       media: {
         layout: "single",
         eyebrow: "Fig. 01",
         items: [
           {
-            src: "/images/numberbarn-cover.png",
-            alt: "NumberBarn marketplace, the legacy state before our engagement",
+            src: "/images/numberbarn-background.webp",
+            alt: "The NumberBarn marketplace prior to engagement",
             caption: "The NumberBarn marketplace prior to engagement — strong assets, no clear picture of where growth was coming from.",
-            bg: "#1e3a5f",
           },
         ],
       },
     },
     approach: {
-      heading: "Approach — SEO as a formula",
+      eyebrow: "03 — Omni Common's Approach",
+      heading: "Data Sorting + SEO + Spend = Organic Growth",
       intro:
-        "Four interdependent systems that multiply each other — technical, content, digital PR, landing-page UXO — with paid managed alongside so the channels reinforce rather than cannibalize.",
-      media: {
-        layout: "single",
-        eyebrow: "Fig. 02 — The Growth Formula",
-        items: [
-          {
-            src: "/images/seo-illustration.svg",
-            alt: "Diagram of the four interdependent systems",
-            caption: "Search-led growth, modeled as four channels that compound when run as one system.",
-            bg: "var(--surface)",
-          },
-        ],
-      },
+        "<p><b class=\"rt-blue\">The very first thing we did was analyze their mountain of unsorted data</b>. Anywhere we found gaps, we developed customer surveys and conducted customer interviews to develop a full-funnel understanding of their consumer make-up. We mapped their customer&rsquo;s journey at every touch point, <b>in writing</b>.</p><p>After doing this, we identified specific needs and patterns, which we then used to create Ideal Customer Profiles (ICPs) and marketing message mapping. (Science!)</p><p>After we had a mathematical breakdown of their behaviors, we discovered a key differentiator between different customer segments. There were customers who <em>wanted</em> to buy, store, forward a number and those who <em>needed</em> to, based on certain life circumstances. A simple, but important distinction.</p><p><b class=\"rt-blue\">Second, we identified, designed, and internally executed on four interdependent deliverables that we calculated would multiply organically</b>. These were: Technical, Content Marketing (i.e., blog posts), Digital PR, and Landing-page UXO. (We also managed Paid spend alongside their marketing channels to reinforce rather than cannibalize site traffic, because we&rsquo;re smart like that.)</p><p><b>Finally, we set out to untangle their marketing spend and set it correctly across all their channels.</b></p><p>The through line in their data, stagnant growth wasn&rsquo;t a brand problem, it was a channel-mix problem. Fix the mix, fix the unit economics.</p><p><b>Here&rsquo;s what happened:</b></p>",
       sections: [
         {
-          title: "Content Marketing",
-          body: "49 blog posts published in 2025 across two tracks (purchase-adjacent education + refresh/consolidation). Tightened publishing/QA pipeline; aligned terminology and topic selection with the client's editorial lead. Culled and consolidated thin/dated posts (SEO hygiene) and shipped a blog redesign. Blog traffic +234% YoY (Q4'25 vs Q4'24); ~48K Google visits and 4.1M impressions.",
-          stat: { value: "+234%", label: "Blog traffic YoY · 4.1M impressions" },
+          title: "Rebuild Content Marketing",
+          body: "<p>We wrote 49 blog posts in 2025 (yes, researched and written by a real person, not AI). We sorted them by two main tracks: &ldquo;purchase-adjacent education&rdquo; + &ldquo;refresh/consolidation&rdquo;. In addition, we tightened the publishing/QA pipeline, aligned terminology and topic selection with client&rsquo;s editorial lead, culled and consolidated thin/dated posts (SEO hygiene), and shipped a blog redesign.</p><p><b class=\"rt-blue\">The result?</b> Blog traffic rose +234% YoY (Q4&rsquo;25 vs. Q4&rsquo;24), with ~48K Google visits and 4.1M impressions.</p>",
+          stat: { value: "+234%", label: "Blog traffic YoY · <b class=\"rt-green\">4.1M</b> impressions" },
         },
         {
           title: "Digital PR & Link Building",
-          body: "557 links from 464 unique referring domains, average DR 69.73, 147 links at DR 71+. Original data-driven campaigns: Ghosting (125 placements), Debt Collection Calls and Phone Bills (avg DR ~80s), Robocalls and Phone Etiquette (sustained broadcast/publisher coverage). Drove NumberBarn DR from 46 → 60 and seeded AI-discovery signals.",
-          stat: { value: "557", label: "Links from 464 domains · avg DR 69.73" },
+          body: "<p>We drove NumberBarn Domain Rating (DR) from 46 → 60 and seeded very important AI-discovery signals.</p><p><b class=\"rt-blue\">Here&rsquo;s how it happened:</b> 147 earned links at DR 71+. Examples of original data-driven campaigns: Ghosting (125 placements), Debt Collection Calls and Phone Bills (avg. DR ~80s), Robocalls and Phone Etiquette (sustained broadcast/publisher coverage).</p>",
+          stat: { value: "557", label: "Links from <b class=\"rt-green\">464</b> domains · avg. DR <b class=\"rt-green\">69.73</b>" },
         },
         {
           title: "Technical SEO",
-          body: "12 technical batches across the year surfacing 33 optimizations (template, crawl, indexing, Core Web Vitals); internal-linking automation for topical clusters; content consolidation redirecting/merging 58 older posts. New single-day organic-click highs of 1,197 (July) then 1,680 (Oct 21). Impressions +288%, organic clicks ~+105% (90-day YoY).",
+          body: "<p>We conducted: 12 technical batches across the year, surfacing 33 optimizations (i.e., template, crawl, indexing, Core Web Vitals), internal-linking automation for topical clusters, content consolidation redirecting/merging 58 older posts.</p><p><b class=\"rt-blue\">This all established new single-day Organic-click highs:</b> 1,197 (July 2025) → 1,680 (Oct 2025). Impressions grew +288%, Organic clicks grew ~+105% (90-day YoY).</p>",
           stat: { value: "+288%", label: "Search impressions · 90-day YoY" },
         },
         {
           title: "Landing Page UXO & CRO",
-          body: "17 top-level landing pages rewritten, redesigned, and coded for commercial intent (vanity, local/geo, toll-free, area-code, search, call-forwarding, purchase-and-port, lawyers, roofing) — development included at no upcharge, plug-and-play ready. /local launched Aug 31 and is competing in 100K+ monthly searches; /search redesign live June 30; homepage redesign through multiple review rounds; CRO experimentation (CrazyEgg on /number-parking). Biggest unlock ahead: publishing the finished pages.",
-          stat: { value: "17", label: "Landing pages built · 100K+ monthly searches" },
+          body: "<p>17 top-level landing pages were rewritten, redesigned, and coded for commercial intent (i.e., vanity, local/geo, toll-free, area-code, search, call-forwarding, purchase-and-port, lawyers, roofing). This development was included at no up-charge, plug-and-play ready.</p><p><b class=\"rt-blue\">In one example</b>, &ldquo;/local&rdquo; launched Aug 2025, and is currently bringing in 100K+ monthly searches.</p>",
+          stat: { value: "17", label: "Landing pages built · <b class=\"rt-green\">100K+</b> monthly searches" },
         },
         {
           title: "Paid Search (PPC)",
-          body: "Full account ownership. Returned non-branded campaigns to Maximize Conversion Value w/ tROAS; continuous query/keyword hygiene; \"top keywords\" focus and exact-match tests; ad-copy testing (benefit themes beat personality-led); promo alignment for on-sale numbers. Best efficiency in three years — CPA ~−27%, ROAS ~+26% YoY on lower spend.",
-          stat: { value: "+26% ROAS", label: "On −27% CPA. Best efficiency in 3 years." },
+          body: "<p>We took full account ownership of their Paid channels. We returned non-branded campaigns to maximize conversion value w/ tROAS, did continuous query/keyword hygiene, executed top keywords focus with exact-match tests, implemented ad-copy testing, and sorted promo alignment for on-sale numbers.</p><p><b class=\"rt-blue\">All this created the best efficiency in three years</b>: CPA ~−27%, ROAS ~+26% YoY on lower spend.</p><p>In Q2 2025, nine months into the engagement, Google Ads efficiency hit a record CPA down 28% year over year ($28.02 to $20.04) and ROAS up 23% (2.86x to 3.52x), achieved on 17% less spend.</p>",
+          stat: { value: "<span class=\"rt-green\">+26%</span> ROAS", label: "On <b class=\"rt-green\">−27%</b> CPA. Best efficiency in 3 years." },
         },
       ],
     },
     resultsSection: {
-      heading: "Results — growth was decelerating; we reversed it",
-      body: "Run together the services compounded: total purchases +20% YoY, organic +51%, paid +42%. The number that ties it together is account CAC, down 69% — in a business that re-acquires most of its revenue each year, acquisition cost governs everything. Channels reinforce: organic + paid presence together converts at 17.5% vs. 4.2% organic alone. A new tailwind also arrived — AI discovery: ChatGPT-referred purchases +1,100% YoY at a 4.23% conversion rate (68% above site average), now the 6th-highest purchase driver.",
+      heading: "What Omni Common Accomplished",
+      body: "<p><b>Overall Results:</b> Growth was quickly decelerating. We reversed and accelerated it.</p><p><b>Calculated together, the solutions we prescribed and executed compounded.</b> Total purchases were up: +20% YoY, Organic +51%, and Paid +42%. The number that best ties it together is account Customer Acquisition Cost (CAC), <b>down a massive 69%</b>! For a business that needs to re-acquire most of its revenue each year (people don&rsquo;t necessarily buy new phone numbers every year), acquisition cost governs everything.</p><p>The channels we built also worked well in tandem: Organic + Paid together converted at 17.5%, compared to Organic previously converting at 4.2% by itself. Not only that, but a new tailwind arrived half-way through the year: &ldquo;AI discovery&rdquo;! ChatGPT-referred purchases were up +1,100% YoY, with a 4.23% conversion rate (68% above site average), and is now the 6th-highest purchase driver.</p><p>It all worked so well, we continue to work as their growth partner on new opportunities to this day!</p>",
       media: {
         layout: "single",
         eyebrow: "Fig. 03 — Trailing 12 months",
         items: [
           {
-            src: "/images/growth-illustration.svg",
-            alt: "Growth chart illustrating the compounded results",
+            src: "/images/numberbarn-results.webp",
+            alt: "Compounded performance across organic and paid search",
             caption: "Compounded performance across organic and paid search, year over year.",
-            bg: "var(--surface)",
           },
         ],
       },
-    },
-    opportunity: {
-      heading: "The opportunity ahead",
-      bullets: [
-        "A major competitor's mid-2025 rebrand collapsed its organic traffic 99.5%, redistributing ~640K monthly area-code clicks; NumberBarn captures ~1.9% today.",
-        "The enterprise incumbent has shed ~75% of ranking pages in 24 months — winnable now.",
-        "The 17 landing pages are built and ready; publishing them is the single highest-leverage action remaining.",
-      ],
-      closer:
-        "Holding SEO investment steady, the marginal cost of each new transaction keeps falling — blended CAC down as volume grows several-fold, bringing marketing's share of revenue back toward earlier levels.",
     },
     footnote:
       "Metrics sourced from Google Analytics 4, Google Search Console, Google Ads, and Ahrefs (2024–2026). Figures reflect 2025 full-year actuals/forecast vs. prior year unless noted.",
@@ -273,6 +259,7 @@ export const caseStudies: CaseStudy[] = [
     category: "Specialty Retail Software / POS",
     color: "#2d5a27",
     image: "/images/rapid-garden-cover.png",
+    thumbnail: "/images/case-studies-thumbnails/rapid.webp",
     images: ["/images/rapid-garden-cover.png"],
     cursorHint: "−55% cost per lead",
     cursorColors: { fill: "#22C55E", stroke: "#2d5a27" },
@@ -451,7 +438,7 @@ export const caseStudies: CaseStudy[] = [
       ],
     },
     resultsSection: {
-      heading: "Results — best-performing metrics on record",
+      heading: "What Omni Common Accomplished",
       body:
         "The RapidGarden POS engagement drove the account to its best-performing metrics on record across paid, organic, and content channels simultaneously. By the close of the engagement, CPL had dropped 55% from its peak and MQL volume had climbed 157% from trough to record high. PPC engagement rate was up 90% YoY, engaged sessions up 30%, and the form fill rate up 36%. On the organic and content side, sessions grew 20% YoY, engaged sessions grew 60%, and the organic engagement rate climbed 32%. Against the 2023 baseline (the true comparable, since 2024 was inflated by a temporary DSA traffic anomaly), form fills were up 88% and the form fill rate up 62%. \"Our organic stuff for what we paid and built last year did phenomenal.\" — Bart, RapidPOS CEO.",
       media: {
@@ -486,6 +473,7 @@ export const caseStudies: CaseStudy[] = [
     category: "Multi-location Café · Mission-Driven Roaster",
     color: "#e8d5b7",
     image: "/images/talitha-cover.jpg",
+    thumbnail: "/images/case-studies-thumbnails/talitha.webp",
     images: ["/images/talitha-cover.jpg"],
     cursorHint: "+571% DTC orders",
     cursorColors: { fill: "#D97706", stroke: "#e8d5b7" },
@@ -672,7 +660,7 @@ export const caseStudies: CaseStudy[] = [
       ],
     },
     resultsSection: {
-      heading: "Results — local gravity lifted the whole business",
+      heading: "What Omni Common Accomplished",
       body:
         "In-café — where the budget went — the rebrand did what a premium repositioning should. Average order value rose +9–12% at every one of the three locations (and +33% overall as the new brand took hold), repeat customer revenue rose +16% ($63,600 → $73,600/month), and Q1 2026 café sales tracked 21% above Q1 2025 — with 70–82% of post-rebrand customers being entirely new to the brand. Clairemont led with +22.6% monthly unique customers and +14% revenue. On brand, Talitha went from near-zero earned media to roughly 29 press placements and +343% reach growth YoY, with ~30% brand recognition at the 2025 SD Coffee Fest. DTC ecommerce — the by-product — grew even though it wasn't the focus: orders +571% and revenue roughly doubled from the start of the year, while the subscription base grew +66% in active subscriptions and +80% in unique subscribers.",
       media: {
@@ -688,7 +676,7 @@ export const caseStudies: CaseStudy[] = [
       },
     },
     opportunity: {
-      heading: "The takeaway",
+      heading: "Takeaway",
       bullets: [
         "Talitha didn't have an awareness problem — it had a focus problem.",
         "A dollar spent building local brand gravity does more — and compounds further — than the same dollar scattered nationally.",
@@ -706,6 +694,7 @@ export const caseStudies: CaseStudy[] = [
     title: "Lofty Coffee Co.",
     category: "Multi-location Café · Specialty Coffee Roaster",
     color: "#9CA3A4",
+    thumbnail: "/images/case-studies-thumbnails/lofty.webp",
     // Hero left as a grey placeholder until a Lofty Coffee cover is provided.
     cursorHint: "29% → 41% returning customers",
     cursorColors: { fill: "#9CA3A4", stroke: "#6B6B66" },
@@ -899,7 +888,7 @@ export const caseStudies: CaseStudy[] = [
       ],
     },
     resultsSection: {
-      heading: "Results — a business that changed shape",
+      heading: "What Omni Common Accomplished",
       body:
         "The headline isn't a single campaign — it's a business that changed shape. The frequency distribution that had been frozen for four straight years finally started moving: one-time visitors dropped from 75.4% to 71.6%, and quarterly visitors surged ~30%. That shift, plus the loyalty and email programs, drove returning customers from 29% to 41% of the active base — with returning customers now generating ~70% of revenue (up from ~60%) and repeat transactions up to 88%. 22% more new customers came back within their first year. Most importantly, this happened against a falling market: Lofty grew transactions and revenue YoY while comparable cafés were estimated down 5–10% — with March–May 2026 transactions up +12.0%, +9.8%, and +8.9% YoY and a full-year 2026 forecast of +10.3% revenue growth on +7.7% transactions. On a unit-economics basis, the program returns an estimated ~10× LTV:CAC ratio.",
       media: {
@@ -927,5 +916,228 @@ export const caseStudies: CaseStudy[] = [
     },
     footnote:
       "Metrics sourced from Square POS, Klaviyo, Google Search Console, BrightLocal, and Omni Common's integrated KPI dashboards and the Lofty Master Growth Analysis (June 2026). All performance figures are expressed as relative change.",
+  },
+  {
+    slug: "trio-flatmount",
+    title: "TRIO Flatmount",
+    category: "Consumer Electronics · Starlink Mounting Systems",
+    color: "#374151",
+    thumbnail: "/images/case-studies-thumbnails/trio.webp",
+    cursorHint: "−23% → +48% YoY orders",
+    cursorColors: { fill: "#374151", stroke: "#111827" },
+    year: "2026",
+    client: "TRIO Flatmount",
+    tagline:
+      "Turning a declining order line into TRIO's best year on record.",
+    overview:
+      "How Omni Common reversed a multi-quarter drop in orders, then rebuilt the acquisition mix underneath it — so the growth gets cheaper as it scales.",
+    challenge:
+      "TRIO's early paid-search advantage had eroded: orders were running 23% below the prior year through the first half of 2025 while paid spend rose against it. Roughly 70% of customers had never heard of TRIO before they bought, competitors were outranking the brand on the exact transactional terms buyers search, and four platforms reported four different numbers for the same month — so no budget conversation could get past being an argument.",
+    solution:
+      "Three moves, in order. Build the brand the product had outgrown — identity, voice, personas, and positioning. Build the number — a triangulation model that reconciles Shopify, GA4, Fairing, Google Ads, and Meta into one channel-by-channel view of where orders actually come from. Then shift acquisition from paid toward organic, where TRIO's cost to land a customer runs a small fraction of paid. Paid search carries the recovery in the near term while SEO's J-curve builds. That's the Search-Led Growth Engine: paid buys a transaction once, search buys compounding.",
+    results: [
+      { metric: "YoY order growth", value: "−23% → +48%" },
+      { metric: "Search-attributed orders", value: "~4×" },
+      { metric: "Gross transactions vs. plan", value: "+16%" },
+      { metric: "Net Promoter Score", value: "56" },
+    ],
+    services: [
+      "Growth Platform & Brand Identity",
+      "Attribution & Measurement",
+      "Website & UX",
+      "Technical SEO",
+      "Content Marketing",
+      "Digital PR & Link Building",
+      "Paid Search & Social",
+      "Influencer Marketing",
+    ],
+
+    subtitle:
+      "Turning a declining order line into TRIO's best year on record — by rebuilding the brand, the measurement, and the acquisition mix underneath it.",
+    meta: [
+      { label: "Client", value: "TRIO Flatmount" },
+      { label: "Industry", value: "Starlink mounting systems · direct-to-consumer + dealer" },
+      { label: "Service", value: "Search-Led Growth Engine" },
+      { label: "Engagement", value: "October 2025 – Present" },
+    ],
+    snapshot: {
+      intro:
+        "TRIO's paid-search advantage had eroded and orders were 23% below the prior year through H1 2025, while every channel dashboard told a different story. In our first three quarters, we reversed the decline, beat the growth model we sold against, and started shifting the acquisition mix toward the channel that gets cheaper over time. Every month of 2026 came in above the prior year.",
+      bullets: [
+        {
+          value: "−23% → +48%",
+          label: "YoY order growth",
+          detail: "Same-month, Jan–Jun, so seasonality is controlled for — a 71-point swing.",
+        },
+        {
+          value: "2,273 → 3,356",
+          label: "Jan–Jun orders",
+          detail: "2026 didn't just recover — it cleared 2024's pre-decline volume of 2,950.",
+        },
+        {
+          value: "~4×",
+          label: "Search-attributed orders",
+          detail: "87 (Oct '25) → 385 (Jun '26); ~46% of the attributed mix by spring.",
+        },
+        {
+          value: "+16%",
+          label: "Gross transactions vs. forecast",
+          detail: "4,315 actual against ~3,720 modeled (Oct '25–Jun '26); net-new ran +12%.",
+        },
+        {
+          value: "+41%",
+          label: "SEO transactions vs. forecast",
+          detail: "228 vs. 162 net-new; May organic sessions came in 10× the forecast.",
+        },
+        {
+          value: "4 of 4",
+          label: "Months paid beat plan",
+          detail: "Mar–Jun conversion goals all cleared, with CPA falling from $117 to ~$92.",
+        },
+      ],
+      media: {
+        layout: "single",
+        eyebrow: "Fig. 01 — Order line, reversed",
+        items: [
+          {
+            placeholder: true,
+            alt: "Monthly orders 2025 vs. 2026",
+            caption:
+              "Every month of 2026 above the prior year; June the best on record.",
+          },
+        ],
+      },
+    },
+    background: {
+      heading: "A great product in a market that had just gotten crowded",
+      paragraphs: [
+        "TRIO Flatmount builds low-profile Starlink mounting systems — flat mounts, speed mounts, mini mounts, pole and interior mounts — engineered to hold a dish at highway speed on trucks, vans, RVs, and boats. It's a considered, high-ticket purchase: roughly a $300 first order from a buyer who researches before they commit, sold direct on Shopify alongside a growing dealer and wholesale channel.",
+        "For a while, being early was enough. TRIO owned a niche that barely existed, paid search found the few people looking, and the ROAS was extraordinary. Then the category filled in. Competitors arrived with better backlink profiles and started taking the transactional keywords. Starlink cut hardware prices, which quietly repriced every accessory around it. Paid search kept spending against a shrinking edge — and because nobody could agree on what any channel was actually producing, there was no way to argue for moving the money somewhere better.",
+      ],
+      media: {
+        layout: "single",
+        eyebrow: "Fig. 02 — The product line",
+        items: [
+          {
+            placeholder: true,
+            alt: "TRIO Flatmount product family",
+            caption:
+              "Flat, speed, mini, pole, and interior mounts — engineered for highway-speed use.",
+          },
+        ],
+      },
+    },
+    approach: {
+      heading: "Build the brand. Build the number. Then move the money.",
+      intro:
+        "We started with measurement, because nothing else could be decided without it. In one month, the same set of orders was reported as 111 Google-organic purchases by Shopify and 36 by GA4; Meta claimed 127 paid orders where Shopify and GA4 both saw about 30. Any budget conversation built on those numbers was going to be an argument, not a decision. So we built a triangulation model that reconciles all five sources — Shopify as the volume source of truth, with GA4, the Fairing post-purchase survey, Google Ads, and Meta distributing that total across channels by proportional contribution. Then we ran the engine. The brand and the site came first — there's no point sending better traffic to a page that can't convert it, or spending against a name nobody remembers — and paid search was rebuilt to carry acquisition through the winter while four interdependent organic systems compounded underneath: technical SEO, content, digital PR, and ongoing UXO.",
+      media: {
+        layout: "single",
+        eyebrow: "Fig. 03 — The Search-Led Growth Engine",
+        items: [
+          {
+            placeholder: true,
+            alt: "Search-Led Growth Engine diagram",
+            caption:
+              "Paid buys a transaction once; search buys compounding. The mix shifts toward organic as it takes share.",
+          },
+        ],
+      },
+      sections: [
+        {
+          title: "Growth Platform & Brand Identity",
+          body:
+            "A product that sells without a brand is selling on borrowed time. Roughly 70% of TRIO's customers had never heard of the brand before they bought — they arrived off a search, compared boxes, and picked one. That works beautifully until competitors show up, and then it's the whole problem: nothing about TRIO was memorable enough to be chosen on purpose. So we built the foundation the product had outgrown — a full Growth Platform: customer personas grounded in survey and interview data, a buyer's-journey map, a sales-funnel model, a message map, market analysis and positioning, a visual brand guide, and a voice-and-tone guide. TRIO's voice came out of that work as three pillars — Steady, Conversant, Catalytic. The client's own term for the finished guide was their \"North Star\": every page, ad, article, and creator brief downstream of it argues the same way.",
+          stat: {
+            value: "7 · 3",
+            label: "Foundational deliverables · brand voice pillars governing every channel",
+          },
+        },
+        {
+          title: "Attribution & Measurement",
+          body:
+            "We replaced four contradictory dashboards with one number. The triangulation model reconciles Shopify, GA4, Fairing, Google Ads, and Meta monthly, and it's the reason every budget increase from February onward was a calculation rather than a guess. It also surfaced channels the platforms couldn't see at all — word-of-mouth, YouTube, and AI assistants only exist in self-reported survey data. That last point stopped being academic fast: post-purchase survey responses showed creators and YouTube driving roughly 21.6% of reported discovery, and those buyers almost always completed the purchase through a Google ad or an organic result. Under last-click, every one of those sales was paid search's trophy. Creators were making demand and search was collecting it — an argument for funding both rather than defending one. Alongside it we built a forecast-versus-actuals model on both a net-new and gross basis, so performance is measured against the plan TRIO actually bought.",
+          stat: {
+            value: "5 sources",
+            label: "Reconciled monthly · 21.6% of discovery credited to creators last-click missed entirely",
+          },
+        },
+        {
+          title: "Website, UX & Technical SEO",
+          body:
+            "We rebuilt the storefront around how people actually shop for a mount. The old site opened on a full-bleed hero and a \"select your antenna\" row — handsome, but it asked first-time visitors to figure out which of four mounts fit their dish and vehicle before seeing a price. Our process is fixed: keyword and persona research first, captured in a content MAP; then a full high-fidelity mockup; then a content brief; then we build it in Shopify ourselves. The new homepage went live November 12, 2025, leading with the job to be done — a mount-finder grid showing every model with price, rating, and finish; then durability proof; then the accessories that complete a build. Underneath: a top nav rebuilt by use case and vehicle type, a routed \"choose your own adventure\" flow, PDPs rewritten highest-traffic-first, add-to-cart logic that requires an attachment, a faceted PLP, monthly technical batches (crawl, indexing, internal linking, H1s, broken links), Merchant Center extended into Canada, and heat mapping in early so the next change gets argued from behavior.",
+          stat: {
+            value: "1.78% → 2.6%",
+            label: "PLP conversion rate · +93% revenue from that page · unranked → #3 on \"Starlink mount\"",
+          },
+        },
+        {
+          title: "Paid Search & Social",
+          body:
+            "We took full account ownership and scaled spend only as fast as the economics allowed. Budget moved from roughly $20K/month in February to $30K in March, $40K in May, and $45K in June — each step gated on the prior month's CPA, not on optimism. We restructured the whole account: paused wasteful targeting, repaired conversion tracking, pulled high-converting keywords out of PMAX into dedicated Search campaigns for control, and split campaigns to separate new-customer cost from retargeting. Cohort analysis showed two distinct buyers — 66% convert within 24 hours, 17% take twelve days or more — so we ran two directions at once: urgency for the fast decision-makers, technical proof for the researchers still comparing mounts a week later. Volume beat the goal every month from March through June while CPA fell: 227 conversions at $117 in March, 310 at $96 in April, 403 at $98 in May, and 496 at $92 in June — TRIO's best month on record.",
+          stat: {
+            value: "496 / $92",
+            label: "June conversions vs. 428 goal · CPA vs. $105 target",
+          },
+        },
+        {
+          title: "Content Marketing",
+          body:
+            "We wrote for the searches buyers actually run before a $300 purchase — installation guides, surface-by-surface how-tos, and product comparisons, published on a cadence that built topical depth rather than volume. Boating articles recovered lost rankings for mini-mount terms; a Starlink Roam guide generated nearly 20,000 impressions on its own; an RV article A/B test settled which page should own the intent. We also built search-led video: a TRIO-versus-OEM pole-mount comparison shot in a deliberately plain, credible style, published to answer a query rather than to chase views. It now surfaces in Google AI Overviews, and 43% of its views arrive from Google Search.",
+          stat: {
+            value: "+84% / +132%",
+            label: "MoM organic purchases (Mar → Apr) · clicks on a single refreshed page",
+          },
+        },
+        {
+          title: "Digital PR & Link Building",
+          body:
+            "Domain authority was the constraint, so we went after it directly. Competitors were winning transactional keywords on the strength of their backlink profiles, not their pages. We ran original data campaigns pitched to national and industry press — pivoting the angle when a TRIO-specific dataset failed to land and a broader, more shareable one did — and we deliberately pursued high-relevance, low-authority niche sites like Starlink installers, where topical fit outweighs the metric. The program also opened inbound doors, including product reviews and Q&As in the RV and tech press.",
+          stat: {
+            value: "4",
+            label: "Placements in a single month · plus sustained inbound coverage",
+          },
+        },
+        {
+          title: "Influencer Marketing",
+          body:
+            "We built a creator pipeline where the audience already owns the problem. Van life first, then deliberately outward into marine, hunting and off-road, and construction and fleet — matching TRIO's expanding retail and dealer footprint. Creators receive product with affiliate links; the point isn't affiliate conversion, it's showing a real mount at real highway speed to people who'd otherwise improvise one. The signal that it's working shows up where it should: named creators started appearing in TRIO's post-purchase survey responses as the reason people bought.",
+          stat: {
+            value: "94 → 19",
+            label: "Creators prospected · active collaborations in a single month",
+          },
+        },
+      ],
+    },
+    resultsSection: {
+      heading: "What Omni Common Accomplished",
+      body:
+        "TRIO's orders were falling. We reversed it, and then beat the plan. Same-month year-over-year growth swung 71 points — from −23% across the first half of 2025 to +48% across the first half of 2026 — and 2026 didn't merely recover, it cleared TRIO's pre-decline 2024 volume. Against the growth model we sold against, gross transactions came in 16% ahead of forecast and net-new transactions 12% ahead, with June the best month for orders and revenue in company history. The more durable result is the mix: search-attributed orders grew roughly 4× from the fall 2025 trough to spring 2026, reaching about 46% of attributed orders, and SEO delivered 41% more net-new transactions than forecast — May organic sessions ran ten times the modeled number. Because organic acquires a customer at a small fraction of paid cost, every point of share it takes pulls the blended cost of the whole engine down. Paid didn't get worse while that happened; it got better, beating its conversion goal in each of the last four months at a falling CPA. A new channel arrived on its own: self-reported purchases from AI assistants went from one to three a month to 19 in March alone, and publishing an llms.txt file in June correlated with a sharp rise in AI-driven impressions. And the brand caught up to the product: branded search impressions grew more than 30% over a two-month stretch, and the customer survey returned an NPS of 56 — an excellent score, above the consumer goods and services benchmark.",
+      media: {
+        layout: "single",
+        eyebrow: "Fig. 04 — Mix shift, in progress",
+        items: [
+          {
+            placeholder: true,
+            alt: "Attributed orders by channel, Oct 2025 vs. Jun 2026",
+            caption:
+              "Search-attributed orders grew ~4× and reached ~46% of the attributed mix; paid CPA fell from $117 to ~$92.",
+          },
+        ],
+      },
+    },
+    opportunity: {
+      heading: "The takeaway",
+      bullets: [
+        "TRIO's problem was never the product — it was that roughly seven in ten customers bought without knowing whose product it was.",
+        "A brand worth remembering means the product gets chosen on purpose, not stumbled into.",
+        "One number, five sources, agreed in advance turns budget decisions into arithmetic instead of argument.",
+        "Shifting from rented growth in paid search into owned growth in organic makes every future order cheaper to acquire.",
+      ],
+      closer:
+        "Nine months in, the decline is behind them, the plan is beaten, and the engine is getting cheaper to run. That's the point of a search-led engine — the growth compounds instead of resetting every time the budget does.",
+    },
+    footnote:
+      "Metrics sourced from Shopify, GA4, Google Ads, Meta, the Fairing post-purchase survey, and Omni Common's triangulation attribution model (2025–2026). Forecast comparisons are measured against the growth model presented at engagement start. All performance figures are expressed as relative change.",
   },
 ];

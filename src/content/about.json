@@ -1,0 +1,65 @@
+{
+  "about_page": {
+    "hero": {
+      "eyebrow": "About Us",
+      "heading": "One team. Every channel.",
+      "heading_accent": "Compounding growth."
+    },
+    "story": {
+      "eyebrow": "Our Story",
+      "heading": "Founded by operators who saw a",
+      "heading_accent": "broken model.",
+      "body": "Growing brands deserve better than siloed agencies running channels in isolation. Ryan and Daniel built Omni Common around a marketing mix model approach — using data to unify search, lifecycle, and social into one system where every dollar compounds."
+    },
+    "team_section": {
+      "eyebrow": "The Team",
+      "heading": "Specialists, not",
+      "heading_accent": "generalists."
+    }
+  },
+  "team_page": {
+    "hero": {
+      "eyebrow": "Our Team",
+      "heading": "Specialists, not",
+      "heading_accent": "generalists."
+    },
+    "leadership_section": {
+      "eyebrow": "Leadership",
+      "heading": "Founded by",
+      "heading_accent": "operators."
+    },
+    "team_section": {
+      "eyebrow": "The Team",
+      "heading": "The people behind the",
+      "heading_accent": "growth."
+    }
+  },
+  "founders": [
+    {
+      "name": "Ryan Charles",
+      "role": "Co-Founder & CEO",
+      "image": "/images/team/member-02.png",
+      "bio": "Former growth lead scaling DTC and B2B brands across paid and organic. Built Omni Common to fix the fragmented agency model."
+    },
+    {
+      "name": "Daniel",
+      "role": "Co-Founder",
+      "image": "/images/team/member-04.png",
+      "bio": "Operator and strategist with deep roots in lifecycle marketing, data systems, and omni-channel execution."
+    }
+  ],
+  "team": [
+    { "name": "Team Member", "role": "Search Strategist", "image": "/images/team/member-01.png" },
+    { "name": "Team Member", "role": "Lifecycle Lead", "image": "/images/team/member-03.png" },
+    { "name": "Team Member", "role": "Creative Director", "image": "/images/team/member-14.png" },
+    { "name": "Team Member", "role": "Social Lead", "image": "/images/team/member-05.png" },
+    { "name": "Team Member", "role": "Content Strategist", "image": "/images/team/member-06.png" },
+    { "name": "Team Member", "role": "Paid Media", "image": "/images/team/member-07.png" },
+    { "name": "Team Member", "role": "SEO Analyst", "image": "/images/team/member-08.png" },
+    { "name": "Team Member", "role": "Email Marketing", "image": "/images/team/member-09.png" },
+    { "name": "Team Member", "role": "Video Producer", "image": "/images/team/member-10.png" },
+    { "name": "Team Member", "role": "Data Analyst", "image": "/images/team/member-11.png" },
+    { "name": "Team Member", "role": "CRO Specialist", "image": "/images/team/member-12.png" },
+    { "name": "Team Member", "role": "Digital PR", "image": "/images/team/member-13.png" }
+  ]
+}

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;900&family=Encode+Sans:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;900&family=Encode+Sans:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap') layer(fonts);
 @import "tailwindcss";
 
 @theme inline {
@@ -53,12 +53,31 @@
   --font-encode: 'Encode Sans', system-ui, sans-serif;
   --font-inter: 'Inter', system-ui, sans-serif;
 
-  --max-width: 1800px;
+  --max-width: 1364px;
 }
 
 @media (pointer: fine) {
-  * {
-    cursor: none !important;
+  html, body,
+  a, button, input, textarea, select, label,
+  [role="button"], [role="link"], [role="tab"],
+  [data-cursor], [data-cursor-hover],
+  .cta-manic, .bubble {
+    cursor: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .cta-manic:hover {
+    animation: none !important;
   }
 }
 
@@ -81,6 +100,18 @@ h1, h2, h3, h4, h5, h6 {
 p, li, span, a {
   text-wrap: pretty;
 }
+
+/* Inline rich-text accents used in case study prose (RichParagraph / ApproachSubsection).
+   Authored inside content strings as <b>, <span class="rt-blue|rt-navy|rt-green">, etc. */
+.rt-blue { color: #007AFF; }
+.rt-navy { color: #0A2B47; font-weight: 700; }
+.rt-green { color: #34C759; font-weight: 700; }
+.rt-dark { color: #262626; }
+.rt-body b, .rt-body strong { color: inherit; font-weight: 700; }
+.cs-intro > p + p { margin-top: 1.25em; }
+.cs-intro > p.rt-subheading, .rt-body .rt-subheading { display: block; font-weight: 700; color: var(--foreground); margin-top: 1.25em; margin-bottom: 0.35em; }
+.cs-bullets { list-style: disc; padding-left: 1.25em; margin-top: 1em; display: flex; flex-direction: column; gap: 0.75em; }
+.cs-bullets li { color: var(--foreground-secondary); }
 
 /* Global max-width wrapper */
 .site-container {

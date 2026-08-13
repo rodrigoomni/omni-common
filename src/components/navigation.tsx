@@ -14,25 +14,25 @@ const links: {
   label: string;
   children?: { href: string; label: string }[];
 }[] = [
-  { href: "/", label: nav.home_label },
   {
-    href: "/services",
-    label: nav.services_label,
+    href: "/#services",
+    label: nav.what_we_do_label,
     children: [
-      { href: "/services", label: "All Services" },
-      { href: "/services/executive-growth", label: "Executive Growth" },
-      { href: "/insights/local-marketing", label: nav.services_submenu.local_marketing },
+      { href: "/#services", label: nav.what_we_do_submenu.all_services },
+      { href: "/insights/local-marketing", label: nav.what_we_do_submenu.local_marketing },
     ],
   },
-  { href: "/work", label: nav.work_label },
   {
-    href: "/about",
-    label: nav.about_label,
+    href: "/work",
+    label: nav.case_studies_label,
     children: [
-      { href: "/work", label: nav.about_submenu.clients },
-      { href: "/about/team", label: nav.about_submenu.team },
+      { href: "/work", label: nav.case_studies_submenu.all_case_studies },
+      { href: "/work/numberbarn", label: nav.case_studies_submenu.numberbarn },
+      { href: "/work/rapid-garden", label: nav.case_studies_submenu.rapid_garden },
+      { href: "/work/talitha", label: nav.case_studies_submenu.talitha },
     ],
   },
+  { href: "/about/team", label: nav.who_we_are_label },
 ];
 
 export function Navigation() {
@@ -96,6 +96,7 @@ export function Navigation() {
   };
 
   const closeDropdown = () => {
+    if (dropdownTimeout.current) clearTimeout(dropdownTimeout.current);
     dropdownTimeout.current = setTimeout(() => setOpenDropdownIdx(null), 150);
   };
 
@@ -171,7 +172,7 @@ export function Navigation() {
         <div className="hidden items-center gap-1 md:flex">
           <div
             ref={navRef}
-            className="relative flex items-center gap-1 rounded-full px-1 py-1 transition-colors duration-500"
+            className="relative flex items-center gap-0 rounded-full px-1 py-1 transition-colors duration-500"
             style={{
               backgroundColor: isDark
                 ? "rgba(255,255,255,0.08)"
@@ -221,7 +222,7 @@ export function Navigation() {
                   >
                     <Link
                       href={link.href}
-                      className="relative z-10 flex items-center gap-1 rounded-full px-5 py-2 text-sm font-medium transition-colors duration-300"
+                      className="relative z-10 flex items-center gap-1 rounded-full px-3.5 py-2 text-sm font-medium transition-colors duration-300"
                       style={{
                         fontFamily: "var(--font-inter)",
                         color:
@@ -316,7 +317,7 @@ export function Navigation() {
                   /* Regular link */
                   <Link
                     href={link.href}
-                    className="relative z-10 block rounded-full px-5 py-2 text-sm font-medium transition-colors duration-300"
+                    className="relative z-10 block rounded-full px-3.5 py-2 text-sm font-medium transition-colors duration-300"
                     style={{
                       fontFamily: "var(--font-inter)",
                       color:
@@ -349,7 +350,7 @@ export function Navigation() {
           >
             <MagneticButton>
               <Link
-                href="/contact"
+                href="#lets-chat"
                 className="cta-manic relative rounded-full px-6 py-2.5 text-sm font-semibold transition-all duration-500"
                 style={{
                   fontFamily: "var(--font-inter)",

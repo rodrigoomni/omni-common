@@ -1,0 +1,25 @@
+{
+  "eyebrow": "Let's Chat About You",
+  "heading": "Tell us about",
+  "heading_accent": "your goals.",
+  "description": "Don't stress, we are very nice and won't bite. Share your vision and we'll architect the growth plan.",
+  "form": {
+    "name_label": "Full Name",
+    "name_placeholder": "Your name",
+    "email_label": "Email",
+    "email_placeholder": "you@company.com",
+    "message_label": "Tell us about your project",
+    "message_placeholder": "Budget, timeline, goals...",
+    "submit_button": "Let's Chat"
+  },
+  "success": {
+    "eyebrow": "Message Received",
+    "heading": "Thank you",
+    "heading_accent": ".",
+    "body": "We'll get back to you within 24 hours. In the meantime, feel free to check out our case studies."
+  },
+  "contact_info": {
+    "email": "rodrigo@omnicommon.com",
+    "location": "Based in the US & LatAm"
+  }
+}

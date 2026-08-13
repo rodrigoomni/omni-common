@@ -1,8 +1,13 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion, useInView, useReducedMotion } from "motion/react";
+import { useRef } from "react";
 
 export function HeroGrid() {
+  const gridRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(gridRef, { margin: "0px" });
+  const prefersReducedMotion = useReducedMotion();
+  const animateBeam = isInView && !prefersReducedMotion;
   // Replicating the Figma node 5109-397: architectural grid table
   // with opacity variation across cells — some lines brighter, some dimmer
   // creating a smooth depth effect on dark teal
@@ -21,7 +26,7 @@ export function HeroGrid() {
   };
 
   return (
-    <div className="absolute inset-0 z-[1] overflow-hidden">
+    <div ref={gridRef} className="absolute inset-0 z-[1] overflow-hidden">
       {/* Nested/fractal grid pattern using CSS gradients */}
       <div 
         className="absolute inset-0"
@@ -61,11 +66,11 @@ export function HeroGrid() {
           boxShadow: '0 0 10px rgba(148, 216, 10, 0.3), 0 0 20px rgba(165, 253, 243, 0.2)',
         }}
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.5 }}
+        animate={animateBeam ? { opacity: 0.5 } : { opacity: 0 }}
         transition={{
           opacity: {
             duration: 2,
-            repeat: Infinity,
+            repeat: animateBeam ? Infinity : 0,
             repeatDelay: 1,
             ease: 'easeInOut',
           }
@@ -73,10 +78,10 @@ export function HeroGrid() {
       >
         <motion.div
           initial={{ y: 0 }}
-          animate={{ y: '100vh' }}
+          animate={animateBeam ? { y: '100vh' } : { y: 0 }}
           transition={{
             duration: 6,
-            repeat: Infinity,
+            repeat: animateBeam ? Infinity : 0,
             repeatDelay: 3,
             ease: 'linear',
           }}

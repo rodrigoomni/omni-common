@@ -1,7 +1,8 @@
 "use client";
 
-import { motion, useInView } from "motion/react";
+import { motion, useInView, useScroll, useTransform } from "motion/react";
 import { useRef, useState } from "react";
+import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -33,86 +34,109 @@ function ChartIcon() {
 
 const CAPABILITY_VISUALS = [
   { icon: GlobeIcon, bg: "rgba(165,253,243,0.12)", dotColor: "var(--teal)" },
-  { icon: PlantIcon, bg: "rgba(207,252,104,0.14)", dotColor: "var(--lime)" },
+  { icon: PlantIcon, bg: "rgba(207,252,104,0.24)", dotColor: "var(--lime)" },
   { icon: ChartIcon, bg: "rgba(255,253,239,0.55)", dotColor: "var(--foreground-subtle)" },
 ];
 
-const capabilities = homeContent.why_omni_common.capabilities.map((cap, i) => ({
+type CapabilityEntry = {
+  title: string;
+  description: string;
+  title_color?: string;
+  kicker?: string;
+};
+
+const capabilities = (
+  homeContent.why_omni_common.capabilities as CapabilityEntry[]
+).map((cap, i) => ({
   ...CAPABILITY_VISUALS[i % CAPABILITY_VISUALS.length],
   title: cap.title,
   desc: cap.description,
+  kicker: cap.kicker,
+  titleColor: cap.title_color,
 }));
 
-export function ValueProp() {
-  const introRef = useRef(null);
-  const isInView = useInView(introRef, { once: true, margin: "-40px" });
+function BoldMarkdown({ text }: { text: string }) {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return (
+    <>
+      {parts.map((part, i) =>
+        part.startsWith("**") && part.endsWith("**") ? (
+          <strong key={i} className="font-bold">
+            {part.slice(2, -2)}
+          </strong>
+        ) : (
+          <span key={i}>{part}</span>
+        ),
+      )}
+    </>
+  );
+}
 
-  const sectionRef = useRef<HTMLDivElement>(null);
+export function ValueProp() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const letterRef = useRef<HTMLDivElement>(null);
   const circleRef = useRef<SVGCircleElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const [contentRevealed, setContentRevealed] = useState(false);
   const [darkActive, setDarkActive] = useState(false);
+
+  // Letter fades in as it scrolls into view from the bottom of the viewport.
+  // Progress 0 = letter top at viewport bottom; progress 1 = letter top at
+  // ~30% from viewport top. Opacity ramps 0 → 1 across that window.
+  const { scrollYProgress: letterProgress } = useScroll({
+    target: letterRef,
+    offset: ["start end", "start 30%"],
+  });
+  const letterOpacity = useTransform(letterProgress, [0, 1], [0, 1]);
 
   useGSAP(
     () => {
-      if (!sectionRef.current || !circleRef.current || !contentRef.current)
-        return;
+      if (!sectionRef.current || !circleRef.current) return;
+
+      const section = sectionRef.current;
+      // Trigger off the previous section (RealPeople) so the circle starts
+      // growing as its title clears the viewport top.
+      const triggerEl =
+        (section.parentElement?.previousElementSibling as HTMLElement | null) ??
+        section;
 
       const vw = window.innerWidth;
       const vh = window.innerHeight;
       const isMobile = vw < 768;
-      // Extra radius on mobile to prevent any clipping
       const maxR = Math.hypot(vw / 2, vh) * (isMobile ? 1.35 : 1.15);
 
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: sectionRef.current,
-          start: isMobile ? "top 90%" : "top 80%",
-          end: "bottom bottom",
+          trigger: triggerEl,
+          start: isMobile ? "top top-=120" : "top top-=280",
+          endTrigger: section,
+          // Fire the animation end BEFORE the sticky unpins so the receded
+          // dome can hold in place while the user continues scrolling — no
+          // collision with the footer, because the section still has runway
+          // after this point.
+          end: "top top-=200%",
           scrub: isMobile ? 0.5 : 1,
+          // Progress-driven state so darkActive resets correctly whether the
+          // user scrolls forward OR backward. Timeline callbacks (tl.call)
+          // don't reliably fire on reverse-scrub, which was leaving the nav
+          // stuck in dark-teal after scrolling back up past the letter.
+          onUpdate: (self) => {
+            const active = self.progress > 0.32 && self.progress < 0.9;
+            setDarkActive((prev) => (prev === active ? prev : active));
+          },
         },
       });
 
-      /* ═══ ENTRY (0 → 0.25) — circle grows from bottom ═══ */
-
+      /* ═══ ENTRY — circle grows to full cover ═══ */
       tl.fromTo(
         circleRef.current,
-        { attr: { r: 0, cy: "100%" } },
-        {
-          attr: { r: maxR },
-          duration: 0.25,
-          ease: "power2.out",
-        },
+        { attr: { r: 0, cy: "100%" }, opacity: 1 },
+        { attr: { r: maxR }, duration: 0.35, ease: "power2.out" },
         0
       );
 
-      // Content appears during circle growth
-      tl.fromTo(
-        contentRef.current,
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" },
-        0.12
-      );
-
-      tl.call(() => setContentRevealed(true), [], 0.14);
-
-      // Mark dark zone active only after circle fully covers viewport
-      tl.call(() => setDarkActive(true), [], 0.28);
-
-      /* ═══ HOLD (0.25 → 0.75) ═══ */
-
-      /* ═══ EXIT (0.75 → 1.0) — gentle shrink + fade, not symmetric ═══ */
-
-      // Content fades out softly — small drift, no dramatic upward snap
-      tl.to(
-        contentRef.current,
-        { opacity: 0, y: -12, duration: 0.18, ease: "power1.inOut" },
-        0.76
-      );
-
-      // Circle retreats back down — same direction it came from.
-      // cy sinks well past the bottom edge so the top of the shape
-      // descends with the scroll rather than collapsing inward.
+      /* ═══ EXIT — circle recedes upward and shrinks a bit, leaving a dome
+         anchored at the TOP of the viewport. It stays visible so it overlaps
+         (and sits above) the top of the footer / next section as they scroll
+         in from below. Inverted vertically from the entry direction. */
       tl.to(
         circleRef.current,
         {
@@ -122,23 +146,41 @@ export function ValueProp() {
         },
         0.75
       );
-
-      // Deactivate dark zone once the circle is mostly gone
-      tl.call(() => setDarkActive(false), [], 0.88);
     },
     { scope: sectionRef }
   );
 
   return (
-    <>
-      {/* ── Circle Mask scroll transition (dark environment) ── */}
-      <section ref={sectionRef} className="relative h-[calc(160vh-200px)] md:h-[calc(200vh-200px)]" style={{ zIndex: 2 }}>
-      <div className="sticky top-0 flex h-screen items-center" data-theme={darkActive ? "dark-teal" : undefined}>
-        {/* Clean circle mask — sharp edges, grows from bottom center */}
+    /* ── Circle Mask scroll transition (dark environment) ──
+       Only the circle SVG is fixed. The letter flows with the page — it
+       enters from below with the scroll and fades in as it climbs into
+       view. This gives the reading-a-letter feel rather than a stuck sheet. */
+    <section
+      ref={sectionRef}
+      // Generous bottom padding gives the sticky container enough runway
+      // to hold the receded dome in place after the animation completes,
+      // then scroll fully off the top of the viewport BEFORE the footer
+      // arrives from below. Otherwise, on shorter desktops the dome would
+      // still be visible when the footer enters.
+      className="relative pb-[150vh]"
+      style={{ zIndex: 2 }}
+      data-theme={darkActive ? "dark-teal" : undefined}
+    >
+      {/* Sticky circle container — pins to the top of the viewport while the
+          section is scrolling through, then naturally scrolls up with the
+          section at the end. This is how the live-site letter section behaves:
+          when the outro finishes, the receded dome stays in the flow above
+          the footer and scrolls off naturally as the user keeps scrolling.
+          The -mb-[100vh] cancels the 100vh flow height so the letter below
+          starts at the section top and can overlap the sticky area visually. */}
+      <div
+        className="pointer-events-none sticky top-0 -mb-[100vh] h-screen w-full"
+        style={{ zIndex: 30 }}
+        aria-hidden="true"
+      >
         <svg
           className="absolute inset-0 h-full w-full"
           style={{ overflow: "visible" }}
-          aria-hidden="true"
         >
           <circle
             ref={circleRef}
@@ -148,57 +190,50 @@ export function ValueProp() {
             style={{ fill: "var(--hero-dark)" }}
           />
         </svg>
+      </div>
 
-        {/* Content layer */}
-        <div
-          ref={contentRef}
-          className="relative z-10 w-full"
-          style={{ opacity: 0 }}
-        >
-          <div className="site-container px-6 md:px-12 lg:px-24">
-            <div className="mx-auto max-w-3xl">
+      {/* Letter — natural flow, scroll-tied fade in. Padded-top gives the
+          entrance runway so the letter climbs into view while the sticky
+          circle is pinned covering the viewport. */}
+      <motion.div
+        ref={letterRef}
+        className="relative mx-auto max-w-3xl px-6 pt-[80vh] md:px-8"
+        style={{ zIndex: 40, opacity: letterOpacity }}
+      >
+        <div className="w-full">
+          <div className="mx-auto max-w-3xl">
               {/* Eyebrow */}
-              <motion.p
+              <p
                 className="text-xs font-semibold uppercase tracking-[0.25em]"
                 style={{ fontFamily: "var(--font-inter)", color: "var(--mint)" }}
-                initial={{ opacity: 0, y: 16 }}
-                animate={contentRevealed ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.7, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
               >
                 {homeContent.intelligence.eyebrow}
-              </motion.p>
+              </p>
 
               {/* Headline */}
-              <motion.h2
-                className="mt-3 text-2xl font-bold tracking-tight md:text-5xl"
+              <h2
+                className="mt-2 text-2xl font-bold leading-[1.05] tracking-tight md:mt-3 md:text-4xl"
                 style={{ fontFamily: "var(--font-archivo)", color: "#fff" }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={contentRevealed ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
               >
-                {homeContent.intelligence.heading_main}{" "}
-                <span style={{ color: "var(--lime)" }}>{homeContent.intelligence.heading_accent}</span>
-              </motion.h2>
+                <span className="block">{homeContent.intelligence.heading_main}</span>
+                <span className="block" style={{ color: "var(--lime)" }}>{homeContent.intelligence.heading_accent}</span>
+              </h2>
 
               {/* Body */}
-              <motion.div
-                className="mt-5 space-y-4 text-sm leading-relaxed md:mt-8 md:space-y-5 md:text-base"
+              <div
+                className="mt-4 space-y-2.5 text-[13px] leading-[1.5] md:mt-5 md:space-y-3 md:text-[15px] md:leading-[1.55]"
                 style={{ fontFamily: "var(--font-encode)", color: "var(--mint-light)" }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={contentRevealed ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
               >
                 {homeContent.intelligence.body_paragraphs.map((p, i) => (
-                  <p key={i} className={i % 2 === 1 ? "hidden md:block" : undefined}>{p}</p>
+                  <p key={i} className="whitespace-pre-line">
+                    <BoldMarkdown text={p} />
+                  </p>
                 ))}
-              </motion.div>
+              </div>
 
               {/* Signature + avatar */}
-              <motion.div
-                className="mt-6 flex items-center gap-5 md:mt-12"
-                initial={{ opacity: 0, y: 20 }}
-                animate={contentRevealed ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.8, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              <div
+                className="mt-5 flex items-center gap-4 md:mt-6"
               >
                 <div
                   className="h-14 w-14 flex-shrink-0 overflow-hidden rounded-full md:h-16 md:w-16"
@@ -230,17 +265,12 @@ export function ValueProp() {
                     {homeContent.intelligence.founder_title}
                   </p>
                 </div>
-              </motion.div>
+              </div>
 
               {/* CTA */}
-              <motion.div
-                className="mt-5 md:mt-10"
-                initial={{ opacity: 0, y: 16 }}
-                animate={contentRevealed ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.7, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
-              >
+              <div className="mt-5 md:mt-10">
                 <a
-                  href="/contact"
+                  href="#lets-chat"
                   className="inline-flex items-center gap-2 rounded-full border px-6 py-3 text-sm font-semibold transition-colors duration-300 hover:bg-white/10"
                   style={{
                     fontFamily: "var(--font-inter)",
@@ -251,184 +281,451 @@ export function ValueProp() {
                   {homeContent.intelligence.cta_button}
                   <span className="text-base">&rarr;</span>
                 </a>
-              </motion.div>
+              </div>
             </div>
           </div>
+        </motion.div>
+    </section>
+  );
+}
+
+export function WhyItWorks() {
+  const introRef = useRef(null);
+  const wygRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(introRef, { once: true, margin: "-40px" });
+  // Triggers as soon as the WYG title stack peeks into the viewport bottom.
+  // Line animation is replayable (fires every time the block re-enters view);
+  // text reveal fires only once so the copy stays stable on re-scroll.
+  const wygInView = useInView(wygRef, { margin: "0px 0px -40px 0px" });
+  const wygInViewOnce = useInView(wygRef, { once: true, margin: "0px 0px -40px 0px" });
+
+  return (
+    <section
+      className="py-28 md:py-36"
+      style={{ background: "linear-gradient(to bottom, #FFFDEF 0%, #FFFFFF 100%)" }}
+    >
+      <div className="site-container px-6 md:px-12 lg:px-24">
+        <div
+          ref={introRef}
+          className="flex flex-col items-center gap-10 text-center md:gap-12"
+        >
+          <motion.p
+            className="text-xs font-semibold uppercase tracking-[0.25em]"
+            style={{ fontFamily: "var(--font-inter)", color: "#14545D" }}
+            initial={{ opacity: 0, y: 14 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {homeContent.why_omni_common.eyebrow}
+          </motion.p>
+          <h2
+            className="flex flex-col gap-2 leading-[0.97] tracking-[-0.02em]"
+            style={{
+              fontFamily: "var(--font-archivo)",
+              color: "#262626",
+              fontSize: "clamp(2rem, 4.5vw, 3.5rem)",
+            }}
+          >
+            {homeContent.why_omni_common.heading_lines.map((line, i) => (
+              <motion.span
+                key={i}
+                className="block font-normal"
+                initial={{ opacity: 0, y: 24 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{
+                  duration: 1,
+                  delay: 0.18 + i * 0.14,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+              >
+                {line.prefix}
+                <span className="font-bold" style={{ color: line.highlight_1_color }}>
+                  {line.highlight_1}
+                </span>
+                {line.connector}
+                <span className="font-bold" style={{ color: line.highlight_2_color }}>
+                  {line.highlight_2}
+                </span>
+              </motion.span>
+            ))}
+          </h2>
+
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{
+              duration: 0.8,
+              delay: 0.18 + homeContent.why_omni_common.heading_lines.length * 0.14,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          >
+            <Link
+              href={homeContent.why_omni_common.cta_href}
+              className="group inline-flex items-center gap-2 rounded-full border border-[#124C54] bg-transparent px-[25px] py-[13px] text-[#14545D] transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-[#14545D] hover:text-white"
+            >
+              <span
+                className="font-semibold leading-[1.428]"
+                style={{ fontFamily: "var(--font-inter)", fontSize: "14px" }}
+              >
+                {homeContent.why_omni_common.cta_label}
+              </span>
+              <span
+                className="inline-block transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-[3px]"
+                style={{
+                  fontFamily: "var(--font-inter)",
+                  fontWeight: 700,
+                  fontSize: "16px",
+                  lineHeight: 1.5,
+                }}
+              >
+                →
+              </span>
+            </Link>
+          </motion.div>
+        </div>
+
+        {/* Triple Venn diagram — vertical on mobile / tablet */}
+        <div className="mt-20 flex flex-col items-center lg:hidden">
+          {capabilities.map((cap, i) => {
+            const Icon = cap.icon;
+            const zIndexes = [3, 2, 1];
+            return (
+              <motion.div
+                key={cap.title}
+                className="group flex flex-col items-center justify-center rounded-full text-center"
+                style={{
+                  width: "min(calc(100vw - 48px), 640px)",
+                  height: "min(calc(100vw - 48px), 640px)",
+                  marginTop: i === 0 ? 0 : "-32px",
+                  zIndex: zIndexes[i],
+                  position: "relative",
+                  backgroundColor: cap.bg,
+                  border: "1px solid rgba(255,255,255,0.45)",
+                  backdropFilter: "blur(16px)",
+                  WebkitBackdropFilter: "blur(16px)",
+                }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                transition={{
+                  duration: 1.1,
+                  delay: 0.55 + i * 0.18,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+              >
+                <div
+                  className="pointer-events-none absolute inset-3 rounded-full opacity-30"
+                  style={{ border: `1px solid ${cap.dotColor}` }}
+                />
+                <motion.div
+                  className="flex flex-col items-center px-8"
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.8, delay: 0.2 + i * 0.15, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  {cap.kicker ? (
+                    <>
+                      <div className="mb-3 flex items-center justify-center">
+                        <Icon />
+                      </div>
+                      <h3
+                        className="text-center font-bold capitalize"
+                        style={{
+                          fontFamily: "var(--font-archivo)",
+                          color: cap.titleColor ?? "var(--foreground)",
+                          fontSize: "22px",
+                          lineHeight: "1.2",
+                          letterSpacing: "0.17px",
+                        }}
+                      >
+                        {cap.title}
+                      </h3>
+                      <p
+                        className="uppercase"
+                        style={{
+                          fontFamily: "var(--font-inter)",
+                          fontWeight: 500,
+                          color: "#14545D",
+                          fontSize: "11px",
+                          lineHeight: "14px",
+                          letterSpacing: "2.5px",
+                          marginTop: "10px",
+                        }}
+                      >
+                        {cap.kicker}
+                      </p>
+                      <p
+                        className="text-center"
+                        style={{
+                          fontFamily: "var(--font-encode)",
+                          color: "#262626",
+                          fontSize: "13px",
+                          lineHeight: "20px",
+                          maxWidth: "260px",
+                          marginTop: "18px",
+                        }}
+                      >
+                        <BoldMarkdown text={cap.desc} />
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <div className="mb-3 flex items-center justify-center">
+                        <Icon />
+                      </div>
+                      <h3
+                        className="text-base font-bold"
+                        style={{ fontFamily: "var(--font-archivo)", color: "var(--foreground)" }}
+                      >
+                        {cap.title}
+                      </h3>
+                      <p
+                        className="mt-1.5 max-w-[180px] text-xs leading-relaxed"
+                        style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-muted)" }}
+                      >
+                        {cap.desc}
+                      </p>
+                    </>
+                  )}
+                </motion.div>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Desktop: horizontal row with overlap — adapts to capability count */}
+        <div
+          className="relative z-10 mt-24 mx-auto hidden items-center justify-center lg:flex"
+          style={{
+            maxWidth: capabilities.length === 2 ? "2225px" : undefined,
+            // Diameter tuned so two overlapping circles reach 2225px combined
+            // at max (2 * 1152.5 - 80 overlap = 2225), with a 64px gutter to
+            // the screen edge below that cap.
+            ["--d" as string]:
+              capabilities.length === 2
+                ? "min(calc(50vw - 24px), 1152.5px)"
+                : "min(34vw, 620px)",
+            height: "var(--d)",
+          }}
+        >
+          {capabilities.map((cap, i) => {
+            const Icon = cap.icon;
+            const count = capabilities.length;
+
+            // Layered z-index per count — front circle is the most visually
+            // dominant one in the row.
+            const zIndex =
+              count === 2 ? (i === 0 ? 2 : 1) : [3, 1, 2][i] ?? 1;
+
+            // Two-circle layout: a true Venn overlap, centered horizontally.
+            // Three-circle layout: original left/center/right with overlap.
+            const left =
+              count === 2
+                ? i === 0
+                  ? "calc(50% - var(--d) + 40px)"
+                  : "calc(50% - 40px)"
+                : [
+                    "calc(50% - var(--d) / 2 - var(--d) + 20px)",
+                    "calc(50% - var(--d) / 2)",
+                    "calc(50% - var(--d) / 2 + var(--d) - 20px)",
+                  ][i];
+
+            return (
+              <motion.div
+                key={cap.title}
+                className="group absolute flex flex-col items-center justify-center rounded-full text-center transition-all duration-500"
+                style={{
+                  width: "var(--d)",
+                  height: "var(--d)",
+                  left,
+                  zIndex,
+                  backgroundColor: cap.bg,
+                  border: "1px solid rgba(255,255,255,0.45)",
+                  backdropFilter: "blur(18px) saturate(1.3)",
+                  WebkitBackdropFilter: "blur(18px) saturate(1.3)",
+                }}
+                initial={{ opacity: 0, scale: 0.9, y: 24 }}
+                animate={isInView ? { opacity: 1, scale: 1, y: 0 } : {}}
+                transition={{
+                  duration: 1.2,
+                  delay: 0.55 + i * 0.18,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                whileHover={{ scale: 1.04, zIndex: 10 }}
+              >
+                <div
+                  className="pointer-events-none absolute inset-3 rounded-full opacity-30 transition-opacity duration-300 group-hover:opacity-60"
+                  style={{ border: `1px solid ${cap.dotColor}` }}
+                />
+                <motion.div
+                  className="flex flex-col items-center px-6"
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.8, delay: 0.2 + i * 0.15, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  {cap.kicker ? (
+                    <>
+                      <div className="mb-4 flex origin-center scale-[1.15] items-center justify-center">
+                        <Icon />
+                      </div>
+                      <h3
+                        className="text-center font-bold capitalize"
+                        style={{
+                          fontFamily: "var(--font-archivo)",
+                          color: cap.titleColor ?? "var(--foreground)",
+                          fontSize: "27px",
+                          lineHeight: "1.15",
+                          letterSpacing: "0.17px",
+                        }}
+                      >
+                        {cap.title}
+                      </h3>
+                      <p
+                        className="uppercase"
+                        style={{
+                          fontFamily: "var(--font-inter)",
+                          fontWeight: 500,
+                          color: "#14545D",
+                          fontSize: "12px",
+                          lineHeight: "16px",
+                          letterSpacing: "3px",
+                          marginTop: "9.5px",
+                        }}
+                      >
+                        {cap.kicker}
+                      </p>
+                      <p
+                        className="text-center"
+                        style={{
+                          fontFamily: "var(--font-encode)",
+                          color: "#262626",
+                          fontSize: "16px",
+                          lineHeight: "26px",
+                          maxWidth: "360px",
+                          marginTop: "24px",
+                        }}
+                      >
+                        <BoldMarkdown text={cap.desc} />
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <div className="mb-4 flex origin-center scale-[1.15] items-center justify-center">
+                        <Icon />
+                      </div>
+                      <h3
+                        className="text-lg font-bold tracking-tight lg:text-xl xl:text-2xl"
+                        style={{ fontFamily: "var(--font-archivo)", color: "var(--foreground)" }}
+                      >
+                        {cap.title}
+                      </h3>
+                      <p
+                        className="mt-2 max-w-[60%] text-xs leading-relaxed lg:text-sm"
+                        style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-muted)" }}
+                      >
+                        {cap.desc}
+                      </p>
+                    </>
+                  )}
+                </motion.div>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* What You Get — closing block below the circles */}
+        <div
+          ref={wygRef}
+          className="relative mt-24 flex flex-col items-center text-center lg:mt-32"
+        >
+          {/* Absolutely-positioned dashed connector — triggered when the
+              What You Get stack peeks into view. The line is anchored high
+              (roughly the middle of the composition) and grows downward from
+              its top toward the title. Hidden on smaller screens where the
+              vertical stack makes it meaningless. */}
+          <div
+            className="pointer-events-none absolute left-1/2 hidden -translate-x-1/2 flex-col items-center lg:flex"
+            style={{ bottom: "calc(100% + 12px)" }}
+            aria-hidden="true"
+          >
+            <motion.div
+              style={{
+                width: "1.5px",
+                height: "clamp(320px, 48vh, 480px)",
+                background:
+                  "repeating-linear-gradient(to bottom, #C4C4C4 0, #C4C4C4 10px, transparent 10px, transparent 18px)",
+                transformOrigin: "top center",
+              }}
+              initial={{ scaleY: 0 }}
+              animate={{ scaleY: wygInView ? 1 : 0 }}
+              transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
+            />
+            <motion.div
+              style={{
+                marginTop: "6px",
+                width: "10px",
+                height: "10px",
+                borderRadius: "9999px",
+                backgroundColor: "#C4C4C4",
+              }}
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{
+                opacity: wygInView ? 1 : 0,
+                scale: wygInView ? 1 : 0.5,
+              }}
+              transition={{ duration: 0.5, delay: wygInView ? 1.5 : 0, ease: [0.22, 1, 0.36, 1] }}
+            />
+          </div>
+
+          <motion.h3
+            className="font-bold capitalize"
+            style={{
+              fontFamily: "var(--font-archivo)",
+              color: homeContent.why_omni_common.what_you_get.title_color,
+              fontSize: "32px",
+              lineHeight: "1.2",
+              letterSpacing: "0.17px",
+            }}
+            initial={{ opacity: 0, y: 16 }}
+            animate={wygInViewOnce ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 1.6, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {homeContent.why_omni_common.what_you_get.title}
+          </motion.h3>
+          <motion.p
+            className="uppercase"
+            style={{
+              fontFamily: "var(--font-inter)",
+              fontWeight: 500,
+              color: "#14545D",
+              fontSize: "12px",
+              lineHeight: "16px",
+              letterSpacing: "3px",
+              marginTop: "9px",
+            }}
+            initial={{ opacity: 0, y: 12 }}
+            animate={wygInViewOnce ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 1.75, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {homeContent.why_omni_common.what_you_get.kicker}
+          </motion.p>
+          <motion.p
+            className="text-center"
+            style={{
+              fontFamily: "var(--font-encode)",
+              color: "#262626",
+              fontSize: "16px",
+              lineHeight: "24px",
+              maxWidth: "367px",
+              marginTop: "16px",
+            }}
+            initial={{ opacity: 0, y: 12 }}
+            animate={wygInViewOnce ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 1.9, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {homeContent.why_omni_common.what_you_get.description}
+          </motion.p>
         </div>
       </div>
     </section>
-
-      {/* ── "Why Omni Common" section (light background) ── */}
-      <section className="py-28 md:py-36" style={{ backgroundColor: "var(--background)" }}>
-        <div className="site-container px-6 md:px-12 lg:px-24">
-          <motion.div
-            ref={introRef}
-            className="grid gap-12 md:grid-cols-2 md:items-end md:gap-20"
-            initial={{ opacity: 0, y: 50 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <div>
-              <p
-                className="text-xs font-semibold uppercase tracking-[0.25em]"
-                style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }}
-              >
-                {homeContent.why_omni_common.eyebrow}
-              </p>
-              <h2
-                className="mt-4 text-3xl font-bold leading-[1.15] tracking-tight md:text-[2.75rem]"
-                style={{ fontFamily: "var(--font-archivo)", color: "var(--foreground)" }}
-              >
-                {homeContent.why_omni_common.heading_main}{" "}
-                <span style={{ color: "var(--teal)" }}>
-                  {homeContent.why_omni_common.heading_accent}
-                </span>
-              </h2>
-            </div>
-            <div>
-              <p
-                className="text-base leading-relaxed"
-                style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-secondary)" }}
-              >
-                {homeContent.why_omni_common.intro}
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Triple Venn diagram — vertical on mobile */}
-          <div className="mt-20 flex flex-col items-center md:hidden">
-            {capabilities.map((cap, i) => {
-              const Icon = cap.icon;
-              const zIndexes = [3, 2, 1];
-              return (
-                <div
-                  key={cap.title}
-                  className="group flex flex-col items-center justify-center rounded-full text-center"
-                  style={{
-                    width: "min(calc(100vw - 24px), 420px)",
-                    height: "min(calc(100vw - 24px), 420px)",
-                    marginTop: i === 0 ? 0 : "-20px",
-                    zIndex: zIndexes[i],
-                    position: "relative",
-                    backgroundColor: cap.bg,
-                    border: "1px solid rgba(255,255,255,0.45)",
-                    backdropFilter: "blur(16px)",
-                    WebkitBackdropFilter: "blur(16px)",
-                  }}
-                >
-                  <div
-                    className="pointer-events-none absolute inset-3 rounded-full opacity-30"
-                    style={{ border: `1px solid ${cap.dotColor}` }}
-                  />
-                  <motion.div
-                    className="flex flex-col items-center"
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.8, delay: 0.2 + i * 0.15, ease: [0.22, 1, 0.36, 1] }}
-                  >
-                    <div className="mb-3 flex items-center justify-center">
-                      <Icon />
-                    </div>
-                    <h3
-                      className="text-base font-bold"
-                      style={{ fontFamily: "var(--font-archivo)", color: "var(--foreground)" }}
-                    >
-                      {cap.title}
-                    </h3>
-                    <p
-                      className="mt-1.5 max-w-[180px] text-xs leading-relaxed"
-                      style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-muted)" }}
-                    >
-                      {cap.desc}
-                    </p>
-                  </motion.div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Desktop: horizontal row with overlap — adapts to capability count */}
-          <div
-            className="relative mt-24 -mx-12 hidden items-center justify-center md:flex lg:-mx-24"
-            style={{
-              // Slightly larger diameter when only 2 circles — fills the space
-              ["--d" as string]:
-                capabilities.length === 2
-                  ? "min(42vw, 720px)"
-                  : "min(34vw, 620px)",
-              height: "var(--d)",
-            }}
-          >
-            {capabilities.map((cap, i) => {
-              const Icon = cap.icon;
-              const count = capabilities.length;
-
-              // Layered z-index per count — front circle is the most visually
-              // dominant one in the row.
-              const zIndex =
-                count === 2 ? (i === 0 ? 2 : 1) : [3, 1, 2][i] ?? 1;
-
-              // Two-circle layout: a true Venn overlap, centered horizontally.
-              // Three-circle layout: original left/center/right with overlap.
-              const left =
-                count === 2
-                  ? i === 0
-                    ? "calc(50% - var(--d) + 40px)"
-                    : "calc(50% - 40px)"
-                  : [
-                      "calc(50% - var(--d) / 2 - var(--d) + 20px)",
-                      "calc(50% - var(--d) / 2)",
-                      "calc(50% - var(--d) / 2 + var(--d) - 20px)",
-                    ][i];
-
-              return (
-                <motion.div
-                  key={cap.title}
-                  className="group absolute flex flex-col items-center justify-center rounded-full text-center transition-all duration-500"
-                  style={{
-                    width: "var(--d)",
-                    height: "var(--d)",
-                    left,
-                    zIndex,
-                    backgroundColor: cap.bg,
-                    border: "1px solid rgba(255,255,255,0.45)",
-                    backdropFilter: "blur(18px) saturate(1.3)",
-                    WebkitBackdropFilter: "blur(18px) saturate(1.3)",
-                  }}
-                  whileHover={{ scale: 1.04, zIndex: 10 }}
-                >
-                  <div
-                    className="pointer-events-none absolute inset-3 rounded-full opacity-30 transition-opacity duration-300 group-hover:opacity-60"
-                    style={{ border: `1px solid ${cap.dotColor}` }}
-                  />
-                  <motion.div
-                    className="flex flex-col items-center"
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.8, delay: 0.2 + i * 0.15, ease: [0.22, 1, 0.36, 1] }}
-                  >
-                    <div className="mb-4 flex items-center justify-center">
-                      <Icon />
-                    </div>
-                    <h3
-                      className="text-lg font-bold tracking-tight lg:text-xl xl:text-2xl"
-                      style={{ fontFamily: "var(--font-archivo)", color: "var(--foreground)" }}
-                    >
-                      {cap.title}
-                    </h3>
-                    <p
-                      className="mt-2 max-w-[60%] text-xs leading-relaxed lg:text-sm"
-                      style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-muted)" }}
-                    >
-                      {cap.desc}
-                    </p>
-                  </motion.div>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-    </>
   );
 }

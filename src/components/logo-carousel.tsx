@@ -43,14 +43,14 @@ export function LogoCarousel() {
   return (
     <section
       ref={sectionRef}
-      className="relative z-[3] py-16"
+      className="relative z-[3] pb-16 pt-6 md:py-16"
       style={{
-        borderBottom: "1px solid var(--border)",
         backgroundColor: "var(--background)",
         transformOrigin: "center top",
       }}
     >
-      <div className="site-container px-6 md:px-12 lg:px-24">
+      <div className="site-container px-6 md:px-8 lg:px-[60px]">
+       <div className="px-4 md:px-8 lg:px-0">
         <motion.p
           ref={ref}
           className="mb-10 text-center text-xs font-semibold uppercase tracking-[0.3em]"
@@ -61,6 +61,7 @@ export function LogoCarousel() {
         >
           {label}
         </motion.p>
+       </div>
       </div>
 
       {/* Infinite scroll ticker */}

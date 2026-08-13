@@ -1,115 +1,162 @@
 "use client";
 
+import Image from "next/image";
 import { motion, useScroll, useTransform } from "motion/react";
-import { HeroGrid } from "./hero-grid";
 import { MagneticButton } from "./magnetic-button";
 import { ConfettiSimple } from "./confetti-simple";
 import homeContent from "@/content/home.json";
 
+const EASE = [0.22, 1, 0.36, 1] as const;
+
 export function Hero() {
   const { scrollY } = useScroll();
 
-  // Map scroll position to 0–1 over the first viewport height
   const contentOpacity = useTransform(scrollY, [0, 400], [1, 0]);
   const contentY = useTransform(scrollY, [0, 500], [0, -80]);
   const contentScale = useTransform(scrollY, [0, 500], [1, 0.95]);
 
+  const { hero } = homeContent;
+
   return (
     <section
-      className="fixed inset-0 flex min-h-screen items-center justify-center"
+      className="fixed inset-0 flex min-h-screen items-center justify-center overflow-hidden"
       style={{ backgroundColor: "#0A2B47", zIndex: 0 }}
       data-theme="dark"
     >
-      {/* Architectural Grid Overlay */}
-      <HeroGrid />
-
-      {/* Interactive confetti circles */}
+      {/* Zoomed background image */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage: "url('/images/hero-bg.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          transform: "scale(1.1)",
+        }}
+        aria-hidden
+      />
       <ConfettiSimple />
 
-
-      {/* Content */}
       <motion.div
-        className="relative z-10 w-full px-6 text-center md:px-12"
+        className="relative z-10 flex w-full flex-col items-center px-12 text-center"
         style={{ opacity: contentOpacity, y: contentY, scale: contentScale }}
       >
-        <div>
-          <motion.h1
-            className="text-[clamp(2.5rem,7vw,6rem)] font-black leading-[1.05] tracking-tight"
-            style={{
-              fontFamily: "var(--font-archivo)",
-              color: "rgba(255,255,255,0.95)",
-            }}
-            initial={{ y: "120%" }}
-            animate={{ y: 0 }}
-            transition={{
-              duration: 1.2,
-              delay: 0.2,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-          >
-            {homeContent.hero.heading_line1}
-          </motion.h1>
-        </div>
-        <div>
-          <motion.h1
-            className="text-[clamp(2.5rem,7vw,6rem)] font-black leading-[1.05] tracking-tight"
-            style={{
-              fontFamily: "var(--font-archivo)",
-              color: "var(--lime)",
-            }}
-            initial={{ y: "120%" }}
-            animate={{ y: 0 }}
-            transition={{
-              duration: 1.2,
-              delay: 0.4,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-          >
-            {homeContent.hero.heading_line2}
-          </motion.h1>
+        {/* ── Title stack ── */}
+        <div className="flex w-full flex-col items-center">
+          <div className="overflow-hidden pb-[0.12em]">
+            <motion.h1
+              className="whitespace-nowrap font-extrabold leading-[0.95] tracking-[-0.025em]"
+              style={{
+                fontFamily: "var(--font-archivo)",
+                color: "rgba(255,255,255,0.95)",
+                fontSize: "clamp(2.5rem, 6.33vw, 91.2px)",
+              }}
+              initial={{ y: "115%" }}
+              animate={{ y: 0 }}
+              transition={{ duration: 1.2, delay: 0.2, ease: EASE }}
+            >
+              {hero.heading_line1}
+            </motion.h1>
+          </div>
+          <div className="overflow-hidden pb-[0.12em]">
+            <motion.h1
+              className="whitespace-nowrap font-extrabold leading-[0.95] tracking-[-0.025em]"
+              style={{
+                fontFamily: "var(--font-archivo)",
+                color: "#CFFC68",
+                fontSize: "clamp(2.75rem, 7.5vw, 108px)",
+              }}
+              initial={{ y: "115%" }}
+              animate={{ y: 0 }}
+              transition={{ duration: 1.2, delay: 0.38, ease: EASE }}
+            >
+              {hero.heading_line2}
+            </motion.h1>
+          </div>
         </div>
 
-        <motion.p
-          className="mx-auto mt-8 max-w-xl text-base font-normal leading-relaxed md:text-lg"
-          style={{
-            fontFamily: "var(--font-encode)",
-            color: "rgba(255,255,255,0.55)",
-          }}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
-        >
-          {homeContent.hero.subheading}
-        </motion.p>
-
+        {/* ── Copy block ── */}
         <motion.div
-          className="mt-10"
+          className="mt-4 flex w-full max-w-[600px] flex-col items-center gap-3 pt-2 text-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 1.3, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 1, delay: 1.05, ease: EASE }}
+        >
+          <p
+            className="font-bold leading-[1.107]"
+            style={{
+              fontFamily: "var(--font-archivo)",
+              color: "#FFFFFF",
+              fontSize: "clamp(1.125rem, 1.74vw, 25.1px)",
+            }}
+          >
+            {hero.subheading_bold}
+          </p>
+          <p
+            className="leading-[1.625]"
+            style={{
+              fontFamily: "var(--font-encode)",
+              color: "#FFFFFF",
+              fontSize: "clamp(0.95rem, 1.19vw, 17.1px)",
+            }}
+          >
+            {hero.subheading}
+          </p>
+          <p
+            className="font-bold leading-[1.625]"
+            style={{
+              fontFamily: "var(--font-encode)",
+              color: "#FFFFFF",
+              fontSize: "clamp(0.95rem, 1.19vw, 17.1px)",
+            }}
+          >
+            {hero.growth_line}
+          </p>
+        </motion.div>
+
+        {/* ── CTA row ── */}
+        <motion.div
+          className="mt-8 flex w-full items-center justify-center gap-5 pt-[37.99px]"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 1.35, ease: EASE }}
         >
           <MagneticButton strength={0.2}>
             <a
-              href="/contact"
-              className="cta-manic group relative inline-flex items-center gap-3 rounded-full px-10 py-4 text-base font-semibold transition-all"
+              href="#lets-chat"
+              className="cta-manic group relative inline-flex items-center gap-[12.75px] rounded-full py-[8.5px] pl-[23.4px] pr-[8.5px] active:scale-95"
               style={{
-                fontFamily: "var(--font-inter)",
-                backgroundColor: "var(--lime)",
-                color: "#0A2B47",
-                boxShadow: "0 0 30px rgba(207,252,104,0.2)",
+                backgroundColor: "#CFFC68",
+                filter: "drop-shadow(0 0 15.9px rgba(207,252,104,0.2))",
               }}
             >
               <span
                 className="cta-glow pointer-events-none absolute inset-0 rounded-full opacity-0 transition-opacity duration-200"
                 style={{
-                  boxShadow:
-                    "0 0 20px rgba(207,252,104,0.5), 0 0 40px rgba(207,252,104,0.3), 0 0 60px rgba(207,252,104,0.15)",
+                  boxShadow: "0 0 22px rgba(207,252,104,0.7), 0 0 48px rgba(207,252,104,0.35)",
                 }}
               />
-              <span className="relative">{homeContent.hero.cta_button}</span>
-              <span className="relative inline-block transition-transform group-hover:translate-x-1">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+              <span
+                className="relative capitalize"
+                style={{
+                  fontFamily: "var(--font-inter)",
+                  fontWeight: 600,
+                  color: "#0A2B47",
+                  fontSize: "20px",
+                  lineHeight: "24.23px",
+                }}
+              >
+                {hero.cta_button}
               </span>
+              <Image
+                src="/images/hero-cta-avatars.png"
+                alt=""
+                width={143}
+                height={45}
+                priority
+                aria-hidden
+                className="relative h-[45px] w-auto"
+              />
             </a>
           </MagneticButton>
         </motion.div>
@@ -124,9 +171,8 @@ export function Hero() {
         }}
         initial={{ x: "-100%" }}
         animate={{ x: "100%" }}
-        transition={{ duration: 2, delay: 1.5, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 2, delay: 1.5, ease: EASE }}
       />
-
     </section>
   );
 }
