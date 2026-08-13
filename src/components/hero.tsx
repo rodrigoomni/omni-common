@@ -103,7 +103,7 @@ export function Hero() {
             {hero.subheading}
           </p>
           <p
-            className="font-bold leading-[1.625]"
+            className="mt-4 font-bold leading-[1.625]"
             style={{
               fontFamily: "var(--font-encode)",
               color: "#FFFFFF",
