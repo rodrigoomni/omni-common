@@ -3,6 +3,7 @@ import Script from "next/script";
 import "./globals.css";
 import { CustomCursor } from "@/components/custom-cursor";
 import { Navigation } from "@/components/navigation";
+import { TrioModalProvider } from "@/components/trio-coming-soon";
 
 const SITE_URL = "https://omnicommon.com";
 const OG_IMAGE = `${SITE_URL}/og-image.png`;
@@ -101,9 +102,11 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://identity.netlify.com" />
       </head>
       <body className="grain">
-        <CustomCursor />
-        <Navigation />
-        {children}
+        <TrioModalProvider>
+          <CustomCursor />
+          <Navigation />
+          {children}
+        </TrioModalProvider>
         <Script
           src="https://identity.netlify.com/v1/netlify-identity-widget.js"
           integrity="sha384-dy2tW8xkhLIj8lZR42MCwZhhDb2cCewZiw0uA65CMpdHiJzL+iubx7HzHcCXU2rW"

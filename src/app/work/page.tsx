@@ -5,8 +5,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { caseStudies } from "@/data/case-studies";
 import { Footer } from "@/components/footer";
+import { useTrioModal } from "@/components/trio-coming-soon";
 
 export default function WorkPage() {
+  const { openTrioModal } = useTrioModal();
   return (
     <main className="pt-32">
       <div className="site-container px-6 md:px-12 lg:px-24">
@@ -21,19 +23,23 @@ export default function WorkPage() {
         </motion.p>
 
         <div className="mt-24 space-y-0">
-          {caseStudies.map((study, i) => (
-            <motion.div key={study.slug} initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.15 * i + 0.3, ease: [0.22, 1, 0.36, 1] }}>
-              <Link
-                href={`/work/${study.slug}`}
-                className="group flex flex-col gap-8 py-16 transition-colors md:flex-row md:items-center md:gap-12"
-                style={{ borderBottom: "1px solid var(--border)" }}
-                data-cursor="card"
-                data-cursor-hint={study.cursorHint}
-                {...(study.cursorColors ? {
-                  "data-cursor-fill": study.cursorColors.fill,
-                  "data-cursor-stroke": study.cursorColors.stroke,
-                } : {})}
-              >
+          {caseStudies.map((study, i) => {
+            const isTrio = study.slug === "trio-flatmount";
+            const cardClass =
+              "group flex w-full flex-col gap-8 py-16 text-left transition-colors md:flex-row md:items-center md:gap-12";
+            const cardStyle = { borderBottom: "1px solid var(--border)" as const };
+            const cursorAttrs = {
+              "data-cursor": "card",
+              "data-cursor-hint": isTrio ? "Coming soon" : study.cursorHint,
+              ...(study.cursorColors
+                ? {
+                    "data-cursor-fill": study.cursorColors.fill,
+                    "data-cursor-stroke": study.cursorColors.stroke,
+                  }
+                : {}),
+            };
+            const inner = (
+              <>
                 {/* Thumbnail */}
                 <div
                   className="relative aspect-[16/10] w-full flex-shrink-0 overflow-hidden rounded-2xl transition-transform duration-500 group-hover:scale-[1.02] md:w-80"
@@ -57,7 +63,17 @@ export default function WorkPage() {
                 <div className="flex flex-1 flex-col justify-between gap-6 md:flex-row md:items-center">
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-[0.2em]" style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }}>{study.category}</p>
-                    <h2 className="mt-2 text-3xl font-bold tracking-tight md:text-4xl" style={{ fontFamily: "var(--font-archivo)", color: "var(--foreground)" }}>{study.title}</h2>
+                    <h2 className="mt-2 text-3xl font-bold tracking-tight md:text-4xl" style={{ fontFamily: "var(--font-archivo)", color: "var(--foreground)" }}>
+                      {study.title}
+                      {isTrio && (
+                        <span
+                          className="ml-3 inline-block rounded-full px-3 py-1 align-middle text-[10px] font-semibold uppercase tracking-[0.2em]"
+                          style={{ fontFamily: "var(--font-inter)", backgroundColor: "rgba(207,252,104,0.35)", color: "var(--teal)" }}
+                        >
+                          Coming soon
+                        </span>
+                      )}
+                    </h2>
                     <p className="mt-3 max-w-sm text-sm leading-relaxed" style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-muted)" }}>{study.tagline}</p>
                     <div className="mt-4 flex flex-wrap gap-2">
                       {study.results.slice(0, 2).map((r) => (
@@ -72,9 +88,22 @@ export default function WorkPage() {
                     <span className="text-lg transition-transform duration-300 group-hover:translate-x-2" style={{ color: "var(--teal)" }}>&rarr;</span>
                   </div>
                 </div>
-              </Link>
-            </motion.div>
-          ))}
+              </>
+            );
+            return (
+              <motion.div key={study.slug} initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.15 * i + 0.3, ease: [0.22, 1, 0.36, 1] }}>
+                {isTrio ? (
+                  <button type="button" onClick={openTrioModal} className={cardClass} style={cardStyle} {...cursorAttrs}>
+                    {inner}
+                  </button>
+                ) : (
+                  <Link href={`/work/${study.slug}`} className={cardClass} style={cardStyle} {...cursorAttrs}>
+                    {inner}
+                  </Link>
+                )}
+              </motion.div>
+            );
+          })}
         </div>
 
         {/* And more... */}

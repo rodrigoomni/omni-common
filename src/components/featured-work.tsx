@@ -5,6 +5,7 @@ import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { caseStudies } from "@/data/case-studies";
+import { useTrioModal } from "@/components/trio-coming-soon";
 import homeContent from "@/content/home.json";
 
 const HEADER_EASE = [0.22, 1, 0.36, 1] as const;
@@ -21,26 +22,22 @@ function CaseStudyCard({
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
   const delay = 0.1 + index * 0.12;
+  const { openTrioModal } = useTrioModal();
+  const isTrio = project.slug === "trio-flatmount";
+  const shellClass = "group flex w-full flex-col gap-3 text-left";
+  const cursorAttrs = {
+    "data-cursor": "card",
+    "data-cursor-hint": isTrio ? "Coming soon" : project.cursorHint,
+    ...(project.cursorColors
+      ? {
+          "data-cursor-fill": project.cursorColors.fill,
+          "data-cursor-stroke": project.cursorColors.stroke,
+        }
+      : {}),
+  } as const;
 
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.9, delay, ease: HEADER_EASE }}
-    >
-      <Link
-        href={`/work/${project.slug}`}
-        className="group flex w-full flex-col gap-3"
-        data-cursor="card"
-        data-cursor-hint={project.cursorHint}
-        {...(project.cursorColors
-          ? {
-              "data-cursor-fill": project.cursorColors.fill,
-              "data-cursor-stroke": project.cursorColors.stroke,
-            }
-          : {})}
-      >
+  const inner = (
+    <>
         {/* Image frame — clip-path curtain reveal on enter, hover overlay reveals title */}
         <motion.div
           className={`relative w-full overflow-hidden rounded-[12px] ${heightClass}`}
@@ -116,8 +113,38 @@ function CaseStudyCard({
               {service}
             </span>
           ))}
+          {isTrio && (
+            <span
+              className="whitespace-nowrap rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-wider"
+              style={{
+                fontFamily: "var(--font-inter)",
+                backgroundColor: "rgba(207,252,104,0.35)",
+                color: "var(--teal)",
+              }}
+            >
+              Coming soon
+            </span>
+          )}
         </motion.div>
-      </Link>
+    </>
+  );
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 40 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.9, delay, ease: HEADER_EASE }}
+    >
+      {isTrio ? (
+        <button type="button" onClick={openTrioModal} className={shellClass} {...cursorAttrs}>
+          {inner}
+        </button>
+      ) : (
+        <Link href={`/work/${project.slug}`} className={shellClass} {...cursorAttrs}>
+          {inner}
+        </Link>
+      )}
     </motion.div>
   );
 }
@@ -155,10 +182,10 @@ export function FeaturedWork() {
             animate={headerInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 1, ease: HEADER_EASE }}
           >
-            <span>{homeContent.featured_work.heading_main}</span>
+            <span>{homeContent.featured_work.heading_main}</span>{" "}
             <motion.span
               className="inline-block"
-              style={{ color: "var(--teal)" }}
+              style={{ color: "var(--sherpa)" }}
               initial={{ opacity: 0, y: 40 }}
               animate={headerInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 1, delay: 0.2, ease: HEADER_EASE }}

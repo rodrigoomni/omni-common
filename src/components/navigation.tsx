@@ -31,7 +31,6 @@ const links: {
       { href: "/work/rapid-garden", label: nav.case_studies_submenu.rapid_garden },
       { href: "/work/talitha", label: nav.case_studies_submenu.talitha },
       { href: "/work/lofty-coffee", label: nav.case_studies_submenu.lofty_coffee },
-      { href: "/work/trio-flatmount", label: nav.case_studies_submenu.trio_flatmount },
     ],
   },
   { href: "/about/team", label: nav.who_we_are_label },

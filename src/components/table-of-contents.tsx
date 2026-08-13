@@ -16,11 +16,13 @@ export interface TocItem {
  */
 export function TableOfContents({
   items,
-  ctaText = "Want a growth system like this in your business?",
+  heading = "Table of Contents",
+  ctaText = "Want a growth system like this for your business?",
   variant = "sticky",
   ariaLabel = "Page contents",
 }: {
   items: TocItem[];
+  heading?: string;
   ctaText?: string;
   variant?: "sticky" | "inline";
   ariaLabel?: string;
@@ -82,7 +84,7 @@ export function TableOfContents({
               className="text-[18px] font-bold leading-6 tracking-tight"
               style={{ fontFamily: "var(--font-archivo)", color: "#262626" }}
             >
-              Table of Contents
+              {heading}
             </h2>
           </div>
         </div>

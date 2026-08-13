@@ -39,6 +39,7 @@
   --hero-dark-light: #1A5C6B; /* Lighter dark teal */
   --hero-dark-lighter: #257C8F; /* Even lighter for subtle variations */
   --teal: #14545D; /* Dark teal accent */
+  --sherpa: #00494E; /* Sherpa dark green */
   --mint: #A5FDF3; /* Core palette mint */
   --mint-light: #D6FFFA; /* Light mint variant */
   --mint-dark: #74C9BD; /* Dark mint variant */
@@ -105,9 +106,13 @@ p, li, span, a {
    Authored inside content strings as <b>, <span class="rt-blue|rt-navy|rt-green">, etc. */
 .rt-blue { color: #007AFF; }
 .rt-navy { color: #0A2B47; font-weight: 700; }
-.rt-green { color: #34C759; font-weight: 700; }
+.rt-green { color: #94D80A; font-weight: 700; }
 .rt-dark { color: #262626; }
-.rt-body b, .rt-body strong { color: inherit; font-weight: 700; }
+.rt-body b, .rt-body strong { font-weight: 700; }
+.rt-body b.rt-blue, .rt-body strong.rt-blue { color: #007AFF; }
+.rt-body b.rt-navy, .rt-body strong.rt-navy { color: #0A2B47; }
+.rt-body b.rt-green, .rt-body strong.rt-green { color: #94D80A; }
+.rt-body b.rt-dark, .rt-body strong.rt-dark { color: #262626; }
 .cs-intro > p + p { margin-top: 1.25em; }
 .cs-intro > p.rt-subheading, .rt-body .rt-subheading { display: block; font-weight: 700; color: var(--foreground); margin-top: 1.25em; margin-bottom: 0.35em; }
 .cs-bullets { list-style: disc; padding-left: 1.25em; margin-top: 1em; display: flex; flex-direction: column; gap: 0.75em; }

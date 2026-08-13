@@ -10,6 +10,7 @@ import {
 } from "@/data/case-studies";
 import { Footer } from "@/components/footer";
 import { TableOfContents, type TocItem } from "@/components/table-of-contents";
+import { useTrioModal } from "@/components/trio-coming-soon";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -515,6 +516,8 @@ function MetricCard({
    Snapshot stat card (used inside the Snapshot section grid)
    ────────────────────────────────────────────────────────────────────────── */
 const STAT_CARD_ACCENT = "#14545D";
+const STAT_CARD_VALUE = "#94D80A";
+const STAT_CARD_BG = "#FFFDEF";
 
 function SnapshotStatCard({ bullet, index }: { bullet: SnapshotBullet; index: number }) {
   const accent = STAT_CARD_ACCENT;
@@ -558,8 +561,8 @@ function SnapshotStatCard({ bullet, index }: { bullet: SnapshotBullet; index: nu
     <motion.div
       className="relative flex flex-col rounded-xl border p-5 md:p-6"
       style={{
-        borderColor: `${accent}26`,
-        backgroundColor: `${accent}08`,
+        borderColor: `${accent}1F`,
+        backgroundColor: STAT_CARD_BG,
       }}
       initial={{ opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -574,7 +577,7 @@ function SnapshotStatCard({ bullet, index }: { bullet: SnapshotBullet; index: nu
         className="font-black leading-[0.95] tracking-tighter"
         style={{
           fontFamily: "var(--font-archivo)",
-          color: accent,
+          color: STAT_CARD_VALUE,
           fontSize: "clamp(2.25rem, 4.5vw, 3.5rem)",
           letterSpacing: "-0.04em",
         }}
@@ -609,10 +612,10 @@ function ApproachStatChip({ stat }: { stat: ApproachStat }) {
   const labelHasMarkup = /<[a-z][^>]*>/i.test(stat.label);
   return (
     <motion.div
-      className="mt-6 inline-flex items-baseline gap-3 rounded-md py-2 pl-4 pr-5"
+      className="mt-8 flex w-full max-w-[560px] flex-wrap items-baseline gap-x-4 gap-y-1 rounded-md py-3 pl-5 pr-6"
       style={{
-        backgroundColor: "rgba(207, 252, 104, 0.18)",
-        borderLeft: "3px solid var(--teal)",
+        backgroundColor: STAT_CARD_BG,
+        borderLeft: "4px solid var(--teal)",
       }}
       initial={{ opacity: 0, x: -8 }}
       whileInView={{ opacity: 1, x: 0 }}
@@ -620,11 +623,11 @@ function ApproachStatChip({ stat }: { stat: ApproachStat }) {
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     >
       <span
-        className="rt-body font-bold leading-none tracking-tight"
+        className="rt-body shrink-0 font-bold leading-none tracking-tight"
         style={{
           fontFamily: "var(--font-archivo)",
-          color: "var(--teal)",
-          fontSize: "clamp(1.5rem, 2.5vw, 2rem)",
+          color: STAT_CARD_VALUE,
+          fontSize: "clamp(1.75rem, 2.6vw, 2rem)",
           letterSpacing: "-0.02em",
         }}
         {...(valueHasMarkup
@@ -632,8 +635,8 @@ function ApproachStatChip({ stat }: { stat: ApproachStat }) {
           : { children: stat.value })}
       />
       <span
-        className="rt-body text-[11px] font-semibold uppercase tracking-[0.2em]"
-        style={{ fontFamily: "var(--font-inter)", color: "var(--foreground-secondary)" }}
+        className="rt-body text-[12px] font-semibold uppercase tracking-[0.18em]"
+        style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }}
         {...(labelHasMarkup
           ? { dangerouslySetInnerHTML: { __html: stat.label } }
           : { children: stat.label })}
@@ -828,13 +831,13 @@ export default function CaseStudyView({ slug }: { slug: string }) {
       <section className="site-container px-6 py-20 md:px-12 md:py-28 lg:px-24">
         <div className="grid gap-16 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-20 xl:grid-cols-[300px_minmax(0,1fr)] xl:gap-24">
           {/* Left: Sticky TOC */}
-          <TableOfContents items={tocItems} />
+          <TableOfContents items={tocItems} heading={study.title} />
 
           {/* Right: Content column */}
           <div className="max-w-[720px]">
             {/* Inline TOC — mobile only, before the first section */}
             <div className="mb-14 lg:hidden">
-              <TableOfContents items={tocItems} variant="inline" />
+              <TableOfContents items={tocItems} heading={study.title} variant="inline" />
             </div>
 
             {/* Snapshot */}
@@ -934,6 +937,12 @@ export default function CaseStudyView({ slug }: { slug: string }) {
 
             {/* Results */}
             <section id="results" className="mt-28 scroll-mt-32">
+              {study.resultsSection?.media && !hideInlineMedia && (
+                <div className="mb-14">
+                  <MediaBlock block={study.resultsSection.media} title={study.title} />
+                </div>
+              )}
+
               <SectionHeader
                 eyebrow={study.approach ? "04 — Results" : "03 — Results"}
                 heading={study.resultsSection?.heading || "What the numbers say."}
@@ -945,10 +954,6 @@ export default function CaseStudyView({ slug }: { slug: string }) {
                   <MetricCard key={r.metric} metric={r.metric} value={r.value} index={i} />
                 ))}
               </div>
-
-              {study.resultsSection?.media && !hideInlineMedia && (
-                <MediaBlock block={study.resultsSection.media} title={study.title} />
-              )}
             </section>
 
             {/* Opportunity ahead */}
@@ -1149,15 +1154,17 @@ function ApproachSubsection({
    Next project block
    ────────────────────────────────────────────────────────────────────────── */
 function NextProject({ currentSlug }: { currentSlug: string }) {
+  const { openTrioModal } = useTrioModal();
   const idx = caseStudies.findIndex((s) => s.slug === currentSlug);
   const next = caseStudies[(idx + 1) % caseStudies.length];
-  return (
-    <Link href={`/work/${next.slug}`} className="group block">
+  const isTrio = next.slug === "trio-flatmount";
+  const inner = (
+    <>
       <p
         className="text-[10px] font-semibold uppercase tracking-[0.28em]"
         style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }}
       >
-        Next Project
+        {isTrio ? "Next Project · Coming soon" : "Next Project"}
       </p>
       <h2
         className="mt-3 text-4xl font-bold tracking-tighter transition-opacity group-hover:opacity-70 md:text-6xl"
@@ -1176,6 +1183,22 @@ function NextProject({ currentSlug }: { currentSlug: string }) {
           {next.tagline}
         </p>
       )}
+    </>
+  );
+  if (isTrio) {
+    return (
+      <button
+        type="button"
+        onClick={openTrioModal}
+        className="group block w-full text-left"
+      >
+        {inner}
+      </button>
+    );
+  }
+  return (
+    <Link href={`/work/${next.slug}`} className="group block">
+      {inner}
     </Link>
   );
 }
