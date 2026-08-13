@@ -8,7 +8,7 @@ const founders = [
   {
     name: "Ryan Charles",
     role: "Co-Founder & CEO",
-    image: "/images/team/member-02.png",
+    image: "/images/ryan-charles.png",
     bio: "Former growth lead scaling DTC and B2B brands across paid and organic. Built Omni Common to fix the fragmented agency model.",
   },
   {
