@@ -137,16 +137,17 @@ export function OpeningPitch() {
         });
       }
 
-      // Brand block outro — smooth fade + lift as the section scrolls out of view
-      if (brandBlockRef.current && sectionRef.current) {
+      // Brand block outro — hold the logo in place, then fade only as it
+      // scrolls off the top of the viewport.
+      if (brandBlockRef.current) {
         gsap.to(brandBlockRef.current, {
           opacity: 0,
           y: -60,
           ease: "power2.inOut",
           scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "bottom 85%",
-            end: "bottom 45%",
+            trigger: brandBlockRef.current,
+            start: "top 15%",
+            end: "top -40%",
             scrub: 0.4,
           },
         });

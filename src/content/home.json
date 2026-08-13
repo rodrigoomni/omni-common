@@ -85,31 +85,68 @@
       }
     ]
   },
+  "opening_pitch": {
+    "line1_start": "Your business isn't growing fast enough.",
+    "line1_muted": "",
+    "line1_end": "",
+    "line2a": "You're about to spend real money.",
+    "line2b": "Nobody will tell you how much will come back.",
+    "line3": "We will.",
+    "tagline_black": "Does the math.",
+    "tagline_teal": "Gives you the plan.",
+    "tagline_green": "Gets it done.",
+    "cta_label": "Show Us Your Business"
+  },
   "why_omni_common": {
-    "eyebrow": "Why It Works",
-    "heading_main": "Intelligence First. Execution Always. ",
-    "heading_accent": "Compounding Results.",
-    "intro": "Most agencies sell you a service. We build you a growth system - one that starts with understanding exactly what's driving your revenue. Then we orchestrate every channel we run into a compounding engine designed to keep working.",
+    "eyebrow": "why omni common",
+    "heading_lines": [
+      {
+        "prefix": "We are ",
+        "highlight_1": "strategy",
+        "highlight_1_color": "#14545D",
+        "connector": " + ",
+        "highlight_2": "execution",
+        "highlight_2_color": "#94D80A"
+      },
+      {
+        "prefix": "We are ",
+        "highlight_1": "intelligence",
+        "highlight_1_color": "#14545D",
+        "connector": " + ",
+        "highlight_2": "services",
+        "highlight_2_color": "#94D80A"
+      }
+    ],
+    "cta_href": "/work",
+    "cta_label": "See our case studies",
     "capabilities": [
       {
-        "title": "Intelligence-First",
-        "description": "AI-Powered Attribution Models • Real Human Analysis • Full Funnel Auditing • Multi-Channel • Diagnosis and Alignment • Incredible Vibes"
+        "title": "Search Led Growth-Engine",
+        "title_color": "#088391",
+        "kicker": "execution",
+        "description": "SEO, PPC, Content, Digital PR and CRO run as one compounding system, not siloed tactics. Search intent leads; every channel feeds and next, capturing demand where buyers are already looking."
       },
       {
-        "title": "Search-Led Growth",
-        "description": "Proper Ad Spend • Original Content Creation • Technical SEO • UX/UI • Digital PR • GEO"
-      },
-      {
-        "title": "Compounding Execution",
-        "description": "Cross-Channel Attribution • Quarterly Optimization • Real ROI Tracking • Direct Access • No Junior Hand-offs"
+        "title": "Growth Intelligence System",
+        "title_color": "#0E3D43",
+        "kicker": "Strategy",
+        "description": "We unify GA4, Ads, Search Console, Shopify, Meta, Klaviyo and Hubspot into one clear picture. Then senior strategists set your channel mix, budget, and 90-day roadmap tied to projected ROI."
       }
-    ]
+    ],
+    "what_you_get": {
+      "title": "What You Get",
+      "title_color": "#14545D",
+      "kicker": "True Numbers & Compounding ROI",
+      "description": "Continuous measurement shows what's working and where to reinvest, so your Intelligence System compounds, quarter over quarter."
+    }
   },
   "hero": {
-    "heading_line1": "The Growth-System",
-    "heading_line2": "Marketing Agency",
-    "subheading": "Get your search-led intelligence system and then watch your growth speed up as we implement according to plan. We've proven the model for e-commerce, SaaS, and marketplace brands wanting to increase their growth pace. Curious what your intelligence system looks like? ",
-    "cta_button": "Let’s Chat "
+    "heading_line1": "Grow your brand",
+    "heading_line2": "According to plan",
+    "subheading_bold": "A Marketing Agency For Search-Led Growth",
+    "subheading": "We design (and put into action) “Intelligence System” growth models for e-commerce, SaaS, and marketplace brands. We rapidly speed up the pace of your company’s growth.",
+    "growth_line": "",
+    "cta_button": "Let’s Talk"
   },
   "team": {
     "eyebrow": "The Team",
@@ -179,10 +216,16 @@
     "heading_accent": "for intelligent growth.",
     "body_paragraphs": [
       "My, my, where has all the growth gone…?",
-      "We pull data from your platforms - GA4, Search Console, Google Ads, Shopify, Meta, Klaviyo, HubSpot - and build one clear picture of what's driving your growth and what isn't.",
-      "AI-assisted analysis, interpreted by senior strategists. We show you where your revenue is actually coming from, which channels deserve more investment, and where you're leaving money on the table. This is the foundation everything else is built on.",
-      "Growing a business requires a multi-dimensional plan. (Not one thing.)\nSustaining that growth requires SEO/GEO execution, pin-point attribution, and just the right spend. (You gotta keep it up.)",
-      "Every client asks the same question: \"What's working and where should I spend more?\" We calculate the answer."
+      "For years, we’ve worked with all types of businesses which lacked things like a marketing team (or a big enough one), a growth timeline at an executive level, or which simply plateaued.",
+      "We used to give them shiny marketing things: websites, campaigns, graphic design, etc.",
+      "But plain marketing techniques didn’t always work as planned. **So we got super nerdy and figured out what was actually working for our clients.**",
+      "Today, we pull data from every possible platform: GA4, Search Console, Google Ads, Shopify, Meta, Klaviyo, and HubSpot, just to name a few. We utilize AI-assisted analysis interpreted by senior-level strategists with decades of experience.",
+      "**This creates an honest, in-depth analysis that will show you where your revenue is actually coming from, which channels deserve more investment, and where you're leaving money on the table.**",
+      "(And if you need help executing on it? We’ve got award-winning, in-house power to do that, too.)",
+      "We’ve learned building a business requires a multi-dimensional plan, not a single marketing campaign. And sustaining growth requires a holistic approach across channels with pin-point attribution, and just the right spend. (You gotta keep it up!)",
+      "But everything starts with a meta-analysis that paints one clear picture of what's driving your growth… and what isn't.",
+      "**Let’s see what your data says.**",
+      "-Ryan"
     ],
     "founder_name": "Ryan Charles",
     "founder_title": "CEO, Omni Common",

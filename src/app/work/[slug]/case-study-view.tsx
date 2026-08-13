@@ -13,6 +13,8 @@ import { TableOfContents, type TocItem } from "@/components/table-of-contents";
 import Image from "next/image";
 import Link from "next/link";
 
+const SUPPRESS_INLINE_MEDIA = new Set(["talitha", "lofty-coffee", "trio-flatmount", "rapid-garden"]);
+
 /* ──────────────────────────────────────────────────────────────────────────────
    Fullscreen image viewer
    ────────────────────────────────────────────────────────────────────────── */
@@ -711,6 +713,8 @@ export default function CaseStudyView({ slug }: { slug: string }) {
     );
   }
 
+  const hideInlineMedia = SUPPRESS_INLINE_MEDIA.has(study.slug);
+
   return (
     <main className="pt-28 md:pt-32">
       {/* ── Top: breadcrumb */}
@@ -861,7 +865,7 @@ export default function CaseStudyView({ slug }: { slug: string }) {
                   ))}
                 </div>
 
-                {study.snapshot.media && (
+                {study.snapshot.media && !hideInlineMedia && (
                   <MediaBlock block={study.snapshot.media} title={study.title} />
                 )}
               </section>
@@ -876,7 +880,7 @@ export default function CaseStudyView({ slug }: { slug: string }) {
                     <RichParagraph key={i} text={p} />
                   ))}
                 </div>
-                {study.background.media && (
+                {study.background.media && !hideInlineMedia && (
                   <MediaBlock block={study.background.media} title={study.title} />
                 )}
               </section>
@@ -896,7 +900,7 @@ export default function CaseStudyView({ slug }: { slug: string }) {
                 />
                 <RichParagraph text={study.approach.intro} />
 
-                {study.approach.media && (
+                {study.approach.media && !hideInlineMedia && (
                   <MediaBlock block={study.approach.media} title={study.title} />
                 )}
 
@@ -907,6 +911,7 @@ export default function CaseStudyView({ slug }: { slug: string }) {
                       section={section}
                       index={i}
                       title={study.title}
+                      hideMedia={hideInlineMedia}
                     />
                   ))}
                 </div>
@@ -941,7 +946,7 @@ export default function CaseStudyView({ slug }: { slug: string }) {
                 ))}
               </div>
 
-              {study.resultsSection?.media && (
+              {study.resultsSection?.media && !hideInlineMedia && (
                 <MediaBlock block={study.resultsSection.media} title={study.title} />
               )}
             </section>
@@ -980,7 +985,7 @@ export default function CaseStudyView({ slug }: { slug: string }) {
                   {study.opportunity.closer}
                 </p>
 
-                {study.opportunity.media && (
+                {study.opportunity.media && !hideInlineMedia && (
                   <MediaBlock block={study.opportunity.media} title={study.title} />
                 )}
               </section>
@@ -1079,10 +1084,12 @@ function ApproachSubsection({
   section,
   index,
   title,
+  hideMedia,
 }: {
   section: { title: string; body: string; media?: MediaBlockType; stat?: ApproachStat };
   index: number;
   title: string;
+  hideMedia?: boolean;
 }) {
   return (
     <motion.div
@@ -1133,7 +1140,7 @@ function ApproachSubsection({
         );
       })()}
       {section.stat && <ApproachStatChip stat={section.stat} />}
-      {section.media && <MediaBlock block={section.media} title={title} />}
+      {section.media && !hideMedia && <MediaBlock block={section.media} title={title} />}
     </motion.div>
   );
 }
