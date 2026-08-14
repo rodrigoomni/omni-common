@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { motion } from "motion/react";
 import Link from "next/link";
 
 export interface TocItem {
@@ -20,14 +21,31 @@ export function TableOfContents({
   ctaText = "Want a growth system like this for your business?",
   variant = "sticky",
   ariaLabel = "Page contents",
+  revealCtaOnScroll = false,
 }: {
   items: TocItem[];
   heading?: string;
   ctaText?: string;
   variant?: "sticky" | "inline";
   ariaLabel?: string;
+  revealCtaOnScroll?: boolean;
 }) {
   const [activeId, setActiveId] = useState<string>(items[0]?.id ?? "");
+  const [ctaVisible, setCtaVisible] = useState(!revealCtaOnScroll);
+
+  useEffect(() => {
+    if (!revealCtaOnScroll) return;
+    const check = () => {
+      setCtaVisible(window.scrollY > window.innerHeight * 0.6);
+    };
+    check();
+    window.addEventListener("scroll", check, { passive: true });
+    window.addEventListener("resize", check);
+    return () => {
+      window.removeEventListener("scroll", check);
+      window.removeEventListener("resize", check);
+    };
+  }, [revealCtaOnScroll]);
 
   useEffect(() => {
     const elements = items
@@ -120,7 +138,17 @@ export function TableOfContents({
 
         {/* CTA block — desktop sticky only */}
         {variant === "sticky" && (
-          <div className="pb-4 pr-12 pt-8">
+          <motion.div
+            className="pb-4 pr-12 pt-8"
+            initial={false}
+            animate={{
+              opacity: ctaVisible ? 1 : 0,
+              y: ctaVisible ? 0 : 12,
+            }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            style={{ pointerEvents: ctaVisible ? "auto" : "none" }}
+            aria-hidden={!ctaVisible}
+          >
             <p
               className="text-[20px] font-bold leading-[1.2] tracking-tight"
               style={{ fontFamily: "var(--font-archivo)", color: "var(--teal)" }}
@@ -140,7 +168,7 @@ export function TableOfContents({
             >
               Let&apos;s Chat
             </Link>
-          </div>
+          </motion.div>
         )}
       </div>
     </nav>

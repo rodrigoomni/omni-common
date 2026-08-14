@@ -24,7 +24,7 @@ const HERO = {
     "Franchise brands",
     "Community-driven businesses",
   ],
-  primary_cta: { label: "Book a growth appraisal", href: "/contact" },
+  primary_cta: { label: "Book a growth appraisal", href: "#lets-chat" },
   secondary_cta: { label: "See case studies", href: "/work" },
 };
 
@@ -527,25 +527,25 @@ export default function LocalMarketingPage() {
           </motion.p>
 
           <motion.h1
-            className="mt-3 font-extrabold"
+            className="mt-3 font-bold"
             style={{
               fontFamily: "var(--font-archivo)",
               color: "#262626",
-              letterSpacing: "-0.016em",
+              letterSpacing: "-0.02em",
+              fontSize: "clamp(2.25rem, 4.4vw, 3.75rem)",
+              lineHeight: 1.1,
             }}
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
           >
-            <span className="block text-[40px] leading-[1] md:text-5xl lg:text-[58px] xl:text-[72px]">
+            <span className="block">
               {HERO.heading_line1_lead}{" "}
               <span style={{ color: "var(--teal)" }}>
                 {HERO.heading_line1_accent}
               </span>
             </span>
-            <span className="mt-1 block text-[44px] leading-[1] md:text-[58px] lg:text-[72px] xl:text-[92px]">
-              {HERO.heading_line2}
-            </span>
+            <span className="block">{HERO.heading_line2}</span>
           </motion.h1>
 
           <motion.p
@@ -651,6 +651,7 @@ export default function LocalMarketingPage() {
             variant="sticky"
             ariaLabel="Local marketing contents"
             ctaText="Unleash hyper-local activation and address every aspect of channel marketing."
+            revealCtaOnScroll
           />
 
           {/* Content column */}
@@ -844,26 +845,6 @@ export default function LocalMarketingPage() {
           >
             {CLOSING.description}
           </motion.p>
-          <motion.div
-            className="mt-10"
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <Link
-              href={CLOSING.cta.href}
-              className="inline-flex items-center justify-center rounded-full px-7 py-3 text-sm font-semibold transition-transform hover:-translate-y-0.5"
-              style={{
-                fontFamily: "var(--font-inter)",
-                backgroundColor: "var(--teal)",
-                color: "#fff",
-                boxShadow: "3px 4px 0px 0px var(--lime)",
-              }}
-            >
-              {CLOSING.cta.label}
-            </Link>
-          </motion.div>
           </div>
         </div>
       </section>
