@@ -49,17 +49,17 @@
     }
   ],
   "team": [
-    { "name": "Team Member", "role": "Search Strategist", "image": "/images/team/member-01.png" },
-    { "name": "Team Member", "role": "Lifecycle Lead", "image": "/images/team/member-03.png" },
-    { "name": "Team Member", "role": "Creative Director", "image": "/images/team/member-14.png" },
-    { "name": "Team Member", "role": "Social Lead", "image": "/images/team/member-05.png" },
-    { "name": "Team Member", "role": "Content Strategist", "image": "/images/team/member-06.png" },
-    { "name": "Team Member", "role": "Paid Media", "image": "/images/team/member-07.png" },
-    { "name": "Team Member", "role": "SEO Analyst", "image": "/images/team/member-08.png" },
-    { "name": "Team Member", "role": "Email Marketing", "image": "/images/team/member-09.png" },
-    { "name": "Team Member", "role": "Video Producer", "image": "/images/team/member-10.png" },
-    { "name": "Team Member", "role": "Data Analyst", "image": "/images/team/member-11.png" },
-    { "name": "Team Member", "role": "CRO Specialist", "image": "/images/team/member-12.png" },
-    { "name": "Team Member", "role": "Digital PR", "image": "/images/team/member-13.png" }
+    { "name": "Abby", "role": "Client Success Manager", "image": "/images/team/Abby.webp" },
+    { "name": "Joel", "role": "Search Marketing Lead", "image": "/images/team/Joel.webp" },
+    { "name": "Maria", "role": "Social Lead", "image": "/images/team/Maria.webp" },
+    { "name": "Max", "role": "Sr. Product Designer", "image": "/images/team/Max.webp" },
+    { "name": "Ale", "role": "Social Media Director", "image": "/images/team/Ale.webp" },
+    { "name": "Mariana", "role": "Admin & Content Specialist", "image": "/images/team/Mariana.webp" },
+    { "name": "Rebecca", "role": "Digital PR Outreach", "image": "/images/team/Rebecca.webp" },
+    { "name": "Paul", "role": "Video Production Lead", "image": "/images/team/paul.webp" },
+    { "name": "Alan", "role": "Art Director & Content Strategist", "image": "/images/team/Alan.webp" },
+    { "name": "Rodrigo", "role": "Sr. CRO Architect", "image": "/images/team/Rodrigo.webp" },
+    { "name": "Stefy", "role": "Human Resources Manager", "image": "/images/team/Stefy.webp" },
+    { "name": "Shahnawaz", "role": "Web Development", "image": "/images/team/Shahnawaz.webp" }
   ]
 }
