@@ -113,8 +113,8 @@ p, li, span, a {
 .rt-body b.rt-navy, .rt-body strong.rt-navy { color: #0A2B47; }
 .rt-body b.rt-green, .rt-body strong.rt-green { color: #94D80A; }
 .rt-body b.rt-dark, .rt-body strong.rt-dark { color: #262626; }
-.cs-intro > p + p { margin-top: 1.25em; }
-.cs-intro > p.rt-subheading, .rt-body .rt-subheading { display: block; font-weight: 700; color: var(--foreground); margin-top: 1.25em; margin-bottom: 0.35em; }
+.cs-intro > p + p { margin-top: 1.4em; }
+.cs-intro > p.rt-subheading, .rt-body .rt-subheading { display: block; font-weight: 700; color: var(--foreground); margin-top: 1.9em; margin-bottom: 0.5em; letter-spacing: -0.005em; }
 .cs-bullets { list-style: disc; padding-left: 1.25em; margin-top: 1em; display: flex; flex-direction: column; gap: 0.75em; }
 .cs-bullets li { color: var(--foreground-secondary); }
 

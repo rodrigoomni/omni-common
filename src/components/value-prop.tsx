@@ -331,7 +331,7 @@ export function WhyItWorks() {
               return (
                 <span key={i} className="block font-normal">
                   <motion.span
-                    className="inline-block"
+                    className="inline-block whitespace-pre"
                     initial={{ opacity: 0, y: 18 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.6, delay: lineBase, ease: [0.22, 1, 0.36, 1] }}
@@ -348,7 +348,7 @@ export function WhyItWorks() {
                     {line.highlight_1}
                   </motion.span>
                   <motion.span
-                    className="inline-block"
+                    className="inline-block whitespace-pre"
                     initial={{ opacity: 0, y: 18 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.5, delay: lineBase + 0.16, ease: [0.22, 1, 0.36, 1] }}

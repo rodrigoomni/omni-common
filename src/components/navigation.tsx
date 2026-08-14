@@ -119,13 +119,14 @@ export function Navigation() {
             : "1px solid rgba(0,0,0,0.05)",
       }}
     >
-      <nav
-        className="site-container flex items-center justify-between px-8 md:px-12 transition-all duration-500 ease-out"
-        style={{
-          paddingTop: isHero ? "20px" : "12px",
-          paddingBottom: isHero ? "20px" : "12px",
-        }}
-      >
+      <div className="w-full px-6 md:px-8 lg:px-[60px]">
+        <nav
+          className="mx-auto flex w-full max-w-[1364px] items-center justify-between transition-all duration-500 ease-out"
+          style={{
+            paddingTop: isHero ? "20px" : "12px",
+            paddingBottom: isHero ? "20px" : "12px",
+          }}
+        >
         <Link href="/" className="flex items-center gap-2">
           <motion.svg
             width="28"
@@ -410,7 +411,8 @@ export function Navigation() {
             }}
           />
         </button>
-      </nav>
+        </nav>
+      </div>
 
       {/* Mobile fullscreen menu */}
       <motion.div

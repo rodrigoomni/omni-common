@@ -654,17 +654,17 @@ function ApproachStatChip({ stat }: { stat: ApproachStat }) {
 function SectionHeader({ eyebrow, heading }: { eyebrow?: string; heading: string }) {
   const hasMarkup = /<[a-z][^>]*>/i.test(heading);
   return (
-    <div className="mb-8">
+    <div className="mb-10 md:mb-12">
       {eyebrow && (
         <p
-          className="mb-3 text-[10px] font-semibold uppercase tracking-[0.28em]"
+          className="mb-4 text-[11px] font-semibold uppercase tracking-[0.24em]"
           style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }}
         >
           {eyebrow}
         </p>
       )}
       <h2
-        className="rt-body text-2xl font-bold tracking-tight md:text-4xl"
+        className="rt-body text-[28px] font-bold leading-[1.1] tracking-tight md:text-[42px] md:leading-[1.08]"
         style={{
           fontFamily: "var(--font-archivo)",
           color: "var(--foreground)",
@@ -849,13 +849,13 @@ export default function CaseStudyView({ slug }: { slug: string }) {
                 />
                 {/<[a-z][^>]*>/i.test(study.snapshot.intro) ? (
                   <div
-                    className="rt-body cs-intro text-lg leading-relaxed md:text-xl"
+                    className="rt-body cs-intro max-w-[62ch] text-[19px] leading-[1.6] md:text-[22px] md:leading-[1.55]"
                     style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-secondary)" }}
                     dangerouslySetInnerHTML={{ __html: study.snapshot.intro }}
                   />
                 ) : (
                   <p
-                    className="text-lg leading-relaxed md:text-xl"
+                    className="max-w-[62ch] text-[19px] leading-[1.6] md:text-[22px] md:leading-[1.55]"
                     style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-secondary)" }}
                   >
                     {study.snapshot.intro}
@@ -876,9 +876,9 @@ export default function CaseStudyView({ slug }: { slug: string }) {
 
             {/* Background */}
             {study.background ? (
-              <section id="background" className="mt-28 scroll-mt-32">
+              <section id="background" className="mt-24 scroll-mt-32 md:mt-32">
                 <SectionHeader eyebrow="02 — Background" heading={study.background.heading} />
-                <div className="space-y-6">
+                <div className="space-y-5 md:space-y-6">
                   {study.background.paragraphs.map((p, i) => (
                     <RichParagraph key={i} text={p} />
                   ))}
@@ -888,7 +888,7 @@ export default function CaseStudyView({ slug }: { slug: string }) {
                 )}
               </section>
             ) : (
-              <section id="overview" className="mt-28 scroll-mt-32">
+              <section id="overview" className="mt-24 scroll-mt-32 md:mt-32">
                 <SectionHeader eyebrow="01 — Overview" heading={study.tagline} />
                 <RichParagraph text={study.overview} />
               </section>
@@ -896,7 +896,7 @@ export default function CaseStudyView({ slug }: { slug: string }) {
 
             {/* Approach */}
             {study.approach ? (
-              <section id="approach" className="mt-28 scroll-mt-32">
+              <section id="approach" className="mt-24 scroll-mt-32 md:mt-32">
                 <SectionHeader
                   eyebrow={study.approach.eyebrow || "03 — Approach"}
                   heading={study.approach.heading}
@@ -907,7 +907,7 @@ export default function CaseStudyView({ slug }: { slug: string }) {
                   <MediaBlock block={study.approach.media} title={study.title} />
                 )}
 
-                <div className="mt-14 space-y-12">
+                <div className="mt-16 space-y-14 md:mt-20 md:space-y-16">
                   {study.approach.sections.map((section, i) => (
                     <ApproachSubsection
                       key={section.title}
@@ -920,12 +920,12 @@ export default function CaseStudyView({ slug }: { slug: string }) {
                 </div>
               </section>
             ) : (
-              <section id="challenge" className="mt-28 scroll-mt-32">
+              <section id="challenge" className="mt-24 scroll-mt-32 md:mt-32">
                 <SectionHeader eyebrow="02 — The Challenge" heading="What we walked into." />
                 <RichParagraph text={study.challenge} />
-                <div className="mt-12">
+                <div className="mt-14 md:mt-16">
                   <h3
-                    className="mb-4 text-xs font-semibold uppercase tracking-[0.25em]"
+                    className="mb-5 text-[11px] font-semibold uppercase tracking-[0.24em]"
                     style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }}
                   >
                     Our Approach
@@ -936,7 +936,7 @@ export default function CaseStudyView({ slug }: { slug: string }) {
             )}
 
             {/* Results */}
-            <section id="results" className="mt-28 scroll-mt-32">
+            <section id="results" className="mt-24 scroll-mt-32 md:mt-32">
               {study.resultsSection?.media && !hideInlineMedia && (
                 <div className="mb-14">
                   <MediaBlock block={study.resultsSection.media} title={study.title} />
@@ -958,13 +958,13 @@ export default function CaseStudyView({ slug }: { slug: string }) {
 
             {/* Opportunity ahead */}
             {study.opportunity && (
-              <section id="opportunity" className="mt-28 scroll-mt-32">
+              <section id="opportunity" className="mt-24 scroll-mt-32 md:mt-32">
                 <SectionHeader eyebrow="05 — What's Next" heading={study.opportunity.heading} />
-                <ul className="space-y-4">
+                <ul className="max-w-[68ch] space-y-5">
                   {study.opportunity.bullets.map((b, i) => (
                     <motion.li
                       key={i}
-                      className="flex gap-4 text-base leading-relaxed md:text-lg"
+                      className="flex gap-4 text-[17px] leading-[1.75] md:text-[18px]"
                       style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-secondary)" }}
                       initial={{ opacity: 0, y: 12 }}
                       whileInView={{ opacity: 1, y: 0 }}
@@ -972,7 +972,7 @@ export default function CaseStudyView({ slug }: { slug: string }) {
                       transition={{ duration: 0.7, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
                     >
                       <span
-                        className="mt-3 inline-block h-1.5 w-1.5 shrink-0 rounded-full"
+                        className="mt-[10px] inline-block h-1.5 w-1.5 shrink-0 rounded-full"
                         style={{ backgroundColor: "var(--lime)" }}
                       />
                       <span>{b}</span>
@@ -980,7 +980,7 @@ export default function CaseStudyView({ slug }: { slug: string }) {
                   ))}
                 </ul>
                 <p
-                  className="mt-10 text-lg leading-relaxed md:text-xl"
+                  className="mt-12 max-w-[62ch] text-[19px] leading-[1.6] md:text-[22px] md:leading-[1.55]"
                   style={{
                     fontFamily: "var(--font-encode)",
                     color: "var(--foreground)",
@@ -1070,7 +1070,7 @@ function RichParagraph({ text }: { text: string }) {
   if (hasBlockMarkup) {
     return (
       <motion.div
-        className="rt-body cs-intro text-base leading-[1.75] md:text-[17px] md:leading-[1.7]"
+        className="rt-body cs-intro max-w-[68ch] text-[17px] leading-[1.75] md:text-[18px] md:leading-[1.75]"
         {...commonProps}
         dangerouslySetInnerHTML={{ __html: text }}
       />
@@ -1078,7 +1078,7 @@ function RichParagraph({ text }: { text: string }) {
   }
   return (
     <motion.p
-      className="rt-body text-base leading-[1.75] md:text-[17px] md:leading-[1.7]"
+      className="rt-body max-w-[68ch] text-[17px] leading-[1.75] md:text-[18px] md:leading-[1.75]"
       {...commonProps}
       {...(hasMarkup ? { dangerouslySetInnerHTML: { __html: text } } : { children: text })}
     />
@@ -1098,7 +1098,7 @@ function ApproachSubsection({
 }) {
   return (
     <motion.div
-      className="border-t pt-8"
+      className="border-t pt-10 md:pt-12"
       style={{ borderColor: "var(--border)" }}
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -1107,13 +1107,13 @@ function ApproachSubsection({
     >
       <div className="flex items-baseline gap-4">
         <span
-          className="text-[11px] font-semibold uppercase tracking-[0.25em]"
+          className="text-[11px] font-semibold uppercase tracking-[0.24em]"
           style={{ fontFamily: "var(--font-inter)", color: "var(--teal)" }}
         >
           {String(index + 1).padStart(2, "0")}
         </span>
         <h3
-          className="text-xl font-bold tracking-tight md:text-2xl"
+          className="text-[22px] font-bold leading-[1.15] tracking-tight md:text-[28px] md:leading-[1.12]"
           style={{
             fontFamily: "var(--font-archivo)",
             color: "var(--foreground)",
@@ -1130,7 +1130,7 @@ function ApproachSubsection({
         if (hasBlockMarkup) {
           return (
             <div
-              className="rt-body cs-intro mt-4 text-base leading-[1.75] md:text-[17px] md:leading-[1.7]"
+              className="rt-body cs-intro mt-5 max-w-[68ch] text-[17px] leading-[1.75] md:mt-6 md:text-[18px] md:leading-[1.75]"
               style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-secondary)" }}
               dangerouslySetInnerHTML={{ __html: body }}
             />
@@ -1138,7 +1138,7 @@ function ApproachSubsection({
         }
         return (
           <p
-            className="rt-body mt-4 text-base leading-[1.75] md:text-[17px] md:leading-[1.7]"
+            className="rt-body mt-5 max-w-[68ch] text-[17px] leading-[1.75] md:mt-6 md:text-[18px] md:leading-[1.75]"
             style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-secondary)" }}
             {...(hasMarkup ? { dangerouslySetInnerHTML: { __html: body } } : { children: body })}
           />
