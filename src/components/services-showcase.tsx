@@ -26,7 +26,7 @@ const SERVICES: Service[] = [
     heading_accent: "Attribution Modeling",
     heading_rest: " that tells you where your growth comes from",
     description: [
-      "Your growth audit and attribution model.",
+      "<b>Your growth audit and attribution model.</b>",
       "We pull data from every platform — GA4, Search Console, Ads, Shopify, Meta, Klaviyo, HubSpot — and build one clear picture of what's driving revenue, and what isn't.",
     ],
     footer: "It all works together to get you true, profitable ROI.",
@@ -39,7 +39,7 @@ const SERVICES: Service[] = [
     heading_rest: " that builds bridges to you",
     description: [
       "In the old days, it was about adding “near me” to the top of your website.",
-      "Today, our business-tested SEO & GEO models are bleeding-edge: total web and product optimization, customer research, and direct access to our SEO engineers gets you seen <b>exactly</b> where your audience is looking, including through AI.",
+      "Today, our business-tested SEO & GEO models are <b>bleeding-edge</b>: total web and product optimization, customer research, and direct access to our SEO engineers gets you seen <b>exactly</b> where your audience is looking, including through AI.",
     ],
     footer: "It all works together to get you true, profitable ROI.",
     image: "/images/services/seo-geo.webp",
@@ -50,8 +50,8 @@ const SERVICES: Service[] = [
     heading_accent: "Digital PR",
     heading_rest: " gets you seen, heard, and linked to",
     description: [
-      "Elevate your brand. Omni Common employs professional journalists, data scientists, illustrators, spokespeople and more, for producing and promoting original data analysis on topical areas in your field.",
-      "We have an indisputable track record of amplifying brands, getting them recognized and linked to on a national level.",
+      "<b>Elevate your brand.</b> Omni Common employs professional journalists, data scientists, illustrators, spokespeople and more, for producing and promoting original data analysis on topical areas in your field.",
+      "We have an <b>indisputable track record</b> of amplifying brands, getting them recognized and linked to on a national level.",
     ],
     footer: "It all works together to get you true, profitable ROI.",
     image: "/images/services/digital-pr.webp",
@@ -62,7 +62,7 @@ const SERVICES: Service[] = [
     heading_accent: "Branded Web Design",
     heading_rest: " means design-thinking by professional designers",
     description: [
-      "Nationally recognized and local businesses alike need good branding. It’s a critical trust signal.",
+      "Nationally recognized and local businesses alike <b>need good branding</b>. It’s a critical trust signal.",
       "Regardless if your branding is fully developed, professionally documented, or even consistent, our in-house design team gets it where it need to be… or slots in seamlessly with your style guide.",
     ],
     footer: "It all works together to get you true, profitable ROI.",
@@ -75,7 +75,7 @@ const SERVICES: Service[] = [
     heading_rest: " for leaving your unique mark",
     description: [
       "Call it “blogging”, “vlogging”, or whatever you like. We call it sewing the seeds that get you seen, respected, and loved, even in the furthest outreaches of the marketing funnel.",
-      "That’s why we have in-house capabilities for producing, writing, developing, and SEO-optimizing fully original content that ranks high in search results, and stands out in a crowd.",
+      "That’s why we have in-house capabilities for producing, writing, developing, and SEO-optimizing <b>fully original content that ranks high in search results, and stands out in a crowd</b>.",
     ],
     footer: "It all works together to get you true, profitable ROI.",
     image: "/images/services/content-marketing.webp",
@@ -86,7 +86,7 @@ const SERVICES: Service[] = [
     heading_accent: "Paid Media",
     heading_rest: " is an essential conversion tool we understand",
     description: [
-      "Wherever there is pay-to-play marketing, there’s a chance to improve conversion rate. It’s one of our specialties.",
+      "Wherever there is pay-to-play marketing, there’s a chance to <b>improve conversion rate</b>. It’s one of our specialties.",
       "We’ve mastered the art of auditing existing Paid Media campaigns to produce highly-insightful reports with actionable items. Not to mention, we can also create original, high-converting Paid Media across various business categories: ecommerce, B2B, SaaS, and much more.",
     ],
     footer: "It all works together to get you true, profitable ROI.",
@@ -98,7 +98,7 @@ const SERVICES: Service[] = [
     heading_accent: "Email Flows",
     heading_rest: " that convert, look gorgeous, and leave no customer behind",
     description: [
-      "Meet your users wherever they’re at, right when they need it, and exactly how they like it.",
+      "<b>Meet your users wherever they’re at, right when they need it, and exactly how they like it.</b>",
       "We crunch the numbers to create optimized email flows that get your customers to take action (with zero cut corners on original writing and branding).",
     ],
     footer: "It all works together to get you true, profitable ROI.",
@@ -110,7 +110,7 @@ const SERVICES: Service[] = [
     heading_accent: "Video & Graphics",
     heading_rest: " that bring you to the next level",
     description: [
-      "Our design team features teammates with a robust set of talents, including top-of-field videography and industry-leading graphic design.",
+      "Our design team features teammates with a robust set of talents, including <b>top-of-field videography and industry-leading graphic design</b>.",
       "We collaborate with your team to perfectly reproduce your design aesthetic, or we can dream it up and make it happen together.",
     ],
     footer: "It all works together to get you true, profitable ROI.",
