@@ -521,7 +521,7 @@ export const caseStudies: CaseStudy[] = [
       heading: "Strong Brand Messaging, and What the Budget Was Buying",
       paragraphs: [
         "<b class=\"rt-blue\">Talitha Coffee was created with a strong commitment to philanthropy, sporting a marketing message to match: end human trafficking.</b> It&rsquo;s coffee with a purpose that socially-conscious customers genuinely care about.",
-        "Armed with award-winning blends &mdash; including a Global Coffee Awards honorable mention for their &ldquo;Arise&rdquo; roast &mdash; Talitha had both a good product and a great marketing message. What they lacked was a marketing engine to match.",
+        "Armed with award-winning blends — including a Global Coffee Awards honorable mention for their “Arise” roast — Talitha had both a good product and a great marketing message. What they lacked was a marketing engine to match.",
       ],
       media: {
         layout: "pair",
