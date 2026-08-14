@@ -326,28 +326,47 @@ export function WhyItWorks() {
               fontSize: "clamp(2rem, 4.5vw, 3.5rem)",
             }}
           >
-            {homeContent.why_omni_common.heading_lines.map((line, i) => (
-              <motion.span
-                key={i}
-                className="block font-normal"
-                initial={{ opacity: 0, y: 24 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{
-                  duration: 1,
-                  delay: 0.18 + i * 0.14,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-              >
-                {line.prefix}
-                <span className="font-bold" style={{ color: line.highlight_1_color }}>
-                  {line.highlight_1}
+            {homeContent.why_omni_common.heading_lines.map((line, i) => {
+              const lineBase = 0.12 + i * 0.28;
+              return (
+                <span key={i} className="block font-normal">
+                  <motion.span
+                    className="inline-block"
+                    initial={{ opacity: 0, y: 18 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.6, delay: lineBase, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    {line.prefix}
+                  </motion.span>
+                  <motion.span
+                    className="inline-block font-bold"
+                    style={{ color: line.highlight_1_color }}
+                    initial={{ opacity: 0, y: 22, scale: 0.92 }}
+                    animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+                    transition={{ duration: 0.55, delay: lineBase + 0.08, ease: [0.34, 1.56, 0.64, 1] }}
+                  >
+                    {line.highlight_1}
+                  </motion.span>
+                  <motion.span
+                    className="inline-block"
+                    initial={{ opacity: 0, y: 18 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.5, delay: lineBase + 0.16, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    {line.connector}
+                  </motion.span>
+                  <motion.span
+                    className="inline-block font-bold"
+                    style={{ color: line.highlight_2_color }}
+                    initial={{ opacity: 0, y: 22, scale: 0.92 }}
+                    animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+                    transition={{ duration: 0.55, delay: lineBase + 0.22, ease: [0.34, 1.56, 0.64, 1] }}
+                  >
+                    {line.highlight_2}
+                  </motion.span>
                 </span>
-                {line.connector}
-                <span className="font-bold" style={{ color: line.highlight_2_color }}>
-                  {line.highlight_2}
-                </span>
-              </motion.span>
-            ))}
+              );
+            })}
           </h2>
 
           <motion.div
@@ -657,7 +676,7 @@ export function WhyItWorks() {
               }}
               initial={{ scaleY: 0 }}
               animate={{ scaleY: wygInView ? 1 : 0 }}
-              transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
             />
             <motion.div
               style={{
@@ -672,7 +691,7 @@ export function WhyItWorks() {
                 opacity: wygInView ? 1 : 0,
                 scale: wygInView ? 1 : 0.5,
               }}
-              transition={{ duration: 0.5, delay: wygInView ? 1.5 : 0, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.4, delay: wygInView ? 0.75 : 0, ease: [0.22, 1, 0.36, 1] }}
             />
           </div>
 
@@ -687,7 +706,7 @@ export function WhyItWorks() {
             }}
             initial={{ opacity: 0, y: 16 }}
             animate={wygInViewOnce ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, delay: 1.6, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.55, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
           >
             {homeContent.why_omni_common.what_you_get.title}
           </motion.h3>
@@ -704,7 +723,7 @@ export function WhyItWorks() {
             }}
             initial={{ opacity: 0, y: 12 }}
             animate={wygInViewOnce ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 1.75, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.5, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
           >
             {homeContent.why_omni_common.what_you_get.kicker}
           </motion.p>
@@ -720,7 +739,7 @@ export function WhyItWorks() {
             }}
             initial={{ opacity: 0, y: 12 }}
             animate={wygInViewOnce ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 1.9, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.5, delay: 0.65, ease: [0.22, 1, 0.36, 1] }}
           >
             {homeContent.why_omni_common.what_you_get.description}
           </motion.p>

@@ -103,18 +103,18 @@
       {
         "prefix": "We are ",
         "highlight_1": "strategy",
-        "highlight_1_color": "#14545D",
+        "highlight_1_color": "#0AA5B8",
         "connector": " + ",
         "highlight_2": "execution",
-        "highlight_2_color": "#94D80A"
+        "highlight_2_color": "#75CDDD"
       },
       {
         "prefix": "We are ",
         "highlight_1": "intelligence",
-        "highlight_1_color": "#14545D",
+        "highlight_1_color": "#94D80A",
         "connector": " + ",
         "highlight_2": "services",
-        "highlight_2_color": "#94D80A"
+        "highlight_2_color": "#0E3D43"
       }
     ],
     "cta_href": "/work",

@@ -30,7 +30,7 @@ const SERVICES: Service[] = [
       "We pull data from every platform — GA4, Search Console, Ads, Shopify, Meta, Klaviyo, HubSpot — and build one clear picture of what's driving revenue, and what isn't.",
     ],
     footer: "It all works together to get you true, profitable ROI.",
-    image: "/images/services/1.png",
+    image: "/images/services/intelligence.webp",
   },
   {
     num: "02",
@@ -42,7 +42,7 @@ const SERVICES: Service[] = [
       "Today, our business-tested SEO & GEO models are bleeding-edge: total web and product optimization, customer research, and direct access to our SEO engineers gets you seen <b>exactly</b> where your audience is looking, including through AI.",
     ],
     footer: "It all works together to get you true, profitable ROI.",
-    image: "/images/services/2.png",
+    image: "/images/services/seo-geo.webp",
   },
   {
     num: "03",
@@ -54,7 +54,7 @@ const SERVICES: Service[] = [
       "We have an indisputable track record of amplifying brands, getting them recognized and linked to on a national level.",
     ],
     footer: "It all works together to get you true, profitable ROI.",
-    image: "/images/services/3.png",
+    image: "/images/services/digital-pr.webp",
   },
   {
     num: "04",
@@ -66,7 +66,7 @@ const SERVICES: Service[] = [
       "Regardless if your branding is fully developed, professionally documented, or even consistent, our in-house design team gets it where it need to be… or slots in seamlessly with your style guide.",
     ],
     footer: "It all works together to get you true, profitable ROI.",
-    image: "/images/services/4.png",
+    image: "/images/services/branded-web-design.webp",
   },
   {
     num: "05",
@@ -78,7 +78,7 @@ const SERVICES: Service[] = [
       "That’s why we have in-house capabilities for producing, writing, developing, and SEO-optimizing fully original content that ranks high in search results, and stands out in a crowd.",
     ],
     footer: "It all works together to get you true, profitable ROI.",
-    image: "/images/services/5.png",
+    image: "/images/services/content-marketing.webp",
   },
   {
     num: "06",
@@ -90,7 +90,7 @@ const SERVICES: Service[] = [
       "We’ve mastered the art of auditing existing Paid Media campaigns to produce highly-insightful reports with actionable items. Not to mention, we can also create original, high-converting Paid Media across various business categories: ecommerce, B2B, SaaS, and much more.",
     ],
     footer: "It all works together to get you true, profitable ROI.",
-    image: "/images/services/6.png",
+    image: "/images/services/paid-media.webp",
   },
   {
     num: "07",
@@ -102,7 +102,7 @@ const SERVICES: Service[] = [
       "We crunch the numbers to create optimized email flows that get your customers to take action (with zero cut corners on original writing and branding).",
     ],
     footer: "It all works together to get you true, profitable ROI.",
-    image: "/images/services/7.png",
+    image: "/images/services/emails.webp",
   },
   {
     num: "08",
@@ -114,7 +114,7 @@ const SERVICES: Service[] = [
       "We collaborate with your team to perfectly reproduce your design aesthetic, or we can dream it up and make it happen together.",
     ],
     footer: "It all works together to get you true, profitable ROI.",
-    image: "/images/services/7.png",
+    image: "/images/services/video.webp",
   },
 ];
 
