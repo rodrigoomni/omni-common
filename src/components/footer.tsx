@@ -28,6 +28,10 @@ export function Footer() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (status === "submitting") return;
+    if (!name.trim() || !email.trim() || !message.trim()) {
+      setStatus("error");
+      return;
+    }
     setStatus("submitting");
     try {
       const response = await fetch("/", {
@@ -142,10 +146,10 @@ export function Footer() {
               className="flex flex-col gap-8 pt-2 md:pt-9"
               name="contact"
               method="POST"
+              action="/"
               data-netlify="true"
               data-netlify-honeypot="bot-field"
               onSubmit={handleSubmit}
-              noValidate
             >
               <input type="hidden" name="form-name" value="contact" />
               <p className="hidden" aria-hidden="true">
@@ -235,7 +239,7 @@ export function Footer() {
                     className="text-sm"
                     style={{ fontFamily: "var(--font-encode)", color: "#b00020" }}
                   >
-                    Something went wrong. Please email{" "}
+                    Please fill out all fields. If the issue persists, email{" "}
                     <a href={`mailto:${footer.email}`} className="underline">
                       {footer.email}
                     </a>
