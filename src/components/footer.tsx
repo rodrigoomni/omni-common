@@ -7,6 +7,14 @@ import globalContent from "@/content/global.json";
 
 const { footer } = globalContent;
 
+type SubmitStatus = "idle" | "submitting" | "success" | "error";
+
+function encodeFormData(data: Record<string, string>) {
+  return Object.entries(data)
+    .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+    .join("&");
+}
+
 export function Footer() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
@@ -14,6 +22,38 @@ export function Footer() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [botField, setBotField] = useState("");
+  const [status, setStatus] = useState<SubmitStatus>("idle");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (status === "submitting") return;
+    setStatus("submitting");
+    try {
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: encodeFormData({
+          "form-name": "contact",
+          "bot-field": botField,
+          name,
+          email,
+          message,
+        }),
+      });
+      if (!response.ok) throw new Error(`Submission failed: ${response.status}`);
+      setStatus("success");
+      setName("");
+      setEmail("");
+      setMessage("");
+      if (typeof window !== "undefined" && typeof window.gtag === "function") {
+        window.gtag("event", "generate_lead", { form_name: "contact" });
+      }
+    } catch (err) {
+      console.error("Contact form error", err);
+      setStatus("error");
+    }
+  };
 
   return (
     <footer id="lets-chat" style={{ backgroundColor: "var(--background)" }}>
@@ -100,41 +140,65 @@ export function Footer() {
             {/* ── RIGHT: contact form ── */}
             <form
               className="flex flex-col gap-8 pt-2 md:pt-9"
-              action={`mailto:${footer.email}`}
-              method="post"
-              encType="text/plain"
+              name="contact"
+              method="POST"
+              data-netlify="true"
+              data-netlify-honeypot="bot-field"
+              onSubmit={handleSubmit}
+              noValidate
             >
+              <input type="hidden" name="form-name" value="contact" />
+              <p className="hidden" aria-hidden="true">
+                <label>
+                  Don&apos;t fill this out if you&apos;re human:{" "}
+                  <input
+                    name="bot-field"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={botField}
+                    onChange={(e) => setBotField(e.target.value)}
+                  />
+                </label>
+              </p>
+
               <FormField
                 id="footer-name"
+                name="name"
                 label={footer.form.name_label}
                 placeholder={footer.form.name_placeholder}
                 value={name}
                 onChange={setName}
                 autoComplete="name"
+                required
               />
               <FormField
                 id="footer-email"
+                name="email"
                 label={footer.form.email_label}
                 placeholder={footer.form.email_placeholder}
                 value={email}
                 onChange={setEmail}
                 type="email"
                 autoComplete="email"
+                required
               />
               <FormField
                 id="footer-message"
+                name="message"
                 label={footer.form.message_label}
                 placeholder={footer.form.message_placeholder}
                 value={message}
                 onChange={setMessage}
                 textarea
+                required
               />
 
               <div className="self-start">
                 <MagneticButton strength={0.2}>
                   <button
                     type="submit"
-                    className="cta-manic relative inline-flex items-center gap-3 rounded-full px-10 py-4 text-base font-semibold transition-all duration-300 hover:scale-105 active:scale-95"
+                    disabled={status === "submitting" || status === "success"}
+                    className="cta-manic relative inline-flex items-center gap-3 rounded-full px-10 py-4 text-base font-semibold transition-all duration-300 hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:scale-100"
                     style={{
                       fontFamily: "var(--font-inter)",
                       backgroundColor: "var(--teal)",
@@ -143,7 +207,11 @@ export function Footer() {
                     }}
                   >
                     <span className="relative inline-flex items-center gap-2">
-                      {footer.cta_button}{" "}
+                      {status === "submitting"
+                        ? "Sending…"
+                        : status === "success"
+                        ? "Sent — talk soon"
+                        : footer.cta_button}{" "}
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M5 12h14"/>
                         <path d="M13 6l6 6-6 6"/>
@@ -151,6 +219,29 @@ export function Footer() {
                     </span>
                   </button>
                 </MagneticButton>
+              </div>
+
+              <div role="status" aria-live="polite" className="min-h-[1.25rem]">
+                {status === "success" && (
+                  <p
+                    className="text-sm"
+                    style={{ fontFamily: "var(--font-encode)", color: "var(--teal)" }}
+                  >
+                    Thanks — we&apos;ll be in touch shortly.
+                  </p>
+                )}
+                {status === "error" && (
+                  <p
+                    className="text-sm"
+                    style={{ fontFamily: "var(--font-encode)", color: "#b00020" }}
+                  >
+                    Something went wrong. Please email{" "}
+                    <a href={`mailto:${footer.email}`} className="underline">
+                      {footer.email}
+                    </a>
+                    .
+                  </p>
+                )}
               </div>
             </form>
           </div>
@@ -200,6 +291,7 @@ export function Footer() {
 
 type FormFieldProps = {
   id: string;
+  name?: string;
   label: string;
   placeholder: string;
   value: string;
@@ -207,10 +299,12 @@ type FormFieldProps = {
   type?: string;
   autoComplete?: string;
   textarea?: boolean;
+  required?: boolean;
 };
 
 function FormField({
   id,
+  name,
   label,
   placeholder,
   value,
@@ -218,6 +312,7 @@ function FormField({
   type = "text",
   autoComplete,
   textarea = false,
+  required = false,
 }: FormFieldProps) {
   const sharedStyle = {
     fontFamily: "var(--font-encode)",
@@ -238,10 +333,11 @@ function FormField({
       {textarea ? (
         <textarea
           id={id}
-          name={id}
+          name={name ?? id}
           placeholder={placeholder}
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          required={required}
           rows={5}
           className="w-full resize-none px-4 pb-24 pt-3 text-lg placeholder:text-[rgba(38,38,38,0.5)] focus:outline-none focus:ring-2 focus:ring-[color:var(--teal)]/40"
           style={sharedStyle}
@@ -249,12 +345,13 @@ function FormField({
       ) : (
         <input
           id={id}
-          name={id}
+          name={name ?? id}
           type={type}
           autoComplete={autoComplete}
           placeholder={placeholder}
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          required={required}
           className="w-full px-4 pb-4 pt-3.5 text-lg placeholder:text-[rgba(38,38,38,0.5)] focus:outline-none focus:ring-2 focus:ring-[color:var(--teal)]/40"
           style={sharedStyle}
         />
