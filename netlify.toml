@@ -9,6 +9,26 @@
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
+[[redirects]]
+  from = "/local-marketing"
+  to = "/insights/local-marketing/"
+  status = 301
+
+[[redirects]]
+  from = "/local-marketing/"
+  to = "/insights/local-marketing/"
+  status = 301
+
+[[redirects]]
+  from = "/local"
+  to = "/insights/local-marketing/"
+  status = 301
+
+[[redirects]]
+  from = "/local/"
+  to = "/insights/local-marketing/"
+  status = 301
+
 [[headers]]
   for = "/*"
   [headers.values]
