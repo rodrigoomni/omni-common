@@ -11,7 +11,8 @@ import { Footer } from "@/components/footer";
 const HERO = {
   eyebrow: "Service Offer · 90-Day Account Takeover",
   heading_line1: "Peak Season",
-  heading_line2: "Takeover",
+  heading_line2_lead: "Ad Account",
+  heading_line2_accent: "Takeover",
   description:
     "Hand us the keys in August. Walk into Black Friday with a paid search account that has already found its rhythm.",
   cta: { label: "Book a 20-minute intro call", href: "#lets-chat" },
@@ -180,7 +181,7 @@ export default function PeakSeasonView() {
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden">
         <div className="site-container relative px-6 pb-20 pt-6 md:px-12 md:pb-24 md:pt-10 lg:px-24">
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start lg:gap-16">
+          <div className="grid gap-12 xl:grid-cols-[minmax(0,1fr)_380px] xl:items-start xl:gap-16">
             {/* Left — headline */}
             <div>
               <motion.div
@@ -198,7 +199,7 @@ export default function PeakSeasonView() {
                   fontWeight: 900,
                   color: "var(--navy)",
                   letterSpacing: "-0.035em",
-                  fontSize: "clamp(2.75rem, 7vw, 5.25rem)",
+                  fontSize: "clamp(2.25rem, 4.6vw, 3.5rem)",
                   lineHeight: 0.98,
                 }}
                 initial={{ opacity: 0, y: 40 }}
@@ -206,15 +207,18 @@ export default function PeakSeasonView() {
                 transition={{ duration: 1, ease: EASE }}
               >
                 <span className="block">{HERO.heading_line1}</span>
-                <span
-                  className="inline-block"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(to top, var(--lime) 0%, var(--lime) 44%, transparent 44%)",
-                    paddingRight: "0.06em",
-                  }}
-                >
-                  {HERO.heading_line2}
+                <span className="block">
+                  {HERO.heading_line2_lead}{" "}
+                  <span
+                    className="inline-block"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(to top, var(--lime) 0%, var(--lime) 44%, transparent 44%)",
+                      paddingRight: "0.06em",
+                    }}
+                  >
+                    {HERO.heading_line2_accent}
+                  </span>
                 </span>
               </motion.h1>
 

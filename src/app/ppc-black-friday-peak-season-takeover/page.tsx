@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import PeakSeasonView from "./peak-season-view";
 
-const TITLE = "Peak Season Takeover — 90-Day Paid Search Account Takeover";
+const TITLE = "Peak Season Ad Account Takeover";
 const DESCRIPTION =
   "Hand us the keys in August. Walk into Black Friday with a paid search account that has already found its rhythm. 90-day account takeover from $990.";
 const PATH = "/ppc-black-friday-peak-season-takeover/";
@@ -12,7 +12,7 @@ const OG_IMAGE = {
   url: "/og-peak-season-takeover.png",
   width: 1200,
   height: 630,
-  alt: "Peak Season Takeover — 90-day paid search account takeover from Omni Common",
+  alt: "Peak Season Ad Account Takeover — 90-day paid search takeover from Omni Common",
 };
 
 export const metadata: Metadata = {
