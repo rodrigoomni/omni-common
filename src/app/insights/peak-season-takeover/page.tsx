@@ -1,195 +1,167 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "motion/react";
-import { useRef, useState } from "react";
+import { motion } from "motion/react";
+import { useState } from "react";
 import Link from "next/link";
 import { Footer } from "@/components/footer";
 import { MagneticButton } from "@/components/magnetic-button";
 
 /* ──────────────────────────────────────────────────────────────────────────────
-   Content — sourced from the Peak Season Takeover sales sheet (DTC / ecom).
+   Content
    ────────────────────────────────────────────────────────────────────────── */
 
 const HERO = {
-  eyebrow: "Q4 GROWTH · 90-DAY ACCOUNT TAKEOVER",
-  brand_tag: "Ecommerce & DTC",
-  heading_top: "Peak Season",
-  heading_accent: "Takeover.",
+  eyebrow: "LET'S CHAT · FOR FREE",
+  heading_top: "Book a free 20-minute",
+  heading_accent: "intro call.",
   description:
-    "Hand us the keys in August. Walk into Black Friday with Google and Meta accounts that have already found their rhythm.",
+    "See if our service is perfect for you. No pitch deck — we'll review your account and give you real feedback whether we work together or not.",
   timeline: [
     { date: "AUG 17", label: "We take the keys", accent: "lime" as const },
-    { date: "SEP–OCT", label: "Rebuild on cheaper impressions", accent: "mint" as const },
-    { date: "NOV 15", label: "Accounts at full stride", accent: "mint" as const },
-    { date: "NOV 27", label: "Black Friday — you execute", accent: "lime" as const },
+    { date: "SEP–OCT", label: "Rebuild while clicks are cheaper", accent: "mint" as const },
+    { date: "NOV 15", label: "Account at full stride", accent: "mint" as const },
+    { date: "NOV 27", label: "Black Friday", accent: "lime" as const },
   ],
-  facts: [
-    { value: "10 spots", label: "total client capacity" },
-    { value: "Aug 31", label: "enrollment closes" },
-    { value: "90 days", label: "full term — no opt-out" },
-    { value: "$5K+/mo", label: "min ad spend" },
-  ],
+  form_title: "Reserve your call",
+  form_note: "10 spots · Aug 31 enrollment closes",
+  cta_label: "Book free 20-minute call",
+  contact_email: "ryan@omnicommon.com",
 };
 
 const GOAL = {
   eyebrow: "THE GOAL",
-  heading: "November is for execution. Not for learning.",
+  heading: "Focus on your business. We'll take care of the ad account.",
   description:
-    "You know Q4 is when the money moves — but that's also the worst possible time to be teaching a platform how to find your buyers. Black Friday and Cyber Monday push CPMs to two or three times baseline, so foundation work costs a fraction in September what it costs in November. We take both accounts now, rebuild the signal underneath them, and spend the volatile phase on cheaper impressions — so BFCM is execution, not panic optimization.",
-  compare: [
-    {
-      when: "September",
-      cost: "1×",
-      note: "Baseline impressions. Cheap experiments, cheap mistakes, cheap learning.",
-      tone: "green" as const,
-    },
-    {
-      when: "November",
-      cost: "2–3×",
-      note: "Peak CPMs. Every learning experiment costs multiples. Every day of drift is a real loss.",
-      tone: "warn" as const,
-    },
-  ],
+    "Work smarter, not harder. We take your account today, rebuilding the signals beneath it and working through the volatile phase early — so your holiday season is pure execution, not panic.",
 };
 
 const RUNWAY = {
-  eyebrow: "THE 90-DAY RUNWAY",
-  heading: "What's actually included.",
+  eyebrow: "WHAT YOU GET",
+  heading: "The 90-day runway.",
   description:
-    "Both accounts, one operating cadence. Every phase has a purpose — and a lock — so nothing gets touched during peak that shouldn't.",
+    "Every phase has a purpose — and a lock — so nothing gets touched during peak that shouldn't.",
   phases: [
     {
       weeks: "WEEKS 1–2",
-      title: "Take the keys",
+      title: "We take the keys",
       body:
-        "Audit both accounts — wasted spend, Performance Max eating your branded traffic, ad-set fragmentation on Meta. Feed and Merchant Center health. Tracking rebuilt on both sides.",
+        "Full audit — find wasted spend, search-term gaps, Performance Max cannibalizing your brand terms. Conversion tracking rebuilt. Get a baseline scorecard against last year's Q4.",
     },
     {
       weeks: "WEEKS 3–5",
-      title: "Rebuild & learn",
+      title: "Rebuilding & learning",
       body:
-        "Optimization events chosen for volume and quality — optimizing to add-to-cart just teaches Meta to find people who never buy. Then a change freeze.",
+        "Campaign restructuring by margin and intent. Bid strategy matched to your actual conversion volume. Match ad copy and messaging — then a change freeze.",
     },
     {
       weeks: "WEEKS 6–9",
-      title: "Stabilize & prove",
+      title: "Stabilizing",
       body:
-        "Prospecting pushed deliberately to fill retargeting pools while impressions are cheap. Creative tested now and backups banked. Budget moved to winners. Weekly reads.",
+        "Search-term mining, negative build-out, budget moved to what's working. Retargeting audiences built and warm while impressions are still cheap. Weekly reads reported to you.",
     },
     {
       weeks: "WEEKS 10–13",
-      title: "Arm for peak",
+      title: "Fully optimized for peak",
       body:
-        "Seasonality adjustments loaded ahead of the sale — and the negative adjustment scheduled for after, so spend doesn't spike. Change freeze two weeks out.",
+        "Q4 promo calendar, promotion extensions and sale annotations live, budget increases set ahead of the ramp, backup creative banked, technical change freeze two weeks out.",
     },
   ],
+  cta: { label: "Start right now", href: "#book-intro" },
 };
 
-const PROOF = {
-  eyebrow: "PROOF",
+const WHY = {
+  eyebrow: "WHY OMNI COMMON",
   heading: "We take over inherited accounts for a living.",
   description:
-    "Corrupted conversion data, contradictory dashboards, runaway Performance Max. Fix the signal, hold the line through learning, then scale spend only as fast as the economics allow.",
+    "Whether it's corrupted conversion data, destabilized bid strategies, or runaway Performance Max — our marketing professionals fix the signal, stabilize, then scale your ad account. It's our specialty.",
+  stats_heading: "Here's what we did for businesses like yours",
   stats: [
     {
-      metric: "−23%→+48%",
-      body: "Year-over-year order growth on a DTC store whose orders were falling when we took the account.",
+      metric: "−26.5% CPA",
+      body: "Cost per acquisition on a full account takeover — with spend down 8.8% and conversions up 35% in 2025.",
+    },
+    {
+      metric: "+118% TXN",
+      body: "Increase in conversions YOY in the first 4 months, at a 21% lower CPA YOY.",
     },
     {
       metric: "$117 → $92",
       body: "CPA falling as volume rose — 227 to 496 monthly conversions, beating plan four months running.",
     },
-    {
-      metric: "5.71×",
-      body: "ROAS on Meta at a $40.68 cost per purchase, on a ~$300 considered product.",
-    },
-  ],
-};
-
-const FIT = {
-  eyebrow: "WHO THIS IS FOR",
-  heading: "Built for DTC brands where Q4 is the year.",
-  points: [
-    "Ecommerce & DTC brands running Google Ads, Meta, or both",
-    "$5K+/mo on paid search — $10K+/mo on Meta",
-    "Q4 is a meaningful share of annual revenue",
-    "The account has been touched by multiple hands — you're inheriting drift",
-    "You want the foundation solid before Black Friday, not during",
-  ],
-  not_for: [
-    "You're launching from zero with no data",
-    "You need someone to build creative from scratch as the primary lever",
-    "You're looking for month-to-month with no commitment",
   ],
 };
 
 const PRICING = {
   eyebrow: "INVESTMENT",
-  heading: "The whole first month for less than most agencies charge for a call.",
+  heading: "Select the package you need — built for true ROI.",
   cards: [
     {
-      tag: "MONTH ONE · TAKEOVER & REBUILD",
-      strike: "$5,990",
-      price: "$1,980",
+      tag: "PAID SEARCH TAKEOVER",
+      strike: "$2,995",
+      price: "$990",
       priceSuffix: "",
       body:
-        "Takeover & rebuild across both platforms — search + social. Management for the month is included, not billed on top.",
+        "Month one — takeover & rebuild. Full audit, tracking rebuild, and account restructure. Management included, never billed on top.",
+      recurring: "$999",
+      recurringNote:
+        "Month two onward, through December 31. Goes to $1,995/mo on January 1 — only after you've seen your Q4 numbers.",
       highlight: true,
     },
     {
-      tag: "MONTH TWO — DEC 31",
-      strike: "",
-      price: "$1,998",
-      priceSuffix: "/mo",
-      body:
-        "Management continues through the end of Q4. Rate goes to $3,990/mo on Jan 1 — after you've seen your Q4 numbers.",
-      highlight: false,
-    },
-    {
-      tag: "SINGLE PLATFORM",
-      strike: "",
+      tag: "ADD-ON · META TAKEOVER",
+      strike: "$2,995",
       price: "$990",
-      priceSuffix: " then $999/mo",
+      priceSuffix: "",
       body:
-        "Search-only or Meta-only. Same structure, same 90-day term. Meta account takeovers require $10K+/mo in ad spend.",
+        "The same professional optimization ROI, now for Meta accounts. We restructure, rebuild signal with the Conversions API, and optimize existing creative.",
+      recurring: "$999",
+      recurringNote:
+        "Month two onward, through December 31. Goes to $1,995/mo on January 1 — only after you've seen your Q4 numbers.",
       highlight: false,
     },
   ],
-  addon: {
-    tag: "ADD-ON · CREATIVE",
-    title: "Ads, built to feed the machine",
-    body:
-      "Creative isn't included — on Meta it's the main lever you have. If you don't already have it, direction and specs, or our team builds the batch. Quoted on volume.",
-  },
 };
 
-const SPOT_METER = {
-  taken: 4,
-  total: 10,
+const TERMS = {
+  eyebrow: "AD ACCOUNT TERMS",
+  items: [
+    { value: "$5K+/mo", label: "minimum ad spend" },
+    { value: "90 days", label: "full term — no opt-out" },
+    { value: "10 spots", label: "total client capacity" },
+    { value: "Aug 31", label: "enrollment closes" },
+  ],
 };
 
 /* ──────────────────────────────────────────────────────────────────────────────
-   Small icon components
+   Utilities
+   ────────────────────────────────────────────────────────────────────────── */
+
+function encodeFormData(data: Record<string, string>) {
+  return Object.entries(data)
+    .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+    .join("&");
+}
+
+type SubmitStatus = "idle" | "submitting" | "success" | "error";
+
+function trackLead(source: string) {
+  if (typeof window !== "undefined" && typeof window.gtag === "function") {
+    window.gtag("event", "generate_lead", {
+      form_name: "peak-season-lead",
+      campaign: "peak-season-takeover",
+      source,
+    });
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────────────────────
+   Icons
    ────────────────────────────────────────────────────────────────────────── */
 
 function Check({ color = "var(--teal)" }: { color?: string }) {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path
-        d="M4 12L10 18L20 6"
-        stroke={color}
-        strokeWidth="2.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function X({ color = "#B00020" }: { color?: string }) {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M6 6L18 18M18 6L6 18" stroke={color} strokeWidth="2.4" strokeLinecap="round" />
+      <path d="M4 12L10 18L20 6" stroke={color} strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -203,18 +175,6 @@ function Arrow() {
 }
 
 /* ──────────────────────────────────────────────────────────────────────────────
-   Encode form data (matches footer pattern)
-   ────────────────────────────────────────────────────────────────────────── */
-
-function encodeFormData(data: Record<string, string>) {
-  return Object.entries(data)
-    .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
-    .join("&");
-}
-
-type SubmitStatus = "idle" | "submitting" | "success" | "error";
-
-/* ──────────────────────────────────────────────────────────────────────────────
    Page
    ────────────────────────────────────────────────────────────────────────── */
 
@@ -224,12 +184,11 @@ export default function PeakSeasonTakeoverPage() {
       <Hero />
       <GoalSection />
       <RunwaySection />
-      <ProofSection />
-      <FitSection />
+      <WhySection />
       <PricingSection />
-      <LeadFormSection />
+      <TermsSection />
       <StickyMobileCta />
-      <Footer />
+      <Footer theme="green" />
     </main>
   );
 }
@@ -237,120 +196,62 @@ export default function PeakSeasonTakeoverPage() {
 /* ── HERO ─────────────────────────────────────────────────────────────────── */
 
 function Hero() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-  const y = useTransform(scrollYProgress, [0, 1], [0, 80]);
-
   return (
     <section
-      ref={ref}
+      id="book-intro"
       data-theme="dark"
-      className="relative overflow-hidden pt-28 pb-16 md:pt-36 md:pb-24"
+      className="relative flex min-h-[96vh] scroll-mt-24 items-center overflow-hidden pt-28 pb-16 md:pt-32"
       style={{
         backgroundColor: "#0A2B47",
-        backgroundImage: [
-          "radial-gradient(60% 45% at 85% 15%, rgba(207, 252, 104, 0.14) 0%, rgba(207, 252, 104, 0) 60%)",
-          "radial-gradient(50% 40% at 10% 85%, rgba(165, 253, 243, 0.12) 0%, rgba(165, 253, 243, 0) 60%)",
-        ].join(", "),
+        backgroundImage: "url('/images/peak-season-hero-bg.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
       }}
     >
-      {/* Decorative dotted grid */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-[0.15]"
-        style={{
-          backgroundImage:
-            "radial-gradient(rgba(255,253,239,0.5) 1px, transparent 1px)",
-          backgroundSize: "22px 22px",
-          maskImage:
-            "radial-gradient(ellipse at 50% 60%, black 30%, transparent 75%)",
-        }}
-      />
 
-      {/* Big background circle motif (echoes sales sheet) */}
-      <motion.svg
-        aria-hidden="true"
-        className="pointer-events-none absolute right-[-140px] top-[80px] hidden md:block"
-        width="360"
-        height="360"
-        viewBox="0 0 100 100"
-        style={{ y }}
-      >
-        <circle cx="50" cy="50" r="46" fill="none" stroke="#CFFC68" strokeOpacity="0.28" strokeDasharray="3 5" strokeWidth="0.5" />
-        <circle cx="50" cy="50" r="32" fill="none" stroke="#A5FDF3" strokeOpacity="0.28" strokeDasharray="2 6" strokeWidth="0.5" />
-      </motion.svg>
+      <div className="site-container relative w-full px-6 md:px-12 lg:px-24">
+        {/* Eyebrow */}
+        <motion.p
+          className="text-[11px] font-semibold uppercase"
+          style={{
+            fontFamily: "var(--font-inter)",
+            color: "#CFFC68",
+            letterSpacing: "0.24em",
+          }}
+          initial={{ opacity: 0, y: -6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          {HERO.eyebrow}
+        </motion.p>
 
-      <div className="site-container relative px-6 md:px-12 lg:px-24">
-        {/* Top tag row */}
-        <div className="flex flex-wrap items-center gap-3">
-          <motion.span
-            className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em]"
-            style={{
-              fontFamily: "var(--font-inter)",
-              backgroundColor: "rgba(207,252,104,0.14)",
-              color: "#CFFC68",
-              border: "1px solid rgba(207,252,104,0.35)",
-            }}
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-[#CFFC68]" />
-            {HERO.eyebrow}
-          </motion.span>
-          <motion.span
-            className="inline-flex items-center rounded-full px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em]"
-            style={{
-              fontFamily: "var(--font-inter)",
-              backgroundColor: "rgba(255,255,255,0.06)",
-              color: "rgba(255,253,239,0.85)",
-              border: "1px solid rgba(255,253,239,0.15)",
-            }}
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.06 }}
-          >
-            {HERO.brand_tag}
-          </motion.span>
-        </div>
-
-        {/* Headline + right column */}
-        <div className="mt-8 grid gap-10 md:mt-10 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] md:gap-12 lg:gap-16">
-          <div>
+        {/* Two-column layout: headline / stack */}
+        <div className="mt-8 grid gap-10 md:mt-10 md:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] md:gap-12 lg:gap-16">
+          {/* LEFT — headline */}
+          <div className="flex flex-col justify-center">
             <motion.h1
               className="font-bold"
               style={{
                 fontFamily: "var(--font-archivo)",
                 color: "#FFFDEF",
                 letterSpacing: "-0.03em",
-                fontSize: "clamp(2.75rem, 6vw, 5.75rem)",
-                lineHeight: 0.98,
+                fontSize: "clamp(2.75rem, 6.2vw, 6.25rem)",
+                lineHeight: 0.96,
               }}
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
             >
-              {HERO.heading_top}
-              <br />
-              <span
-                style={{
-                  backgroundImage:
-                    "linear-gradient(transparent 62%, #CFFC68 62%, #CFFC68 92%, transparent 92%)",
-                  padding: "0 0.06em",
-                }}
-              >
-                {HERO.heading_accent}
-              </span>
+              {HERO.heading_top}{" "}
+              <span style={{ color: "#CFFC68" }}>{HERO.heading_accent}</span>
             </motion.h1>
 
             <motion.p
-              className="mt-7 max-w-[48ch] text-lg leading-[1.55] md:text-xl md:leading-[1.5]"
+              className="mt-7 max-w-[46ch] text-lg leading-[1.55] md:text-xl md:leading-[1.5]"
               style={{
                 fontFamily: "var(--font-encode)",
-                color: "rgba(255,253,239,0.82)",
+                color: "rgba(255,253,239,0.85)",
               }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -358,320 +259,368 @@ function Hero() {
             >
               {HERO.description}
             </motion.p>
-
-            <motion.div
-              className="mt-9 flex flex-col items-start gap-5 sm:flex-row sm:items-center"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.28 }}
-            >
-              <MagneticButton strength={0.18}>
-                <Link
-                  href="#book-intro"
-                  className="cta-manic relative inline-flex items-center gap-2 rounded-full px-8 py-4 text-base font-semibold transition-transform"
-                  style={{
-                    fontFamily: "var(--font-inter)",
-                    backgroundColor: "#CFFC68",
-                    color: "#0A2B47",
-                    boxShadow: "5px 6px 0px 0px rgba(20,84,93,0.9)",
-                  }}
-                >
-                  <span
-                    className="cta-glow pointer-events-none absolute inset-0 rounded-full opacity-0 transition-opacity duration-200"
-                    style={{
-                      boxShadow:
-                        "0 0 20px rgba(207,252,104,0.55), 0 0 40px rgba(207,252,104,0.25)",
-                    }}
-                  />
-                  <span className="relative">Book my intro call</span>
-                  <Arrow />
-                </Link>
-              </MagneticButton>
-              <Link
-                href="#the-runway"
-                className="inline-flex items-center gap-2 text-base font-semibold transition-opacity hover:opacity-80"
-                style={{ fontFamily: "var(--font-inter)", color: "#A5FDF3" }}
-              >
-                See the 90-day plan
-                <span aria-hidden="true">↓</span>
-              </Link>
-            </motion.div>
-
-            {/* Scarcity meter */}
-            <motion.div
-              className="mt-10 max-w-[440px]"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.38 }}
-            >
-              <div
-                className="flex items-baseline justify-between text-[11px] font-semibold uppercase"
-                style={{
-                  fontFamily: "var(--font-inter)",
-                  letterSpacing: "0.14em",
-                  color: "rgba(255,253,239,0.7)",
-                }}
-              >
-                <span>Spots claimed · updated weekly</span>
-                <span style={{ color: "#CFFC68" }}>
-                  {SPOT_METER.taken} of {SPOT_METER.total}
-                </span>
-              </div>
-              <div className="mt-2 h-2 w-full overflow-hidden rounded-full" style={{ backgroundColor: "rgba(255,255,255,0.08)" }}>
-                <motion.div
-                  className="h-full rounded-full"
-                  style={{
-                    backgroundImage: "linear-gradient(90deg, #CFFC68 0%, #A5FDF3 100%)",
-                  }}
-                  initial={{ width: 0 }}
-                  animate={{ width: `${(SPOT_METER.taken / SPOT_METER.total) * 100}%` }}
-                  transition={{ duration: 1.2, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                />
-              </div>
-            </motion.div>
           </div>
 
-          {/* Timeline card */}
+          {/* RIGHT — polished stack: compact countdown + 2-field form */}
           <motion.aside
-            className="rounded-2xl p-5 md:p-6"
+            className="relative flex flex-col overflow-hidden rounded-3xl"
             style={{
-              backgroundColor: "rgba(255,255,255,0.04)",
-              border: "1px solid rgba(255,255,255,0.08)",
-              backdropFilter: "blur(10px)",
+              backgroundColor: "rgba(255,253,239,0.04)",
+              border: "1px solid rgba(255,253,239,0.12)",
+              backdropFilter: "blur(12px)",
+              boxShadow: "0 30px 60px rgba(0,0,0,0.25)",
             }}
-            initial={{ opacity: 0, x: 24 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
           >
-            <div
-              className="mb-4 flex items-center gap-2 text-[10px] font-bold uppercase"
-              style={{ fontFamily: "var(--font-inter)", color: "#CFFC68", letterSpacing: "0.2em" }}
-            >
-              <span className="inline-block h-1 w-1 rounded-full bg-[#CFFC68]" />
-              THE COUNTDOWN
-            </div>
-            <ul className="relative flex flex-col gap-5">
-              {/* Vertical thread — from center of first badge to center of last */}
-              <span
-                aria-hidden="true"
-                className="absolute left-[17px] top-[18px] bottom-[18px] w-px"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(180deg, rgba(207,252,104,0.55) 0%, rgba(165,253,243,0.35) 100%)",
-                }}
-              />
-              {HERO.timeline.map((step, i) => (
-                <motion.li
-                  key={step.date}
-                  className="relative flex items-start gap-4"
-                  initial={{ opacity: 0, x: 10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: 0.35 + i * 0.08 }}
-                >
-                  <span
-                    className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[11px] font-bold"
-                    style={{
-                      fontFamily: "var(--font-inter)",
-                      color: "#0A2B47",
-                      backgroundColor: step.accent === "lime" ? "#CFFC68" : "#A5FDF3",
-                      boxShadow: "0 0 0 4px #0A2B47",
-                      letterSpacing: "-0.02em",
-                    }}
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <div className="min-w-0 flex-1 pt-0.5">
-                    <div
-                      className="text-[10.5px] font-bold uppercase tracking-[0.14em]"
-                      style={{
-                        fontFamily: "var(--font-inter)",
-                        color: step.accent === "lime" ? "#CFFC68" : "#A5FDF3",
-                      }}
-                    >
-                      {step.date}
-                    </div>
-                    <div
-                      className="mt-1 text-sm leading-snug"
-                      style={{
-                        fontFamily: "var(--font-encode)",
-                        color: "rgba(255,253,239,0.9)",
-                      }}
-                    >
-                      {step.label}
-                    </div>
-                  </div>
-                </motion.li>
-              ))}
-            </ul>
-          </motion.aside>
-        </div>
-
-        {/* Fact strip */}
-        <motion.div
-          className="mt-14 grid grid-cols-2 gap-x-6 gap-y-6 border-t pt-8 md:mt-16 md:grid-cols-4 md:pt-10"
-          style={{ borderColor: "rgba(255,253,239,0.12)" }}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-        >
-          {HERO.facts.map((fact, i) => (
-            <div key={fact.label} className={i < HERO.facts.length - 1 ? "md:border-r md:pr-6" : ""} style={{ borderColor: "rgba(255,253,239,0.12)" }}>
+            {/* Form */}
+            <div className="px-6 pt-6 pb-6 md:px-7 md:pt-7 md:pb-7">
               <div
-                className="font-bold"
-                style={{
-                  fontFamily: "var(--font-archivo)",
-                  color: "#FFFDEF",
-                  fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
-                  lineHeight: 1,
-                  letterSpacing: "-0.02em",
-                }}
-              >
-                {fact.value}
-              </div>
-              <div
-                className="mt-2 text-[11px] font-semibold uppercase"
+                className="mb-4 flex items-center gap-2 text-[10px] font-bold uppercase"
                 style={{
                   fontFamily: "var(--font-inter)",
-                  color: "rgba(165,253,243,0.85)",
-                  letterSpacing: "0.14em",
+                  color: "#CFFC68",
+                  letterSpacing: "0.2em",
                 }}
               >
-                {fact.label}
+                <span className="inline-block h-1 w-1 rounded-full bg-[#CFFC68]" />
+                {HERO.form_title}
+              </div>
+              <HeroForm />
+              <div
+                className="mt-3 flex flex-wrap items-center justify-between gap-2 text-[11px]"
+                style={{
+                  fontFamily: "var(--font-inter)",
+                  color: "rgba(255,253,239,0.6)",
+                }}
+              >
+                <span>{HERO.form_note}</span>
+                <a
+                  href={`mailto:${HERO.contact_email}?subject=Peak%20Season%20Takeover`}
+                  className="font-semibold underline underline-offset-4 transition-opacity hover:opacity-80"
+                  style={{ color: "#CFFC68" }}
+                >
+                  {HERO.contact_email}
+                </a>
               </div>
             </div>
-          ))}
-        </motion.div>
+
+            {/* Countdown */}
+            <div className="border-t px-6 pt-6 pb-6 md:px-7 md:pt-7 md:pb-7" style={{ borderColor: "rgba(255,253,239,0.1)" }}>
+              <div
+                className="mb-4 text-[10px] font-bold uppercase"
+                style={{
+                  fontFamily: "var(--font-inter)",
+                  color: "#A5FDF3",
+                  letterSpacing: "0.2em",
+                }}
+              >
+                THE COUNTDOWN
+              </div>
+              <ul className="relative flex flex-col gap-4">
+                {/* Vertical thread */}
+                <span
+                  aria-hidden="true"
+                  className="absolute left-[17px] top-[18px] bottom-[18px] w-px"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(180deg, rgba(207,252,104,0.55) 0%, rgba(165,253,243,0.35) 100%)",
+                  }}
+                />
+                {HERO.timeline.map((step, i) => (
+                  <motion.li
+                    key={step.date}
+                    className="relative flex items-start gap-3.5"
+                    initial={{ opacity: 0, x: 10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 0.32 + i * 0.06 }}
+                  >
+                    <span
+                      className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[11px] font-bold"
+                      style={{
+                        fontFamily: "var(--font-inter)",
+                        color: "#0A2B47",
+                        backgroundColor: step.accent === "lime" ? "#CFFC68" : "#A5FDF3",
+                        boxShadow: "0 0 0 4px #0A2B47",
+                        letterSpacing: "-0.02em",
+                      }}
+                    >
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <div className="min-w-0 flex-1 pt-0.5">
+                      <div
+                        className="text-[10.5px] font-bold uppercase tracking-[0.14em]"
+                        style={{
+                          fontFamily: "var(--font-inter)",
+                          color: step.accent === "lime" ? "#CFFC68" : "#A5FDF3",
+                        }}
+                      >
+                        {step.date}
+                      </div>
+                      <div
+                        className="mt-0.5 text-sm leading-snug"
+                        style={{
+                          fontFamily: "var(--font-encode)",
+                          color: "rgba(255,253,239,0.9)",
+                        }}
+                      >
+                        {step.label}
+                      </div>
+                    </div>
+                  </motion.li>
+                ))}
+              </ul>
+            </div>
+          </motion.aside>
+        </div>
       </div>
     </section>
   );
 }
 
-/* ── GOAL / WHY NOW ───────────────────────────────────────────────────────── */
+/* ── HERO FORM (2 fields) ─────────────────────────────────────────────────── */
+
+function HeroForm() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [botField, setBotField] = useState("");
+  const [status, setStatus] = useState<SubmitStatus>("idle");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (status === "submitting") return;
+    if (!name.trim() || !email.trim()) {
+      setStatus("error");
+      return;
+    }
+    setStatus("submitting");
+    try {
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: encodeFormData({
+          "form-name": "peak-season-lead",
+          "bot-field": botField,
+          name,
+          email,
+          source: "hero",
+        }),
+      });
+      if (!response.ok) throw new Error(`Submission failed: ${response.status}`);
+      setStatus("success");
+      trackLead("hero");
+    } catch (err) {
+      console.error("Hero lead form error", err);
+      setStatus("error");
+    }
+  };
+
+  if (status === "success") {
+    return (
+      <div
+        className="rounded-xl p-4 text-sm"
+        style={{
+          fontFamily: "var(--font-encode)",
+          backgroundColor: "rgba(207,252,104,0.14)",
+          color: "#CFFC68",
+          border: "1px solid rgba(207,252,104,0.3)",
+        }}
+      >
+        Got it — we&apos;ll be in touch shortly.
+      </div>
+    );
+  }
+
+  return (
+    <form
+      name="peak-season-lead"
+      method="POST"
+      action="/"
+      data-netlify="true"
+      data-netlify-honeypot="bot-field"
+      onSubmit={handleSubmit}
+      className="flex flex-col gap-3"
+    >
+      <input type="hidden" name="form-name" value="peak-season-lead" />
+      <input type="hidden" name="source" value="hero" />
+      <p className="hidden" aria-hidden="true">
+        <label>
+          Don&apos;t fill this out:
+          <input
+            name="bot-field"
+            tabIndex={-1}
+            autoComplete="off"
+            value={botField}
+            onChange={(e) => setBotField(e.target.value)}
+          />
+        </label>
+      </p>
+
+      <HeroInput
+        id="hero-name"
+        name="name"
+        placeholder="Full name"
+        value={name}
+        onChange={setName}
+        autoComplete="name"
+        required
+      />
+      <HeroInput
+        id="hero-email"
+        name="email"
+        type="email"
+        placeholder="you@brand.com"
+        value={email}
+        onChange={setEmail}
+        autoComplete="email"
+        required
+      />
+
+      <button
+        type="submit"
+        disabled={status === "submitting"}
+        className="group relative mt-1 flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-base font-semibold transition-all duration-300 ease-out hover:-translate-y-0.5 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
+        style={{
+          fontFamily: "var(--font-inter)",
+          backgroundColor: "#CFFC68",
+          color: "#0A2B47",
+          boxShadow: "4px 5px 0px 0px rgba(20,84,93,0.9)",
+        }}
+      >
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          style={{
+            boxShadow: "0 0 24px rgba(207,252,104,0.55), 0 0 48px rgba(207,252,104,0.25)",
+          }}
+        />
+        <span className="relative">
+          {status === "submitting" ? "Sending…" : "Book free 20-minute call"}
+        </span>
+        <span className="relative transition-transform duration-300 group-hover:translate-x-0.5">
+          <Arrow />
+        </span>
+      </button>
+
+      {status === "error" && (
+        <p
+          role="alert"
+          className="text-xs"
+          style={{ fontFamily: "var(--font-encode)", color: "#FF8FA3" }}
+        >
+          Please enter your name and email.
+        </p>
+      )}
+    </form>
+  );
+}
+
+function HeroInput({
+  id,
+  name,
+  placeholder,
+  value,
+  onChange,
+  type = "text",
+  autoComplete,
+  required = false,
+}: {
+  id: string;
+  name: string;
+  placeholder: string;
+  value: string;
+  onChange: (v: string) => void;
+  type?: string;
+  autoComplete?: string;
+  required?: boolean;
+}) {
+  return (
+    <input
+      id={id}
+      name={name}
+      type={type}
+      placeholder={placeholder}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      required={required}
+      autoComplete={autoComplete}
+      className="w-full rounded-lg border px-4 py-3 text-[15px] transition focus:outline-none"
+      style={{
+        fontFamily: "var(--font-encode)",
+        color: "#FFFDEF",
+        backgroundColor: "rgba(255,253,239,0.06)",
+        borderColor: "rgba(255,253,239,0.18)",
+      }}
+      onFocus={(e) => {
+        e.currentTarget.style.borderColor = "#CFFC68";
+        e.currentTarget.style.backgroundColor = "rgba(255,253,239,0.1)";
+      }}
+      onBlur={(e) => {
+        e.currentTarget.style.borderColor = "rgba(255,253,239,0.18)";
+        e.currentTarget.style.backgroundColor = "rgba(255,253,239,0.06)";
+      }}
+    />
+  );
+}
+
+/* ── GOAL ─────────────────────────────────────────────────────────────────── */
 
 function GoalSection() {
   return (
     <section
-      id="the-goal"
       className="relative overflow-hidden"
       style={{
         backgroundColor: "#FFFDEF",
         backgroundImage:
-          "radial-gradient(80% 60% at 100% 0%, rgba(207,252,104,0.14) 0%, rgba(207,252,104,0) 65%)",
+          "radial-gradient(70% 60% at 100% 0%, rgba(207,252,104,0.14) 0%, rgba(207,252,104,0) 65%)",
       }}
     >
       <div className="site-container px-6 py-24 md:px-12 md:py-32 lg:px-24">
-        <div className="grid gap-12 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-16 lg:gap-24">
-          <div>
-            <motion.p
-              className="text-[11px] font-semibold uppercase"
-              style={{
-                fontFamily: "var(--font-inter)",
-                color: "var(--teal)",
-                letterSpacing: "0.28em",
-              }}
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.7 }}
-            >
-              {GOAL.eyebrow}
-            </motion.p>
-            <motion.h2
-              className="mt-4 font-bold"
-              style={{
-                fontFamily: "var(--font-archivo)",
-                color: "#0A2B47",
-                fontSize: "clamp(2rem, 4vw, 3.5rem)",
-                lineHeight: 1.05,
-                letterSpacing: "-0.02em",
-              }}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            >
-              {GOAL.heading}
-            </motion.h2>
-            <motion.p
-              className="mt-6 text-base leading-[1.65] md:text-lg md:leading-[1.6]"
-              style={{
-                fontFamily: "var(--font-encode)",
-                color: "var(--foreground-secondary)",
-              }}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.9, delay: 0.1 }}
-            >
-              {GOAL.description}
-            </motion.p>
-          </div>
-
-          {/* CPM cheap vs expensive visual */}
-          <div className="grid gap-4 self-center">
-            {GOAL.compare.map((row, i) => {
-              const isWarn = row.tone === "warn";
-              return (
-                <motion.div
-                  key={row.when}
-                  className="relative overflow-hidden rounded-2xl p-6 md:p-7"
-                  style={{
-                    backgroundColor: isWarn ? "#0A2B47" : "#FFFFFF",
-                    border: isWarn ? "1px solid rgba(255,255,255,0.08)" : "1px solid #FCEA8A",
-                    boxShadow: isWarn ? "0 20px 40px rgba(10,43,71,0.15)" : "0 12px 30px rgba(15,23,42,0.06)",
-                  }}
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-40px" }}
-                  transition={{ duration: 0.8, delay: 0.15 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                >
-                  <div className="flex items-baseline justify-between gap-4">
-                    <div
-                      className="text-[11px] font-bold uppercase"
-                      style={{
-                        fontFamily: "var(--font-inter)",
-                        color: isWarn ? "#A5FDF3" : "var(--teal)",
-                        letterSpacing: "0.2em",
-                      }}
-                    >
-                      {row.when}
-                    </div>
-                    <div
-                      className="font-bold"
-                      style={{
-                        fontFamily: "var(--font-archivo)",
-                        color: isWarn ? "#CFFC68" : "#0A2B47",
-                        fontSize: "clamp(2.4rem, 4.4vw, 3.5rem)",
-                        lineHeight: 1,
-                        letterSpacing: "-0.03em",
-                      }}
-                    >
-                      {row.cost}
-                    </div>
-                  </div>
-                  <p
-                    className="mt-4 text-sm leading-[1.55] md:text-[15px]"
-                    style={{
-                      fontFamily: "var(--font-encode)",
-                      color: isWarn ? "rgba(255,253,239,0.82)" : "var(--foreground-secondary)",
-                    }}
-                  >
-                    {row.note}
-                  </p>
-                  {!isWarn && (
-                    <span
-                      aria-hidden="true"
-                      className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full"
-                      style={{
-                        background:
-                          "radial-gradient(circle, rgba(207,252,104,0.6) 0%, rgba(207,252,104,0) 65%)",
-                      }}
-                    />
-                  )}
-                </motion.div>
-              );
-            })}
-          </div>
+        <div className="mx-auto max-w-[820px] text-center">
+          <motion.p
+            className="text-[11px] font-semibold uppercase"
+            style={{
+              fontFamily: "var(--font-inter)",
+              color: "var(--teal)",
+              letterSpacing: "0.28em",
+            }}
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.7 }}
+          >
+            {GOAL.eyebrow}
+          </motion.p>
+          <motion.h2
+            className="mt-4 font-bold"
+            style={{
+              fontFamily: "var(--font-archivo)",
+              color: "#0A2B47",
+              fontSize: "clamp(2rem, 4.4vw, 3.5rem)",
+              lineHeight: 1.05,
+              letterSpacing: "-0.02em",
+            }}
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.9 }}
+          >
+            {GOAL.heading}
+          </motion.h2>
+          <motion.p
+            className="mx-auto mt-6 max-w-[62ch] text-base leading-[1.65] md:text-lg md:leading-[1.6]"
+            style={{
+              fontFamily: "var(--font-encode)",
+              color: "var(--foreground-secondary)",
+            }}
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.9, delay: 0.1 }}
+          >
+            {GOAL.description}
+          </motion.p>
         </div>
       </div>
     </section>
@@ -684,9 +633,9 @@ function RunwaySection() {
   return (
     <section
       id="the-runway"
-      className="relative"
+      className="relative py-4"
       style={{
-        backgroundColor: "#F7F5EA",
+        background: "linear-gradient(to bottom, #FFFDEF 0%, #FFFFFF 100%)",
         borderTop: "1px solid rgba(15,23,42,0.06)",
       }}
     >
@@ -799,7 +748,6 @@ function RunwaySection() {
                 {phase.body}
               </p>
 
-              {/* Bottom accent */}
               <span
                 aria-hidden="true"
                 className="absolute bottom-0 left-0 h-1 w-0 transition-all duration-500 group-hover:w-full"
@@ -810,21 +758,44 @@ function RunwaySection() {
             </motion.div>
           ))}
         </div>
+
+        <motion.div
+          className="mt-12 flex justify-center"
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          <MagneticButton strength={0.15}>
+            <Link
+              href={RUNWAY.cta.href}
+              className="cta-manic relative inline-flex items-center gap-2 rounded-full px-8 py-4 text-base font-semibold transition-transform"
+              style={{
+                fontFamily: "var(--font-inter)",
+                backgroundColor: "var(--teal)",
+                color: "#FFFDEF",
+                boxShadow: "5px 6px 0px 0px #CFFC68",
+              }}
+            >
+              <span className="relative">{RUNWAY.cta.label}</span>
+              <Arrow />
+            </Link>
+          </MagneticButton>
+        </motion.div>
       </div>
     </section>
   );
 }
 
-/* ── PROOF ────────────────────────────────────────────────────────────────── */
+/* ── WHY OMNI COMMON ──────────────────────────────────────────────────────── */
 
-function ProofSection() {
+function WhySection() {
   return (
     <section
       data-theme="dark"
       className="relative overflow-hidden"
       style={{ backgroundColor: "#0A2B47" }}
     >
-      {/* Ambient glows */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0"
@@ -850,7 +821,7 @@ function ProofSection() {
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.7 }}
           >
-            {PROOF.eyebrow}
+            {WHY.eyebrow}
           </motion.p>
           <motion.h2
             className="mt-4 font-bold"
@@ -866,25 +837,40 @@ function ProofSection() {
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.9 }}
           >
-            {PROOF.heading}
+            {WHY.heading}
           </motion.h2>
           <motion.p
             className="mt-4 text-base leading-[1.6] md:text-lg"
             style={{
               fontFamily: "var(--font-encode)",
-              color: "rgba(255,253,239,0.75)",
+              color: "rgba(255,253,239,0.8)",
             }}
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.9, delay: 0.1 }}
           >
-            {PROOF.description}
+            {WHY.description}
           </motion.p>
         </div>
 
-        <div className="mt-14 grid gap-6 md:grid-cols-3">
-          {PROOF.stats.map((stat, i) => (
+        <motion.h3
+          className="mt-16 text-lg font-semibold"
+          style={{
+            fontFamily: "var(--font-archivo)",
+            color: "rgba(165,253,243,0.9)",
+            letterSpacing: "-0.01em",
+          }}
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.8 }}
+        >
+          {WHY.stats_heading}
+        </motion.h3>
+
+        <div className="mt-6 grid gap-6 md:grid-cols-3">
+          {WHY.stats.map((stat, i) => (
             <motion.div
               key={stat.metric}
               className="flex flex-col rounded-2xl p-7 md:p-8"
@@ -922,158 +908,6 @@ function ProofSection() {
               </p>
             </motion.div>
           ))}
-        </div>
-
-        <motion.div
-          className="mt-10 flex flex-wrap items-center justify-center gap-2 text-center text-[13px]"
-          style={{
-            fontFamily: "var(--font-inter)",
-            color: "rgba(165,253,243,0.85)",
-          }}
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, delay: 0.4 }}
-        >
-          <span>Case study details available on request →</span>
-          <Link
-            href="/work"
-            className="font-semibold underline underline-offset-4 transition-opacity hover:opacity-75"
-            style={{ color: "#CFFC68" }}
-          >
-            See all case studies
-          </Link>
-        </motion.div>
-      </div>
-    </section>
-  );
-}
-
-/* ── FIT / WHO IT'S FOR ───────────────────────────────────────────────────── */
-
-function FitSection() {
-  return (
-    <section
-      className="relative"
-      style={{
-        backgroundColor: "#FFFFFF",
-        borderTop: "1px solid rgba(15,23,42,0.06)",
-      }}
-    >
-      <div className="site-container px-6 py-24 md:px-12 md:py-32 lg:px-24">
-        <div className="max-w-[720px]">
-          <motion.p
-            className="text-[11px] font-semibold uppercase"
-            style={{
-              fontFamily: "var(--font-inter)",
-              color: "var(--teal)",
-              letterSpacing: "0.28em",
-            }}
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.7 }}
-          >
-            {FIT.eyebrow}
-          </motion.p>
-          <motion.h2
-            className="mt-4 font-bold"
-            style={{
-              fontFamily: "var(--font-archivo)",
-              color: "#0A2B47",
-              fontSize: "clamp(2rem, 4vw, 3.25rem)",
-              lineHeight: 1.05,
-              letterSpacing: "-0.02em",
-            }}
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.9 }}
-          >
-            {FIT.heading}
-          </motion.h2>
-        </div>
-
-        <div className="mt-12 grid gap-10 md:grid-cols-2 md:gap-16">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.8 }}
-          >
-            <div
-              className="mb-5 inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[11px] font-bold uppercase"
-              style={{
-                fontFamily: "var(--font-inter)",
-                backgroundColor: "rgba(207,252,104,0.35)",
-                color: "#3E5710",
-                letterSpacing: "0.16em",
-              }}
-            >
-              A perfect fit if
-            </div>
-            <ul className="flex flex-col gap-4">
-              {FIT.points.map((point) => (
-                <li key={point} className="flex items-start gap-3">
-                  <span
-                    className="mt-1 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full"
-                    style={{ backgroundColor: "rgba(207,252,104,0.4)" }}
-                  >
-                    <Check color="#0A2B47" />
-                  </span>
-                  <p
-                    className="text-base leading-[1.5] md:text-[17px]"
-                    style={{
-                      fontFamily: "var(--font-encode)",
-                      color: "var(--foreground)",
-                    }}
-                  >
-                    {point}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-          >
-            <div
-              className="mb-5 inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[11px] font-bold uppercase"
-              style={{
-                fontFamily: "var(--font-inter)",
-                backgroundColor: "rgba(176,0,32,0.08)",
-                color: "#8B1A1A",
-                letterSpacing: "0.16em",
-              }}
-            >
-              Not the right fit if
-            </div>
-            <ul className="flex flex-col gap-4">
-              {FIT.not_for.map((point) => (
-                <li key={point} className="flex items-start gap-3">
-                  <span
-                    className="mt-1 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full"
-                    style={{ backgroundColor: "rgba(176,0,32,0.08)" }}
-                  >
-                    <X color="#8B1A1A" />
-                  </span>
-                  <p
-                    className="text-base leading-[1.5] md:text-[17px]"
-                    style={{
-                      fontFamily: "var(--font-encode)",
-                      color: "var(--foreground-secondary)",
-                    }}
-                  >
-                    {point}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
         </div>
       </div>
     </section>
@@ -1127,7 +961,7 @@ function PricingSection() {
           </motion.h2>
         </div>
 
-        <div className="mt-14 grid gap-6 md:grid-cols-3">
+        <div className="mx-auto mt-14 grid max-w-[1000px] gap-6 md:grid-cols-2">
           {PRICING.cards.map((card, i) => (
             <motion.div
               key={card.tag}
@@ -1154,7 +988,7 @@ function PricingSection() {
                     letterSpacing: "0.2em",
                   }}
                 >
-                  Best value
+                  Core offer
                 </div>
               )}
               <div
@@ -1167,7 +1001,9 @@ function PricingSection() {
               >
                 {card.tag}
               </div>
-              <div className="mt-4 flex items-baseline gap-3">
+
+              {/* Month one price */}
+              <div className="mt-5 flex items-baseline gap-3">
                 {card.strike && (
                   <span
                     className="text-lg line-through"
@@ -1184,27 +1020,25 @@ function PricingSection() {
                   style={{
                     fontFamily: "var(--font-archivo)",
                     color: "#0A2B47",
-                    fontSize: "clamp(2.25rem, 3.6vw, 3rem)",
+                    fontSize: "clamp(2.5rem, 4vw, 3.25rem)",
                     lineHeight: 1,
                     letterSpacing: "-0.03em",
                   }}
                 >
                   {card.price}
                 </span>
-                {card.priceSuffix && (
-                  <span
-                    className="text-base font-semibold"
-                    style={{
-                      fontFamily: "var(--font-archivo)",
-                      color: card.highlight ? "#0A2B47" : "var(--foreground-secondary)",
-                    }}
-                  >
-                    {card.priceSuffix}
-                  </span>
-                )}
+                <span
+                  className="text-sm font-semibold"
+                  style={{
+                    fontFamily: "var(--font-inter)",
+                    color: card.highlight ? "#0A2B47" : "var(--foreground-secondary)",
+                  }}
+                >
+                  month one
+                </span>
               </div>
               <p
-                className="mt-4 text-[14.5px] leading-[1.55]"
+                className="mt-3 text-[14.5px] leading-[1.55]"
                 style={{
                   fontFamily: "var(--font-encode)",
                   color: card.highlight ? "#0A2B47" : "var(--foreground-secondary)",
@@ -1212,570 +1046,143 @@ function PricingSection() {
               >
                 {card.body}
               </p>
+
+              {/* Divider */}
+              <div
+                className="my-5 h-px"
+                style={{
+                  backgroundColor: card.highlight ? "rgba(10,43,71,0.15)" : "rgba(10,43,71,0.08)",
+                }}
+              />
+
+              {/* Ongoing */}
+              <div className="flex items-baseline gap-2">
+                <span
+                  className="font-bold"
+                  style={{
+                    fontFamily: "var(--font-archivo)",
+                    color: "#0A2B47",
+                    fontSize: "clamp(1.5rem, 2.4vw, 2rem)",
+                    lineHeight: 1,
+                    letterSpacing: "-0.02em",
+                  }}
+                >
+                  {card.recurring}
+                </span>
+                <span
+                  className="text-sm font-semibold"
+                  style={{
+                    fontFamily: "var(--font-inter)",
+                    color: card.highlight ? "#0A2B47" : "var(--foreground-secondary)",
+                  }}
+                >
+                  /mo · month two onward
+                </span>
+              </div>
+              <p
+                className="mt-2 text-[13.5px] leading-[1.55]"
+                style={{
+                  fontFamily: "var(--font-encode)",
+                  color: card.highlight ? "rgba(10,43,71,0.85)" : "var(--foreground-muted)",
+                }}
+              >
+                {card.recurringNote}
+              </p>
+
+              {/* Card CTA */}
+              <Link
+                href="#book-intro"
+                className="mt-6 inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-transform hover:-translate-y-0.5"
+                style={{
+                  fontFamily: "var(--font-inter)",
+                  backgroundColor: card.highlight ? "#0A2B47" : "var(--teal)",
+                  color: card.highlight ? "#CFFC68" : "#FFFDEF",
+                  boxShadow: card.highlight
+                    ? "4px 4px 0px 0px rgba(10,43,71,0.15)"
+                    : "4px 4px 0px 0px #CFFC68",
+                }}
+              >
+                Book my call
+                <Arrow />
+              </Link>
             </motion.div>
           ))}
         </div>
+      </div>
+    </section>
+  );
+}
 
-        {/* Add-on */}
-        <motion.div
-          className="mt-8 rounded-2xl p-6 md:p-7"
-          style={{
-            backgroundColor: "#FFFFFF",
-            border: "1px dashed #FCEA8A",
-          }}
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-        >
-          <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between md:gap-8">
-            <div>
+/* ── TERMS ────────────────────────────────────────────────────────────────── */
+
+function TermsSection() {
+  return (
+    <section
+      className="relative"
+      style={{
+        backgroundColor: "#FFFFFF",
+        borderTop: "1px solid rgba(15,23,42,0.06)",
+      }}
+    >
+      <div className="site-container px-6 py-16 md:px-12 md:py-20 lg:px-24">
+        <div className="mx-auto max-w-[820px] text-center">
+          <motion.p
+            className="text-[11px] font-semibold uppercase"
+            style={{
+              fontFamily: "var(--font-inter)",
+              color: "var(--teal)",
+              letterSpacing: "0.28em",
+            }}
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.7 }}
+          >
+            {TERMS.eyebrow}
+          </motion.p>
+        </div>
+
+        <div className="mt-8 grid grid-cols-2 gap-x-6 gap-y-8 md:mt-12 md:grid-cols-4">
+          {TERMS.items.map((item, i) => (
+            <motion.div
+              key={item.label}
+              className={
+                "text-center " +
+                (i < TERMS.items.length - 1 ? "md:border-r" : "")
+              }
+              style={{ borderColor: "rgba(15,23,42,0.08)" }}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.6, delay: i * 0.05 }}
+            >
               <div
-                className="text-[10px] font-bold uppercase"
-                style={{
-                  fontFamily: "var(--font-inter)",
-                  color: "var(--teal)",
-                  letterSpacing: "0.2em",
-                }}
-              >
-                {PRICING.addon.tag}
-              </div>
-              <div
-                className="mt-1 text-xl font-bold md:text-[22px]"
+                className="font-bold"
                 style={{
                   fontFamily: "var(--font-archivo)",
                   color: "#0A2B47",
-                  letterSpacing: "-0.01em",
+                  fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
+                  lineHeight: 1,
+                  letterSpacing: "-0.02em",
                 }}
               >
-                {PRICING.addon.title}
+                {item.value}
               </div>
-            </div>
-            <p
-              className="max-w-[500px] text-[14.5px] leading-[1.55]"
-              style={{
-                fontFamily: "var(--font-encode)",
-                color: "var(--foreground-secondary)",
-              }}
-            >
-              {PRICING.addon.body}
-            </p>
-          </div>
-        </motion.div>
-      </div>
-    </section>
-  );
-}
-
-/* ── LEAD FORM ────────────────────────────────────────────────────────────── */
-
-function LeadFormSection() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [company, setCompany] = useState("");
-  const [website, setWebsite] = useState("");
-  const [spend, setSpend] = useState("");
-  const [platforms, setPlatforms] = useState<string[]>([]);
-  const [q4Goal, setQ4Goal] = useState("");
-  const [botField, setBotField] = useState("");
-  const [status, setStatus] = useState<SubmitStatus>("idle");
-
-  const togglePlatform = (p: string) => {
-    setPlatforms((prev) => (prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p]));
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (status === "submitting") return;
-    if (!name.trim() || !email.trim() || !company.trim()) {
-      setStatus("error");
-      return;
-    }
-    setStatus("submitting");
-    try {
-      const response = await fetch("/", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: encodeFormData({
-          "form-name": "peak-season-lead",
-          "bot-field": botField,
-          name,
-          email,
-          company,
-          website,
-          monthly_ad_spend: spend,
-          platforms: platforms.join(", "),
-          q4_goal: q4Goal,
-        }),
-      });
-      if (!response.ok) throw new Error(`Submission failed: ${response.status}`);
-      setStatus("success");
-      if (typeof window !== "undefined" && typeof window.gtag === "function") {
-        window.gtag("event", "generate_lead", {
-          form_name: "peak-season-lead",
-          campaign: "peak-season-takeover",
-        });
-      }
-    } catch (err) {
-      console.error("Peak Season lead form error", err);
-      setStatus("error");
-    }
-  };
-
-  const isSuccess = status === "success";
-
-  return (
-    <section
-      id="book-intro"
-      data-theme="dark-teal"
-      className="relative overflow-hidden scroll-mt-24"
-      style={{ backgroundColor: "#14545D" }}
-    >
-      {/* Ambient */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0"
-        style={{
-          backgroundImage: [
-            "radial-gradient(60% 50% at 100% 100%, rgba(207,252,104,0.15) 0%, rgba(207,252,104,0) 65%)",
-            "radial-gradient(50% 50% at 0% 0%, rgba(165,253,243,0.14) 0%, rgba(165,253,243,0) 65%)",
-          ].join(", "),
-        }}
-      />
-
-      <div className="site-container relative px-6 py-24 md:px-12 md:py-32 lg:px-24">
-        <div className="grid gap-12 md:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] md:gap-16 lg:gap-24">
-          {/* Left column — pitch */}
-          <div className="md:pt-4">
-            <motion.p
-              className="text-[11px] font-semibold uppercase"
-              style={{
-                fontFamily: "var(--font-inter)",
-                color: "#CFFC68",
-                letterSpacing: "0.28em",
-              }}
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.7 }}
-            >
-              CLAIM A SPOT
-            </motion.p>
-            <motion.h2
-              className="mt-4 font-bold"
-              style={{
-                fontFamily: "var(--font-archivo)",
-                color: "#FFFDEF",
-                fontSize: "clamp(2rem, 4.2vw, 3.5rem)",
-                lineHeight: 1.02,
-                letterSpacing: "-0.02em",
-              }}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.9 }}
-            >
-              Let&apos;s see if this
-              <br />
-              is right for you.
-            </motion.h2>
-            <motion.p
-              className="mt-6 max-w-[42ch] text-base leading-[1.6] md:text-lg"
-              style={{
-                fontFamily: "var(--font-encode)",
-                color: "rgba(255,253,239,0.85)",
-              }}
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.9, delay: 0.1 }}
-            >
-              A 20-minute intro call — no pitch deck. We&apos;ll look at your account, ask a few sharp questions, and tell you whether the runway makes sense.
-            </motion.p>
-
-            <div className="mt-8 flex flex-col gap-3">
-              {[
-                "You keep everything we share, whether we work together or not",
-                "We review your account before the call — you get real feedback",
-                "If we&apos;re not the right fit, we&apos;ll say so",
-              ].map((line) => (
-                <div key={line} className="flex items-start gap-3">
-                  <span
-                    className="mt-1 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full"
-                    style={{ backgroundColor: "rgba(207,252,104,0.2)" }}
-                  >
-                    <Check color="#CFFC68" />
-                  </span>
-                  <p
-                    className="text-[15px] leading-[1.5]"
-                    style={{
-                      fontFamily: "var(--font-encode)",
-                      color: "rgba(255,253,239,0.9)",
-                    }}
-                    dangerouslySetInnerHTML={{ __html: line }}
-                  />
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-10 flex items-center gap-3 text-sm" style={{ color: "rgba(165,253,243,0.85)", fontFamily: "var(--font-inter)" }}>
-              <span>Prefer email?</span>
-              <a
-                href="mailto:ryan@omnicommon.com?subject=Peak%20Season%20Takeover"
-                className="font-semibold underline underline-offset-4 transition-opacity hover:opacity-80"
-                style={{ color: "#CFFC68" }}
+              <div
+                className="mt-2 text-[11px] font-semibold uppercase"
+                style={{
+                  fontFamily: "var(--font-inter)",
+                  color: "var(--foreground-muted)",
+                  letterSpacing: "0.14em",
+                }}
               >
-                ryan@omnicommon.com
-              </a>
-            </div>
-          </div>
-
-          {/* Right column — form card */}
-          <motion.div
-            className="relative rounded-3xl p-6 md:p-8"
-            style={{
-              backgroundColor: "#FFFDEF",
-              boxShadow: "0 30px 60px rgba(10,43,71,0.35)",
-            }}
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          >
-            {/* Corner tag */}
-            <div
-              className="absolute -top-3 right-6 rounded-full px-3 py-1 text-[10px] font-bold uppercase"
-              style={{
-                fontFamily: "var(--font-inter)",
-                backgroundColor: "#0A2B47",
-                color: "#CFFC68",
-                letterSpacing: "0.2em",
-              }}
-            >
-              90-second form
-            </div>
-
-            {isSuccess ? (
-              <SuccessState />
-            ) : (
-              <form
-                name="peak-season-lead"
-                method="POST"
-                action="/"
-                data-netlify="true"
-                data-netlify-honeypot="bot-field"
-                onSubmit={handleSubmit}
-                className="flex flex-col gap-5"
-              >
-                <input type="hidden" name="form-name" value="peak-season-lead" />
-                <p className="hidden" aria-hidden="true">
-                  <label>
-                    Don&apos;t fill this out:
-                    <input
-                      name="bot-field"
-                      tabIndex={-1}
-                      autoComplete="off"
-                      value={botField}
-                      onChange={(e) => setBotField(e.target.value)}
-                    />
-                  </label>
-                </p>
-
-                <div className="grid gap-4 md:grid-cols-2">
-                  <LeadField
-                    id="psl-name"
-                    name="name"
-                    label="Full name"
-                    placeholder="Your name"
-                    value={name}
-                    onChange={setName}
-                    autoComplete="name"
-                    required
-                  />
-                  <LeadField
-                    id="psl-email"
-                    name="email"
-                    label="Work email"
-                    placeholder="you@brand.com"
-                    value={email}
-                    onChange={setEmail}
-                    type="email"
-                    autoComplete="email"
-                    required
-                  />
-                </div>
-
-                <div className="grid gap-4 md:grid-cols-2">
-                  <LeadField
-                    id="psl-company"
-                    name="company"
-                    label="Brand / company"
-                    placeholder="Company name"
-                    value={company}
-                    onChange={setCompany}
-                    autoComplete="organization"
-                    required
-                  />
-                  <LeadField
-                    id="psl-website"
-                    name="website"
-                    label="Website"
-                    placeholder="brand.com"
-                    value={website}
-                    onChange={setWebsite}
-                    autoComplete="url"
-                  />
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="psl-spend"
-                    className="mb-2 block text-[11px] font-bold uppercase"
-                    style={{
-                      fontFamily: "var(--font-inter)",
-                      color: "var(--teal)",
-                      letterSpacing: "0.16em",
-                    }}
-                  >
-                    Monthly ad spend
-                  </label>
-                  <select
-                    id="psl-spend"
-                    name="monthly_ad_spend"
-                    value={spend}
-                    onChange={(e) => setSpend(e.target.value)}
-                    className="w-full rounded-lg border px-4 py-3 text-[15px] focus:outline-none focus:ring-2 focus:ring-[color:var(--teal)]/40"
-                    style={{
-                      fontFamily: "var(--font-encode)",
-                      color: "var(--foreground)",
-                      backgroundColor: "#FFFFFF",
-                      borderColor: "#E0DAB5",
-                    }}
-                  >
-                    <option value="">Select a range</option>
-                    <option value="under-5k">Under $5K/mo</option>
-                    <option value="5k-10k">$5K – $10K/mo</option>
-                    <option value="10k-25k">$10K – $25K/mo</option>
-                    <option value="25k-50k">$25K – $50K/mo</option>
-                    <option value="50k-100k">$50K – $100K/mo</option>
-                    <option value="100k-plus">$100K+/mo</option>
-                  </select>
-                </div>
-
-                <div>
-                  <span
-                    className="mb-2 block text-[11px] font-bold uppercase"
-                    style={{
-                      fontFamily: "var(--font-inter)",
-                      color: "var(--teal)",
-                      letterSpacing: "0.16em",
-                    }}
-                  >
-                    Which platforms
-                  </span>
-                  <div className="flex flex-wrap gap-2">
-                    {[
-                      { key: "google", label: "Google Ads" },
-                      { key: "meta", label: "Meta" },
-                      { key: "both", label: "Both" },
-                    ].map((p) => {
-                      const active = platforms.includes(p.key);
-                      return (
-                        <button
-                          key={p.key}
-                          type="button"
-                          onClick={() => togglePlatform(p.key)}
-                          className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition-all"
-                          style={{
-                            fontFamily: "var(--font-inter)",
-                            backgroundColor: active ? "#0A2B47" : "#FFFFFF",
-                            color: active ? "#CFFC68" : "var(--teal)",
-                            borderColor: active ? "#0A2B47" : "#E0DAB5",
-                          }}
-                        >
-                          {active && <Check color="#CFFC68" />}
-                          {p.label}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="psl-q4"
-                    className="mb-2 block text-[11px] font-bold uppercase"
-                    style={{
-                      fontFamily: "var(--font-inter)",
-                      color: "var(--teal)",
-                      letterSpacing: "0.16em",
-                    }}
-                  >
-                    What&apos;s your #1 Q4 concern?
-                  </label>
-                  <textarea
-                    id="psl-q4"
-                    name="q4_goal"
-                    value={q4Goal}
-                    onChange={(e) => setQ4Goal(e.target.value)}
-                    rows={3}
-                    placeholder="e.g. Performance Max is cannibalizing brand, CPMs already climbing, tracking is a mess…"
-                    className="w-full resize-none rounded-lg border px-4 py-3 text-[15px] focus:outline-none focus:ring-2 focus:ring-[color:var(--teal)]/40"
-                    style={{
-                      fontFamily: "var(--font-encode)",
-                      color: "var(--foreground)",
-                      backgroundColor: "#FFFFFF",
-                      borderColor: "#E0DAB5",
-                    }}
-                  />
-                </div>
-
-                <MagneticButton strength={0.15}>
-                  <button
-                    type="submit"
-                    disabled={status === "submitting"}
-                    className="cta-manic relative flex w-full items-center justify-center gap-2 rounded-full px-8 py-4 text-base font-semibold transition-transform disabled:cursor-not-allowed disabled:opacity-70"
-                    style={{
-                      fontFamily: "var(--font-inter)",
-                      backgroundColor: "#0A2B47",
-                      color: "#CFFC68",
-                      boxShadow: "5px 6px 0px 0px #CFFC68",
-                    }}
-                  >
-                    <span className="relative">
-                      {status === "submitting" ? "Sending…" : "Book my intro call"}
-                    </span>
-                    <Arrow />
-                  </button>
-                </MagneticButton>
-
-                <div role="status" aria-live="polite" className="min-h-[1.25rem]">
-                  {status === "error" && (
-                    <p
-                      className="text-sm"
-                      style={{ fontFamily: "var(--font-encode)", color: "#B00020" }}
-                    >
-                      Please fill in name, email, and company. If the issue persists, email{" "}
-                      <a href="mailto:ryan@omnicommon.com" className="underline">
-                        ryan@omnicommon.com
-                      </a>
-                      .
-                    </p>
-                  )}
-                </div>
-
-                <p
-                  className="text-center text-xs"
-                  style={{
-                    fontFamily: "var(--font-inter)",
-                    color: "var(--foreground-muted)",
-                  }}
-                >
-                  We&apos;ll reply within one business day. No lists, no spam.
-                </p>
-              </form>
-            )}
-          </motion.div>
+                {item.label}
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
-  );
-}
-
-function SuccessState() {
-  return (
-    <motion.div
-      className="flex flex-col items-center gap-5 py-8 text-center"
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-    >
-      <motion.div
-        className="flex h-16 w-16 items-center justify-center rounded-full"
-        style={{ backgroundColor: "rgba(207,252,104,0.35)" }}
-        initial={{ scale: 0.6 }}
-        animate={{ scale: 1 }}
-        transition={{ type: "spring", damping: 12, stiffness: 220 }}
-      >
-        <Check color="#0A2B47" />
-      </motion.div>
-      <h3
-        className="text-2xl font-bold"
-        style={{
-          fontFamily: "var(--font-archivo)",
-          color: "#0A2B47",
-          letterSpacing: "-0.02em",
-        }}
-      >
-        Got it — talk soon.
-      </h3>
-      <p
-        className="max-w-sm text-[15px] leading-[1.55]"
-        style={{
-          fontFamily: "var(--font-encode)",
-          color: "var(--foreground-secondary)",
-        }}
-      >
-        We&apos;ll review your account and reply within one business day with a couple of times for the call.
-      </p>
-    </motion.div>
-  );
-}
-
-type LeadFieldProps = {
-  id: string;
-  name: string;
-  label: string;
-  placeholder: string;
-  value: string;
-  onChange: (v: string) => void;
-  type?: string;
-  autoComplete?: string;
-  required?: boolean;
-};
-
-function LeadField({
-  id,
-  name,
-  label,
-  placeholder,
-  value,
-  onChange,
-  type = "text",
-  autoComplete,
-  required = false,
-}: LeadFieldProps) {
-  return (
-    <div className="flex flex-col gap-2">
-      <label
-        htmlFor={id}
-        className="text-[11px] font-bold uppercase"
-        style={{
-          fontFamily: "var(--font-inter)",
-          color: "var(--teal)",
-          letterSpacing: "0.16em",
-        }}
-      >
-        {label} {required && <span style={{ color: "#B00020" }}>*</span>}
-      </label>
-      <input
-        id={id}
-        name={name}
-        type={type}
-        autoComplete={autoComplete}
-        placeholder={placeholder}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        required={required}
-        className="w-full rounded-lg border px-4 py-3 text-[15px] placeholder:text-[rgba(38,38,38,0.4)] focus:outline-none focus:ring-2 focus:ring-[color:var(--teal)]/40"
-        style={{
-          fontFamily: "var(--font-encode)",
-          color: "var(--foreground)",
-          backgroundColor: "#FFFFFF",
-          borderColor: "#E0DAB5",
-        }}
-      />
-    </div>
   );
 }
 
@@ -1802,7 +1209,7 @@ function StickyMobileCta() {
           boxShadow: "3px 4px 0px 0px #CFFC68",
         }}
       >
-        Book my intro call
+        Book free 20-minute call
         <Arrow />
       </Link>
     </div>

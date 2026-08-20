@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, useMotionValueEvent, useScroll, AnimatePresence } from "motion/react";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { MagneticButton } from "./magnetic-button";
 import global from "@/content/global.json";
 
@@ -50,28 +50,41 @@ export function Navigation() {
 
   const [bgTheme, setBgTheme] = useState<"navy" | "teal" | "light">(pathname === "/" ? "navy" : "light");
 
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    setScrolled(latest > 80);
+  const detectTheme = useCallback(() => {
+    if (typeof window === "undefined") return;
+    const elements = document.elementsFromPoint(window.innerWidth / 2, 30);
+    const targetElement = elements.find((el) => !el.closest("header"));
 
-    if (typeof window !== "undefined") {
-      const elements = document.elementsFromPoint(window.innerWidth / 2, 30);
-      const targetElement = elements.find(el => !el.closest('header'));
+    if (targetElement) {
+      const tealEl = targetElement.closest('[data-theme="dark-teal"]');
+      const darkEl = targetElement.closest('[data-theme="dark"]');
 
-      if (targetElement) {
-        const tealEl = targetElement.closest('[data-theme="dark-teal"]');
-        const darkEl = targetElement.closest('[data-theme="dark"]');
-
-        if (tealEl) {
-          setBgTheme("teal");
-        } else if (darkEl) {
-          setBgTheme("navy");
-        } else {
-          setBgTheme("light");
-        }
+      if (tealEl) {
+        setBgTheme("teal");
+      } else if (darkEl) {
+        setBgTheme("navy");
       } else {
         setBgTheme("light");
       }
+    } else {
+      setBgTheme("light");
     }
+  }, []);
+
+  // Detect the theme once on mount / when the route changes — otherwise the nav
+  // stays on its default "light" state until the first scroll event fires.
+  useEffect(() => {
+    // Two RAFs so the just-mounted page has laid out before we sample.
+    const raf1 = requestAnimationFrame(() => {
+      const raf2 = requestAnimationFrame(detectTheme);
+      return () => cancelAnimationFrame(raf2);
+    });
+    return () => cancelAnimationFrame(raf1);
+  }, [pathname, detectTheme]);
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    setScrolled(latest > 80);
+    detectTheme();
   });
 
   const isHomepage = pathname === "/";
