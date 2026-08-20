@@ -18,7 +18,7 @@ const HERO = {
 };
 
 const TIMELINE = [
-  { date: "Aug 17", label: "We take the keys" },
+  { date: "Aug", label: "We take the keys" },
   { date: "Sep–Oct", label: "Rebuild while clicks are cheaper" },
   { date: "Nov 15", label: "Account at full stride" },
   { date: "Nov 27", label: "Black Friday", highlight: true },

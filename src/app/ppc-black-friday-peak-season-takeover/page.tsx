@@ -9,10 +9,10 @@ const PATH = "/ppc-black-friday-peak-season-takeover/";
 // Next replaces (not merges) openGraph/twitter from the root layout, so the
 // image has to be restated here or this page ships without a share preview.
 const OG_IMAGE = {
-  url: "/og-image.png",
+  url: "/og-peak-season-takeover.png",
   width: 1200,
   height: 630,
-  alt: "Omni Common — Peak Season Takeover",
+  alt: "Peak Season Takeover — 90-day paid search account takeover from Omni Common",
 };
 
 export const metadata: Metadata = {
