@@ -20,6 +20,7 @@ const links: {
     children: [
       { href: "/#services", label: nav.what_we_do_submenu.all_services },
       { href: "/insights/local-marketing", label: nav.what_we_do_submenu.local_marketing },
+      { href: "/insights/peak-season-takeover", label: nav.what_we_do_submenu.peak_season_takeover },
     ],
   },
   {
