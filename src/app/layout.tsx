@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import "./globals.css";
+import { ChatGPTPixel } from "@/components/chatgpt-pixel";
 import { CustomCursor } from "@/components/custom-cursor";
 import { GoogleAnalytics } from "@/components/google-analytics";
 import { Navigation } from "@/components/navigation";
@@ -109,6 +110,7 @@ export default function RootLayout({
           {children}
         </TrioModalProvider>
         <GoogleAnalytics />
+        <ChatGPTPixel />
         <Script
           src="https://identity.netlify.com/v1/netlify-identity-widget.js"
           integrity="sha384-dy2tW8xkhLIj8lZR42MCwZhhDb2cCewZiw0uA65CMpdHiJzL+iubx7HzHcCXU2rW"
