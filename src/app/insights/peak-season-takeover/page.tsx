@@ -12,7 +12,7 @@ import { MagneticButton } from "@/components/magnetic-button";
 
 const HERO = {
   eyebrow: "LET'S CHAT · FOR FREE",
-  heading_lead: "Chat About Your Account",
+  heading_lead: "Peak Season\nAd Account",
   heading_accent: "Takeover",
   description:
     "See if our service is perfect for you. No pitch deck — we'll review your account and give you real feedback whether we work together or not.",
@@ -42,25 +42,25 @@ const RUNWAY = {
     "Every phase has a purpose — and a lock — so nothing gets touched during peak that shouldn't.",
   phases: [
     {
-      weeks: "WEEKS 1–2",
+      weeks: "Weeks 1–2",
       title: "We take the keys",
       body:
         "Full audit — find wasted spend, search-term gaps, Performance Max cannibalizing your brand terms. Conversion tracking rebuilt. Get a baseline scorecard against last year's Q4.",
     },
     {
-      weeks: "WEEKS 3–5",
+      weeks: "Weeks 3–5",
       title: "Rebuilding & learning",
       body:
         "Campaign restructuring by margin and intent. Bid strategy matched to your actual conversion volume. Match ad copy and messaging — then a change freeze.",
     },
     {
-      weeks: "WEEKS 6–9",
+      weeks: "Weeks 6–9",
       title: "Stabilizing",
       body:
         "Search-term mining, negative build-out, budget moved to what's working. Retargeting audiences built and warm while impressions are still cheap. Weekly reads reported to you.",
     },
     {
-      weeks: "WEEKS 10–13",
+      weeks: "Weeks 10–13",
       title: "Fully optimized for peak",
       body:
         "Q4 promo calendar, promotion extensions and sale annotations live, budget increases set ahead of the ramp, backup creative banked, technical change freeze two weeks out.",
@@ -72,11 +72,11 @@ const RUNWAY = {
 const WHY = {
   eyebrow: "WHY OMNI COMMON",
   heading_lead: "We take over ",
-  heading_accent: "inherited accounts",
+  heading_accent: "ad accounts",
   heading_tail: " for a living.",
-  description:
-    "Whether it's corrupted conversion data, destabilized bid strategies, or runaway Performance Max — our marketing professionals fix the signal, stabilize, then scale your ad account. It's our specialty.",
-  stats_heading: "Here's what we did for businesses like yours",
+  description_html:
+    "Whether it's corrupted conversion data, destabilized bid strategies, or runaway Performance Max problems… our marketing professionals fix the signal, stabilize, then scale your ad account. <strong>It's our specialty.</strong>",
+  stats_heading: "Here's What We Did for Businesses Like Yours",
   stats: [
     {
       parts: [
@@ -111,30 +111,34 @@ const WHY = {
 
 const PRICING = {
   eyebrow: "INVESTMENT",
-  heading: "Select the package you need — built for true ROI.",
+  headingLead: "Select the Package You Need,",
+  headingTail: "Built for ",
+  headingAccent: "True ROI",
   cards: [
     {
       tag: "PAID SEARCH TAKEOVER",
       strike: "$2,995",
       price: "$990",
-      priceSuffix: "",
+      priceLabel: "The First Month",
       body:
-        "Month one — takeover & rebuild. Full audit, tracking rebuild, and account restructure. Management included, never billed on top.",
+        "Month one: takeover & rebuild. Full audit, tracking rebuild and account restructure. Management included, never billed on top.",
       recurring: "$999",
+      recurringLabel: "/month onward",
       recurringNote:
-        "Month two onward, through December 31. Goes to $1,995/mo on January 1 — only after you've seen your Q4 numbers.",
+        "Month two onward, through December 31. Goes to $1,995/mo on January 1, only after you've seen your Q4 numbers.",
       highlight: true,
     },
     {
       tag: "ADD-ON · META TAKEOVER",
       strike: "$2,995",
       price: "$990",
-      priceSuffix: "",
+      priceLabel: "The First Month",
       body:
-        "The same professional optimization ROI, now for Meta accounts. We restructure, rebuild signal with the Conversions API, and optimize existing creative.",
+        "The same professional optimization ROI, now for Meta accounts! We restructure, rebuild signal with the Conversions API, and optimize existing creative.",
       recurring: "$999",
+      recurringLabel: "/month onward",
       recurringNote:
-        "Month two onward, through December 31. Goes to $1,995/mo on January 1 — only after you've seen your Q4 numbers.",
+        "Month two onward, through December 31. Goes to $1,995/mo on January 1, only after you've seen your Q4 numbers.",
       highlight: false,
     },
   ],
@@ -225,7 +229,7 @@ export default function PeakSeasonTakeoverPage() {
         <PricingSection />
         <TermsSection />
         <Footer
-          theme="green"
+          theme="default"
           hideLocalNote
           hideWebsiteLink
           formName="peak-season-lead"
@@ -261,17 +265,17 @@ type ShapeConfig = {
 const HERO_SHAPES: ShapeConfig[] = [
   {
     src: "/images/peak-season/shape-wedge.svg",
-    widthClamp: "clamp(260px, 24vw, 400px)",
-    align: "right",
+    widthClamp: "clamp(200px, 20vw, 400px)",
+    align: "left",
     edgeOffset: 40,
-    bottomInsetRatio: 0.05,
+    bottomInsetRatio: 0.005,
     collisionRadiusRatio: 0.4,
   },
   {
     src: "/images/peak-season/shape-circles.svg",
     widthClamp: "clamp(160px, 14vw, 240px)",
     align: "left",
-    edgeOffset: 60,
+    edgeOffset: 260,
     bottomInsetRatio: 0.06,
     collisionRadiusRatio: 0.42,
     spawnDelay: 180,
@@ -818,8 +822,12 @@ function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
             >
-              {HERO.heading_lead}
-              <br aria-hidden />
+              {HERO.heading_lead.split("\n").map((line, idx) => (
+                <span key={idx}>
+                  {line}
+                  <br aria-hidden />
+                </span>
+              ))}
               <span style={{ color: "#CFFC68" }}>{HERO.heading_accent}</span>
             </motion.h1>
 
@@ -1304,28 +1312,17 @@ function RunwaySection() {
               transition={{ duration: 0.7, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
               whileHover={{ y: -3 }}
             >
-              <div className="flex items-baseline justify-between gap-4">
+              <div className="flex justify-end">
                 <span
-                  className="text-[10px] font-bold uppercase"
+                  className="font-bold text-[color:rgba(10,43,71,0.18)] transition-colors duration-300 group-hover:text-[#CFFC68]"
                   style={{
-                    fontFamily: "var(--font-inter)",
-                    color: "var(--teal)",
-                    letterSpacing: "0.22em",
+                    fontFamily: "var(--font-archivo)",
+                    fontSize: "clamp(1.5rem, 2.2vw, 1.85rem)",
+                    lineHeight: 1,
+                    letterSpacing: "-0.02em",
                   }}
                 >
                   {phase.weeks}
-                </span>
-                <span
-                  className="font-bold text-[color:rgba(10,43,71,0.15)] transition-colors duration-300 group-hover:text-[#CFFC68]"
-                  style={{
-                    fontFamily: "var(--font-archivo)",
-                    fontSize: "2.5rem",
-                    lineHeight: 1,
-                    letterSpacing: "-0.04em",
-                  }}
-                  aria-hidden="true"
-                >
-                  0{i + 1}
                 </span>
               </div>
               <h3
@@ -1495,9 +1492,8 @@ function WhySection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.9, delay: 0.1 }}
-            >
-              {WHY.description}
-            </motion.p>
+              dangerouslySetInnerHTML={{ __html: WHY.description_html }}
+            />
           </div>
           <motion.div
             className="lg:mt-2 lg:shrink-0"
@@ -1638,7 +1634,7 @@ function PricingSection() {
               fontFamily: "var(--font-archivo)",
               color: "#0A2B47",
               fontSize: "clamp(2rem, 4vw, 3.25rem)",
-              lineHeight: 1.05,
+              lineHeight: 1.1,
               letterSpacing: "-0.02em",
             }}
             initial={{ opacity: 0, y: 16 }}
@@ -1646,60 +1642,40 @@ function PricingSection() {
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.9 }}
           >
-            {PRICING.heading}
+            {PRICING.headingLead}
+            <br />
+            {PRICING.headingTail}
+            <span style={{ color: "var(--teal)" }}>{PRICING.headingAccent}</span>
           </motion.h2>
         </div>
 
-        <div className="mx-auto mt-14 grid max-w-[1000px] gap-6 md:grid-cols-2">
+        <div className="mx-auto mt-14 grid max-w-[1000px] gap-10 md:grid-cols-2 md:gap-6">
           {PRICING.cards.map((card, i) => (
             <motion.div
               key={card.tag}
-              className="relative flex flex-col rounded-2xl p-7 md:p-8"
+              className="relative flex min-h-[400px] flex-col rounded-2xl p-7 pt-10 md:min-h-[420px] md:p-8 md:pt-11"
               style={{
                 backgroundColor: card.highlight ? "#CFFC68" : "#FFFFFF",
-                border: card.highlight ? "1px solid #B8E85A" : "1px solid #FCEA8A",
                 boxShadow: card.highlight
                   ? "0 20px 40px rgba(207,252,104,0.35)"
                   : "0 8px 24px rgba(15,23,42,0.06)",
-                transformPerspective: 1000,
               }}
-              initial={{
-                opacity: 0,
-                y: 80,
-                scale: 0.9,
-                rotate: i % 2 === 0 ? -3 : 3,
-              }}
-              whileInView={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
               transition={{
-                duration: 1,
-                delay: 0.15 + i * 0.18,
+                duration: 0.7,
+                delay: 0.1 + i * 0.12,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              whileHover={{
-                y: -8,
-                scale: 1.015,
-                transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] },
-              }}
             >
-              {card.highlight && (
-                <div
-                  className="absolute -top-3 left-6 rounded-full px-3 py-1 text-[10px] font-bold uppercase"
-                  style={{
-                    fontFamily: "var(--font-inter)",
-                    backgroundColor: "#0A2B47",
-                    color: "#CFFC68",
-                    letterSpacing: "0.2em",
-                  }}
-                >
-                  Core offer
-                </div>
-              )}
+              {/* Tag pill — overlaps the top edge of the card */}
               <div
-                className="text-[10px] font-bold uppercase"
+                className="absolute -top-3 left-6 inline-flex items-center rounded-full px-3.5 py-1.5 text-[10px] font-bold uppercase"
                 style={{
                   fontFamily: "var(--font-inter)",
-                  color: card.highlight ? "#0A2B47" : "var(--teal)",
+                  backgroundColor: card.highlight ? "#0A2B47" : "#F3C5FF",
+                  color: card.highlight ? "#CFFC68" : "#0A2B47",
                   letterSpacing: "0.2em",
                 }}
               >
@@ -1707,7 +1683,7 @@ function PricingSection() {
               </div>
 
               {/* Month one price */}
-              <div className="mt-5 flex items-baseline gap-3">
+              <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                 {card.strike && (
                   <span
                     className="text-lg line-through"
@@ -1724,7 +1700,7 @@ function PricingSection() {
                   style={{
                     fontFamily: "var(--font-archivo)",
                     color: "#0A2B47",
-                    fontSize: "clamp(2.5rem, 4vw, 3.25rem)",
+                    fontSize: "clamp(2.25rem, 3.6vw, 3rem)",
                     lineHeight: 1,
                     letterSpacing: "-0.03em",
                   }}
@@ -1732,17 +1708,17 @@ function PricingSection() {
                   {card.price}
                 </span>
                 <span
-                  className="text-sm font-semibold"
+                  className="text-base font-semibold"
                   style={{
-                    fontFamily: "var(--font-inter)",
-                    color: card.highlight ? "#0A2B47" : "var(--foreground-secondary)",
+                    fontFamily: "var(--font-archivo)",
+                    color: "#0A2B47",
                   }}
                 >
-                  month one
+                  {card.priceLabel}
                 </span>
               </div>
               <p
-                className="mt-3 text-[14.5px] leading-[1.55]"
+                className="mt-4 text-[14.5px] leading-[1.55]"
                 style={{
                   fontFamily: "var(--font-encode)",
                   color: card.highlight ? "#0A2B47" : "var(--foreground-secondary)",
@@ -1753,14 +1729,14 @@ function PricingSection() {
 
               {/* Divider */}
               <div
-                className="my-5 h-px"
+                className="my-6 h-px"
                 style={{
                   backgroundColor: card.highlight ? "rgba(10,43,71,0.15)" : "rgba(10,43,71,0.08)",
                 }}
               />
 
               {/* Ongoing */}
-              <div className="flex items-baseline gap-2">
+              <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
                 <span
                   className="font-bold"
                   style={{
@@ -1776,11 +1752,11 @@ function PricingSection() {
                 <span
                   className="text-sm font-semibold"
                   style={{
-                    fontFamily: "var(--font-inter)",
-                    color: card.highlight ? "#0A2B47" : "var(--foreground-secondary)",
+                    fontFamily: "var(--font-archivo)",
+                    color: "#0A2B47",
                   }}
                 >
-                  /mo · month two onward
+                  {card.recurringLabel}
                 </span>
               </div>
               <p
@@ -1793,17 +1769,15 @@ function PricingSection() {
                 {card.recurringNote}
               </p>
 
-              {/* Card CTA */}
+              {/* Card CTA — full width, pinned to card bottom */}
               <Link
                 href="#book-intro"
-                className="mt-6 inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-transform hover:-translate-y-0.5"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold transition-transform hover:-translate-y-0.5"
                 style={{
                   fontFamily: "var(--font-inter)",
                   backgroundColor: card.highlight ? "#0A2B47" : "var(--teal)",
-                  color: card.highlight ? "#CFFC68" : "#FFFDEF",
-                  boxShadow: card.highlight
-                    ? "4px 4px 0px 0px rgba(10,43,71,0.15)"
-                    : "4px 4px 0px 0px #CFFC68",
+                  color: "#FFFDEF",
+                  marginTop: "auto",
                 }}
               >
                 Book my call
@@ -1824,8 +1798,7 @@ function TermsSection() {
     <section
       className="relative"
       style={{
-        backgroundColor: "#FFFFFF",
-        borderTop: "1px solid rgba(15,23,42,0.06)",
+        background: "linear-gradient(to bottom, #FFFDEF 0%, #FFFFFF 100%)",
       }}
     >
       <div className="site-container px-6 py-16 md:px-12 md:py-20 lg:px-24">
@@ -1864,7 +1837,7 @@ function TermsSection() {
                 className="font-bold"
                 style={{
                   fontFamily: "var(--font-archivo)",
-                  color: "#0A2B47",
+                  color: "var(--sherpa)",
                   fontSize: "clamp(1.5rem, 2.6vw, 2rem)",
                   lineHeight: 1,
                   letterSpacing: "-0.02em",
