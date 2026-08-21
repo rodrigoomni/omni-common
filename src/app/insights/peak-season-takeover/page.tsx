@@ -11,13 +11,13 @@ import { MagneticButton } from "@/components/magnetic-button";
    ────────────────────────────────────────────────────────────────────────── */
 
 const HERO = {
-  eyebrow: "LET'S CHAT · FOR FREE",
+  eyebrow: "Search-Led Growth Marketing · 90-Day Account Takeover Service Offer",
   heading_lead: "Peak Season\nAd Account",
   heading_accent: "Takeover",
   description:
-    "See if our service is perfect for you. No pitch deck — we'll review your account and give you real feedback whether we work together or not.",
+    "Hand us the keys in August. Walk into Black Friday with a Paid Ad Account in perfect rhythm.",
   timeline: [
-    { date: "AUG 17", label: "We take the keys", emphasized: false },
+    { date: "AUG", label: "We take the keys", emphasized: false },
     { date: "SEP–OCT", label: "Rebuild while clicks are cheaper", emphasized: false },
     { date: "NOV 15", label: "Account at full stride", emphasized: false },
     { date: "NOV 27", label: "Black Friday", emphasized: true },
@@ -32,26 +32,26 @@ const GOAL = {
   heading_lead: "Focus on your business.",
   heading_accent: "We'll take care of the ad account.",
   description:
-    "Work smarter, not harder. We take your account today, rebuilding the signals beneath it and working through the volatile phase early — so your holiday season is pure execution, not panic.",
+    "Work smarter, not harder. We take your account today, rebuilding the signals beneath it and working through the volatile phase early, so your holiday season is pure execution, not panic.",
 };
 
 const RUNWAY = {
   eyebrow: "WHAT YOU GET",
   heading: "The 90-day runway.",
   description:
-    "Every phase has a purpose — and a lock — so nothing gets touched during peak that shouldn't.",
+    "Every phase has a purpose and a lock, so nothing gets touched during peak that shouldn't.",
   phases: [
     {
       weeks: "Weeks 1–2",
       title: "We take the keys",
       body:
-        "Full audit — find wasted spend, search-term gaps, Performance Max cannibalizing your brand terms. Conversion tracking rebuilt. Get a baseline scorecard against last year's Q4.",
+        "Full audit: find wasted spend, search-term gaps, Performance Max cannibalizing your brand terms. Conversion tracking rebuilt. Get a baseline scorecard against last year's Q4.",
     },
     {
       weeks: "Weeks 3–5",
       title: "Rebuilding & learning",
       body:
-        "Campaign restructuring by margin and intent. Bid strategy matched to your actual conversion volume. Match ad copy and messaging — then a change freeze.",
+        "Campaign restructuring by margin and intent. Bid strategy matched to your actual conversion volume. Match ad copy and messaging, then a change freeze.",
     },
     {
       weeks: "Weeks 6–9",
@@ -84,7 +84,7 @@ const WHY = {
         { count: 26.5, decimals: 1 },
         { text: "% CPA" },
       ],
-      body: "Cost per acquisition on a full account takeover — with spend down 8.8% and conversions up 35% in 2025.",
+      body: "Cost per acquisition on a full account takeover, with spend down 8.8% and conversions up 35% in 2025.",
     },
     {
       parts: [
@@ -101,7 +101,7 @@ const WHY = {
         { text: " → $" },
         { count: 92, decimals: 0 },
       ],
-      body: "CPA falling as volume rose — 227 to 496 monthly conversions, beating plan four months running.",
+      body: "CPA falling as volume rose: 227 to 496 monthly conversions, beating plan four months running.",
     },
   ] as {
     parts: ({ text: string } | { count: number; decimals: number })[];
@@ -153,7 +153,7 @@ const TERMS = {
     },
     {
       parts: [{ count: 90, decimals: 0 }, { text: " days" }],
-      label: "full term — no opt-out",
+      label: "full term, no opt-out",
     },
     {
       parts: [{ count: 10, decimals: 0 }, { text: " spots" }],
@@ -217,7 +217,7 @@ function Arrow() {
 
 export default function PeakSeasonTakeoverPage() {
   return (
-    <main>
+    <main data-cursor-quiet>
       <Hero />
       {/* Spacer to account for the fixed hero */}
       <div className="h-screen" />
@@ -263,14 +263,6 @@ type ShapeConfig = {
 };
 
 const HERO_SHAPES: ShapeConfig[] = [
-  {
-    src: "/images/peak-season/shape-wedge.svg",
-    widthClamp: "clamp(200px, 20vw, 400px)",
-    align: "left",
-    edgeOffset: 40,
-    bottomInsetRatio: 0.005,
-    collisionRadiusRatio: 0.4,
-  },
   {
     src: "/images/peak-season/shape-circles.svg",
     widthClamp: "clamp(160px, 14vw, 240px)",
@@ -488,6 +480,76 @@ function PhysicsShapes({ shapes }: { shapes: ShapeConfig[] }) {
       }
     };
 
+    // Obstacle collision — shapes crash into text elements marked [data-physics-obstacle]
+    const parent = wrapper.parentElement;
+    const obstacleEls: HTMLElement[] = parent
+      ? Array.from(parent.querySelectorAll<HTMLElement>("[data-physics-obstacle]"))
+      : [];
+
+    const resolveObstacles = () => {
+      if (obstacleEls.length === 0) return;
+      const wrapperRect = wrapper.getBoundingClientRect();
+      const rects = obstacleEls.map((el) => {
+        const r = el.getBoundingClientRect();
+        return {
+          left: r.left - wrapperRect.left,
+          top: r.top - wrapperRect.top,
+          right: r.right - wrapperRect.left,
+          bottom: r.bottom - wrapperRect.top,
+        };
+      });
+
+      for (const s of states) {
+        if (!s.initialized) continue;
+        const sw = s.el.offsetWidth;
+        const sh = s.el.offsetHeight;
+        const cr = sw * (s.cfg.collisionRadiusRatio ?? 0.4);
+        const cx = s.x + sw / 2;
+        const cy = s.y + sh / 2;
+
+        for (const rect of rects) {
+          const closestX = Math.max(rect.left, Math.min(cx, rect.right));
+          const closestY = Math.max(rect.top, Math.min(cy, rect.bottom));
+          const dx = cx - closestX;
+          const dy = cy - closestY;
+          const distSq = dx * dx + dy * dy;
+          if (distSq >= cr * cr) continue;
+
+          let nx: number;
+          let ny: number;
+          let overlap: number;
+          if (distSq < 0.01) {
+            // Center is inside the rect — push out upward by default
+            nx = 0;
+            ny = -1;
+            overlap = cr + (cy - rect.top);
+          } else {
+            const dist = Math.sqrt(distSq);
+            nx = dx / dist;
+            ny = dy / dist;
+            overlap = cr - dist;
+          }
+
+          s.x += nx * overlap;
+          s.y += ny * overlap;
+
+          if (s.dragging) continue;
+
+          const dot = s.vx * nx + s.vy * ny;
+          if (dot < 0) {
+            const bounce = 0.55;
+            s.vx -= (1 + bounce) * dot * nx;
+            s.vy -= (1 + bounce) * dot * ny;
+            s.settled = false;
+            const tangentV = s.vx * -ny + s.vy * nx;
+            s.rotationSpeed += tangentV * 0.003;
+            if (s.rotationSpeed > 0.06) s.rotationSpeed = 0.06;
+            if (s.rotationSpeed < -0.06) s.rotationSpeed = -0.06;
+          }
+        }
+      }
+    };
+
     let animId = 0;
     const animate = () => {
       const rect = wrapper.getBoundingClientRect();
@@ -578,6 +640,9 @@ function PhysicsShapes({ shapes }: { shapes: ShapeConfig[] }) {
 
       // Collision resolution pass
       resolveCollisions(w, h, scrollV);
+
+      // Obstacle collision (text elements)
+      resolveObstacles();
 
       // Apply transforms
       for (const s of states) {
@@ -736,6 +801,7 @@ function PhysicsShapes({ shapes }: { shapes: ShapeConfig[] }) {
           }}
           src={s.src}
           alt=""
+          title=""
           draggable={false}
           className="pointer-events-auto absolute left-0 top-0 select-none"
           style={{
@@ -807,9 +873,24 @@ function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              {HERO.eyebrow}
+              {(() => {
+                const [line1, line2] = HERO.eyebrow.split(" · ");
+                return (
+                  <>
+                    {line1}
+                    <span aria-hidden className="hidden lg:inline">
+                      <br />
+                    </span>
+                    <span aria-hidden className="lg:hidden">
+                      {" · "}
+                    </span>
+                    {line2}
+                  </>
+                );
+              })()}
             </motion.p>
             <motion.h1
+              data-physics-obstacle
               className="font-bold"
               style={{
                 fontFamily: "var(--font-archivo)",
@@ -832,6 +913,7 @@ function Hero() {
             </motion.h1>
 
             <motion.p
+              data-physics-obstacle
               className="mt-7 max-w-[46ch] text-lg leading-[1.55] md:text-xl md:leading-[1.5]"
               style={{
                 fontFamily: "var(--font-encode)",
@@ -924,6 +1006,7 @@ function Hero() {
                       <img
                         src={`/images/countdown/0${i + 1}.png`}
                         alt=""
+                        title=""
                         aria-hidden="true"
                         className="h-full w-full object-contain"
                       />
@@ -1007,7 +1090,7 @@ function HeroForm() {
           border: "1px solid rgba(207,252,104,0.3)",
         }}
       >
-        Got it — we&apos;ll be in touch shortly.
+        Got it. We&apos;ll be in touch shortly.
       </div>
     );
   }
@@ -1166,6 +1249,7 @@ function GoalSection() {
         <img
           src="/images/peak-season-shapes.png"
           alt=""
+          title=""
           className="h-full w-full object-contain"
         />
       </div>

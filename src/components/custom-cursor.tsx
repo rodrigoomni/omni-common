@@ -143,6 +143,7 @@ export function CustomCursor() {
       const target = e.target as HTMLElement;
       const interactive = target.closest("a, button, [data-cursor], .cta-manic, .magnetic-button, .card, [class*='card']") as HTMLElement | null;
       const anchorEl = interactive || target;
+      const isQuiet = target.closest("[data-cursor-quiet]") !== null;
 
       const now = Date.now();
       if (anchorEl === lastHoverTarget.current && now - lastMessageTime.current < MESSAGE_COOLDOWN) {
@@ -177,7 +178,7 @@ export function CustomCursor() {
       }
 
       if (isNewElement || now - lastMessageTime.current >= MESSAGE_COOLDOWN) {
-        setTagText(getMessage(elementType, target));
+        setTagText(isQuiet ? "" : getMessage(elementType, target));
         hoverCount.current++;
         lastMessageTime.current = now;
       }
@@ -311,7 +312,7 @@ export function CustomCursor() {
           className="absolute left-6 top-7"
           initial={false}
           animate={{
-            opacity: hovered ? 1 : 0,
+            opacity: hovered && tagText ? 1 : 0,
             scale: hovered ? 1 : 0.7,
             y: hovered ? 0 : 4,
           }}
