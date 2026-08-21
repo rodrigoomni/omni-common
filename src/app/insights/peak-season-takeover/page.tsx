@@ -217,8 +217,8 @@ export default function PeakSeasonTakeoverPage() {
   return (
     <main data-cursor-quiet>
       <Hero />
-      {/* Spacer to account for the fixed hero */}
-      <div className="h-screen" />
+      {/* Spacer only needed on md+ where the hero is fixed */}
+      <div className="hidden md:block md:h-screen" />
       {/* Content layer scrolls over the fixed hero */}
       <div className="relative z-10">
         <GoalSection />
@@ -836,11 +836,20 @@ function Hero() {
   const contentY = useTransform(scrollY, [0, 500], [0, -80]);
   const contentScale = useTransform(scrollY, [0, 500], [1, 0.95]);
 
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    setIsMobile(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
   return (
     <section
       id="book-intro"
       data-theme="dark"
-      className="fixed inset-0 flex min-h-screen scroll-mt-24 items-center overflow-hidden pt-28 pb-16 md:pt-32"
+      className="relative flex min-h-svh scroll-mt-24 items-center overflow-hidden pt-36 pb-20 md:fixed md:inset-0 md:min-h-screen md:pt-32 md:pb-16"
       style={{
         backgroundColor: "#0A2B47",
         backgroundImage: "url('/images/peak-season-hero-bg.png')",
@@ -854,7 +863,7 @@ function Hero() {
 
       <motion.div
         className="site-container relative z-10 w-full px-6 md:px-12 lg:px-24"
-        style={{ opacity: contentOpacity, y: contentY, scale: contentScale }}
+        style={isMobile ? {} : { opacity: contentOpacity, y: contentY, scale: contentScale }}
       >
         {/* Two-column layout: headline / stack */}
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:gap-16">
