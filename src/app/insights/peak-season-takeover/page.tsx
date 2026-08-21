@@ -31,15 +31,13 @@ const GOAL = {
   eyebrow: "THE GOAL",
   heading_lead: "Focus on your business.",
   heading_accent: "We'll take care of the ad account.",
-  description:
-    "Work smarter, not harder. We take your account today, rebuilding the signals beneath it and working through the volatile phase early, so your holiday season is pure execution, not panic.",
+  description_html:
+    "Work smarter, not harder. <strong>We take control of your account today</strong>, rebuilding the signals beneath it and working through the volatile phase early, so your holiday season is pure execution, not panic.",
 };
 
 const RUNWAY = {
   eyebrow: "WHAT YOU GET",
   heading: "The 90-day runway.",
-  description:
-    "Every phase has a purpose and a lock, so nothing gets touched during peak that shouldn't.",
   phases: [
     {
       weeks: "Weeks 1–2",
@@ -1298,9 +1296,8 @@ function GoalSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.9, delay: 0.1 }}
-          >
-            {GOAL.description}
-          </motion.p>
+            dangerouslySetInnerHTML={{ __html: GOAL.description_html }}
+          />
         </div>
       </div>
     </section>
@@ -1365,19 +1362,6 @@ function RunwaySection() {
             </span>{" "}
             runway.
           </motion.h2>
-          <motion.p
-            className="mt-4 max-w-[58ch] text-base leading-[1.6] md:text-lg lg:max-w-none lg:whitespace-nowrap"
-            style={{
-              fontFamily: "var(--font-encode)",
-              color: "var(--foreground-secondary)",
-            }}
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.9, delay: 0.1 }}
-          >
-            {RUNWAY.description}
-          </motion.p>
         </div>
 
         <div className="mt-12 grid gap-5 md:mt-14 md:grid-cols-2 md:gap-6">
