@@ -74,8 +74,51 @@ function encodeFormData(data: Record<string, string>) {
     .join("&");
 }
 
-export function Footer({ theme = "default" }: { theme?: FooterTheme } = {}) {
+export type FooterContent = {
+  eyebrow?: string;
+  heading?: string;
+  heading_accent?: string;
+  heading_accent_scale?: number;
+  heading_accent_block?: boolean;
+  description?: string;
+  description_html?: string;
+  cta_button?: string;
+  local_note_bold?: string;
+  local_link_text?: string;
+};
+
+type FooterProps = {
+  theme?: FooterTheme;
+  content?: FooterContent;
+  hideMessageField?: boolean;
+  hideLocalNote?: boolean;
+  hideWebsiteLink?: boolean;
+  formName?: string;
+  formSource?: string;
+};
+
+export function Footer({
+  theme = "default",
+  content,
+  hideMessageField = false,
+  hideLocalNote = false,
+  hideWebsiteLink = false,
+  formName = "contact",
+  formSource,
+}: FooterProps = {}) {
   const palette = themes[theme];
+  const copy = {
+    eyebrow: content?.eyebrow ?? footer.eyebrow,
+    heading: content?.heading ?? footer.heading,
+    heading_accent: content?.heading_accent ?? footer.heading_accent,
+    heading_accent_scale: content?.heading_accent_scale,
+    heading_accent_block: content?.heading_accent_block,
+    description: content?.description ?? footer.description,
+    description_html: content?.description_html,
+    cta_button: content?.cta_button ?? footer.cta_button,
+    local_note_bold: content?.local_note_bold ?? footer.local_note_bold,
+    local_link_text: content?.local_link_text ?? footer.local_link_text,
+  };
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
 
@@ -88,22 +131,24 @@ export function Footer({ theme = "default" }: { theme?: FooterTheme } = {}) {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (status === "submitting") return;
-    if (!name.trim() || !email.trim() || !message.trim()) {
+    if (!name.trim() || !email.trim()) {
       setStatus("error");
       return;
     }
     setStatus("submitting");
     try {
+      const body: Record<string, string> = {
+        "form-name": formName,
+        "bot-field": botField,
+        name,
+        email,
+      };
+      if (!hideMessageField) body.message = message;
+      if (formSource) body.source = formSource;
       const response = await fetch("/", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: encodeFormData({
-          "form-name": "contact",
-          "bot-field": botField,
-          name,
-          email,
-          message,
-        }),
+        body: encodeFormData(body),
       });
       if (!response.ok) throw new Error(`Submission failed: ${response.status}`);
       setStatus("success");
@@ -111,7 +156,7 @@ export function Footer({ theme = "default" }: { theme?: FooterTheme } = {}) {
       setEmail("");
       setMessage("");
       if (typeof window !== "undefined" && typeof window.gtag === "function") {
-        window.gtag("event", "generate_lead", { form_name: "contact" });
+        window.gtag("event", "generate_lead", { form_name: formName, source: formSource });
       }
     } catch (err) {
       console.error("Contact form error", err);
@@ -160,64 +205,109 @@ export function Footer({ theme = "default" }: { theme?: FooterTheme } = {}) {
                 className="mt-8 text-xs font-semibold uppercase tracking-[0.25em]"
                 style={{ fontFamily: "var(--font-inter)", color: palette.eyebrow }}
               >
-                {footer.eyebrow}
+                {copy.eyebrow}
               </p>
 
               <h2
                 className="mt-2 text-5xl font-bold leading-[1] tracking-tighter md:text-6xl lg:text-[72px]"
                 style={{ fontFamily: "var(--font-archivo)", color: palette.foreground }}
               >
-                {footer.heading}
-                <span style={{ color: palette.accent }}>{footer.heading_accent}</span>
+                {copy.heading}
+                <span
+                  style={{
+                    color: palette.accent,
+                    ...(copy.heading_accent_block
+                      ? { display: "block", marginTop: "0.15em" }
+                      : {}),
+                    ...(copy.heading_accent_scale
+                      ? { fontSize: `${copy.heading_accent_scale}em` }
+                      : {}),
+                  }}
+                >
+                  {copy.heading_accent_block
+                    ? copy.heading_accent?.trim()
+                    : copy.heading_accent}
+                </span>
               </h2>
 
-              <p
-                className="mt-6 max-w-md text-base leading-[1.5]"
-                style={{ fontFamily: "var(--font-encode)", color: palette.foregroundMuted }}
-              >
-                {footer.description}
-              </p>
-
-              <div className="mt-12 space-y-8">
+              {copy.description_html ? (
                 <p
-                  className="text-base font-semibold"
-                  style={{ fontFamily: "var(--font-encode)", color: palette.foreground }}
-                >
-                  <a href={`mailto:${footer.email}`} className="hover:underline">
-                    {footer.email}
-                  </a>
-                </p>
-
+                  className="mt-6 max-w-md text-base leading-[1.5]"
+                  style={{ fontFamily: "var(--font-encode)", color: palette.foregroundMuted }}
+                  dangerouslySetInnerHTML={{ __html: copy.description_html }}
+                />
+              ) : (
                 <p
-                  className="text-base leading-[1.625]"
+                  className="mt-6 max-w-md text-base leading-[1.5]"
                   style={{ fontFamily: "var(--font-encode)", color: palette.foregroundMuted }}
                 >
-                  <span className="font-bold" style={{ color: palette.foreground }}>
-                    {footer.local_note_bold}
-                  </span>
-                  <br />
-                  <a
-                    href="/local"
-                    className="underline transition-opacity hover:opacity-70"
-                    style={{ color: palette.accent }}
-                  >
-                    {footer.local_link_text}
-                  </a>
+                  {copy.description}
                 </p>
+              )}
+
+              <div className="mt-12 space-y-8">
+                <div>
+                  <p
+                    className="mb-2 text-xs font-semibold uppercase tracking-[0.25em]"
+                    style={{ fontFamily: "var(--font-inter)", color: palette.eyebrow }}
+                  >
+                    Contact Us
+                  </p>
+                  <p
+                    className="text-base font-semibold"
+                    style={{ fontFamily: "var(--font-encode)", color: palette.foreground }}
+                  >
+                    <a href={`mailto:${footer.email}`} className="hover:underline">
+                      {footer.email}
+                    </a>
+                    {!hideWebsiteLink && (
+                      <>
+                        <span className="mx-2" style={{ color: palette.foregroundSubtle }}>·</span>
+                        <a
+                          href="https://omnicommon.com"
+                          className="transition-opacity hover:opacity-80"
+                          style={{ color: palette.accent }}
+                        >
+                          omnicommon.com
+                        </a>
+                      </>
+                    )}
+                  </p>
+                </div>
+
+                {!hideLocalNote && (
+                  <p
+                    className="text-base leading-[1.625]"
+                    style={{ fontFamily: "var(--font-encode)", color: palette.foregroundMuted }}
+                  >
+                    <span className="font-bold" style={{ color: palette.foreground }}>
+                      {copy.local_note_bold}
+                    </span>
+                    <br />
+                    <a
+                      href="/local"
+                      className="underline transition-opacity hover:opacity-70"
+                      style={{ color: palette.accent }}
+                    >
+                      {copy.local_link_text}
+                    </a>
+                  </p>
+                )}
               </div>
             </div>
 
             {/* ── RIGHT: contact form ── */}
             <form
               className="flex flex-col gap-8 pt-2 md:pt-9"
-              name="contact"
+              name={formName}
               method="POST"
               action="/"
               data-netlify="true"
               data-netlify-honeypot="bot-field"
               onSubmit={handleSubmit}
             >
-              <input type="hidden" name="form-name" value="contact" />
+              <input type="hidden" name="form-name" value={formName} />
+              {formSource && <input type="hidden" name="source" value={formSource} />}
               <p className="hidden" aria-hidden="true">
                 <label>
                   Don&apos;t fill this out if you&apos;re human:{" "}
@@ -254,17 +344,18 @@ export function Footer({ theme = "default" }: { theme?: FooterTheme } = {}) {
                 autoComplete="email"
                 required
               />
-              <FormField
-                palette={palette}
-                id="footer-message"
-                name="message"
-                label={footer.form.message_label}
-                placeholder={footer.form.message_placeholder}
-                value={message}
-                onChange={setMessage}
-                textarea
-                required
-              />
+              {!hideMessageField && (
+                <FormField
+                  palette={palette}
+                  id="footer-message"
+                  name="message"
+                  label={footer.form.message_label}
+                  placeholder={footer.form.message_placeholder}
+                  value={message}
+                  onChange={setMessage}
+                  textarea
+                />
+              )}
 
               <div className="self-start">
                 <MagneticButton strength={0.2}>
@@ -284,7 +375,7 @@ export function Footer({ theme = "default" }: { theme?: FooterTheme } = {}) {
                         ? "Sending…"
                         : status === "success"
                         ? "Sent — talk soon"
-                        : footer.cta_button}{" "}
+                        : copy.cta_button}{" "}
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M5 12h14"/>
                         <path d="M13 6l6 6-6 6"/>
@@ -329,18 +420,9 @@ export function Footer({ theme = "default" }: { theme?: FooterTheme } = {}) {
             style={{ fontFamily: "var(--font-inter)", color: palette.foregroundSubtle }}
           >
             <p>{footer.copyright_prefix} {new Date().getFullYear()}.</p>
-            <nav aria-label="Social media" className="flex gap-8">
+            <nav aria-label="Footer links" className="flex gap-8">
               <a
-                href="https://x.com/omnicommon"
-                target="_blank"
-                rel="noopener noreferrer me"
-                aria-label={`${footer.social_twitter} (opens in new tab)`}
-                className="transition-colors hover:text-foreground"
-              >
-                {footer.social_twitter}
-              </a>
-              <a
-                href="https://www.linkedin.com/company/omnicommon"
+                href="https://www.linkedin.com/company/omni-common/"
                 target="_blank"
                 rel="noopener noreferrer me"
                 aria-label={`${footer.social_linkedin} (opens in new tab)`}
@@ -348,14 +430,8 @@ export function Footer({ theme = "default" }: { theme?: FooterTheme } = {}) {
               >
                 {footer.social_linkedin}
               </a>
-              <a
-                href="https://www.instagram.com/omnicommon"
-                target="_blank"
-                rel="noopener noreferrer me"
-                aria-label={`${footer.social_instagram} (opens in new tab)`}
-                className="transition-colors hover:text-foreground"
-              >
-                {footer.social_instagram}
+              <a href="/sitemap" className="transition-colors hover:text-foreground">
+                Sitemap
               </a>
             </nav>
           </div>
