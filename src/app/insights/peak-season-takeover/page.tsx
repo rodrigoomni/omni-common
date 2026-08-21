@@ -452,12 +452,12 @@ function PhysicsShapes({ shapes }: { shapes: ShapeConfig[] }) {
             if (!b.dragging) b.rotationSpeed -= tangentV * 0.002;
           }
 
-          // Post-collision floor/wall clamp
+          // Post-collision floor/wall clamp (floor rises with page scroll)
           for (const s of [a, b]) {
             const sw = s.el.offsetWidth;
             const sh = s.el.offsetHeight;
             const effSh = sh * (1 - s.cfg.bottomInsetRatio);
-            const floor = h - floorOffset - effSh;
+            const floor = h - floorOffset - effSh - scrollY;
             if (s.x < 0) {
               s.x = 0;
               if (s.vx < 0) s.vx = -s.vx * wallBounce;
@@ -493,13 +493,13 @@ function PhysicsShapes({ shapes }: { shapes: ShapeConfig[] }) {
       const scrollV = scrollY - lastScrollY;
       lastScrollY = scrollY;
 
-      // Position update pass
+      // Position update pass — floor rises with page scroll
       for (const s of states) {
         if (!s.initialized) continue;
         const sw = s.el.offsetWidth;
         const sh = s.el.offsetHeight;
         const effSh = sh * (1 - s.cfg.bottomInsetRatio);
-        const floor = h - floorOffset - effSh;
+        const floor = h - floorOffset - effSh - scrollY;
 
         if (!s.dragging && !s.settled) {
           s.vy += gravity;
@@ -512,7 +512,7 @@ function PhysicsShapes({ shapes }: { shapes: ShapeConfig[] }) {
             s.y = floor;
 
             if (scrollV > 0) {
-              // Scroll-bounce — floor "moves up" and kicks the shape
+              // Scroll-bounce — rising floor kicks the shape
               const randomBounce = 0.6 + Math.random() * 1.2;
               s.vy = -scrollV * 0.4 * randomBounce;
               s.vx += (Math.random() - 0.5) * scrollV * 0.25;
@@ -552,21 +552,23 @@ function PhysicsShapes({ shapes }: { shapes: ShapeConfig[] }) {
           if (s.rotationSpeed > 0.04) s.rotationSpeed = 0.04;
           if (s.rotationSpeed < -0.04) s.rotationSpeed = -0.04;
         } else if (s.settled) {
-          // Wake settled shapes when the floor rises under them (scroll-down)
-          if (s.y + effSh > h - floorOffset && scrollV > 0) {
+          // If the floor rises under a settled shape, ride it and kick when scrolling down
+          if (s.y > floor) {
             s.y = floor;
-            s.settled = false;
-            const randomBounce = 0.6 + Math.random() * 1.2;
-            s.vy = -scrollV * 0.4 * randomBounce;
-            s.vx += (Math.random() - 0.5) * scrollV * 0.25;
-            s.rotationSpeed += (Math.random() - 0.5) * 0.06;
+            if (scrollV > 0) {
+              s.settled = false;
+              const randomBounce = 0.6 + Math.random() * 1.2;
+              s.vy = -scrollV * 0.4 * randomBounce;
+              s.vx += (Math.random() - 0.5) * scrollV * 0.25;
+              s.rotationSpeed += (Math.random() - 0.5) * 0.06;
+            }
           }
         }
 
         if (s.dragging) {
           if (s.x < 0) s.x = 0;
           if (s.x + sw > w) s.x = w - sw;
-          if (s.y + effSh > h - floorOffset) s.y = h - floorOffset - effSh;
+          if (s.y > floor) s.y = floor;
         }
       }
 
@@ -694,8 +696,8 @@ function PhysicsShapes({ shapes }: { shapes: ShapeConfig[] }) {
         if (s.x + sw > rect.width) s.x = rect.width - sw;
         if (s.x < 0) s.x = 0;
         const effSh = sh * (1 - s.cfg.bottomInsetRatio);
-        if (s.y + effSh > rect.height - floorOffset) {
-          s.y = rect.height - floorOffset - effSh;
+        if (s.y + effSh > rect.height - floorOffset - scrollY) {
+          s.y = rect.height - floorOffset - effSh - scrollY;
         }
       }
     };
