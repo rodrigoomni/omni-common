@@ -836,6 +836,15 @@ function Hero() {
   const contentY = useTransform(scrollY, [0, 500], [0, -80]);
   const contentScale = useTransform(scrollY, [0, 500], [1, 0.95]);
 
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    setIsMobile(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
   return (
     <section
       id="book-intro"
@@ -854,7 +863,7 @@ function Hero() {
 
       <motion.div
         className="site-container relative z-10 w-full px-6 md:px-12 lg:px-24"
-        style={{ opacity: contentOpacity, y: contentY, scale: contentScale }}
+        style={isMobile ? {} : { opacity: contentOpacity, y: contentY, scale: contentScale }}
       >
         {/* Two-column layout: headline / stack */}
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:gap-16">
