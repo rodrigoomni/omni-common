@@ -8,7 +8,8 @@ import { Navigation } from "@/components/navigation";
 import { TrioModalProvider } from "@/components/trio-coming-soon";
 
 const SITE_URL = "https://omnicommon.com";
-const OG_IMAGE = `${SITE_URL}/og-image.png`;
+const OG_IMAGE = `${SITE_URL}/og-image.webp`;
+const OG_IMAGE_SQUARE = `${SITE_URL}/og-image-square.webp`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -70,6 +71,12 @@ export const metadata: Metadata = {
         height: 630,
         alt: "Omni Common — Search-Led Growth Marketing",
       },
+      {
+        url: OG_IMAGE_SQUARE,
+        width: 1200,
+        height: 1200,
+        alt: "Omni Common — Search-Led Growth Marketing",
+      },
     ],
   },
   twitter: {
@@ -77,7 +84,7 @@ export const metadata: Metadata = {
     title: "Omni Common — Search-Led Growth Marketing",
     description:
       "Search-led growth marketing for e-commerce, SaaS, and marketplace brands doing $5M–$50M.",
-    images: [OG_IMAGE],
+    images: [OG_IMAGE, OG_IMAGE_SQUARE],
   },
 };
 
