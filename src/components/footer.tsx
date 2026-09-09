@@ -3,6 +3,7 @@
 import { motion, useInView } from "motion/react";
 import { useRef, useState } from "react";
 import { MagneticButton } from "./magnetic-button";
+import { trackChatGPTLead } from "./chatgpt-pixel";
 import globalContent from "@/content/global.json";
 
 const { footer } = globalContent;
@@ -158,6 +159,7 @@ export function Footer({
       if (typeof window !== "undefined" && typeof window.gtag === "function") {
         window.gtag("event", "generate_lead", { form_name: formName, source: formSource });
       }
+      trackChatGPTLead({ form_name: formName, source: formSource });
     } catch (err) {
       console.error("Contact form error", err);
       setStatus("error");

@@ -3,6 +3,7 @@
 import { animate, motion, useInView, useScroll, useTransform } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { trackChatGPTLead } from "@/components/chatgpt-pixel";
 import { Footer } from "@/components/footer";
 import { MagneticButton } from "@/components/magnetic-button";
 
@@ -187,6 +188,11 @@ function trackLead(source: string) {
       source,
     });
   }
+  trackChatGPTLead({
+    form_name: "peak-season-lead",
+    campaign: "peak-season-takeover",
+    source,
+  });
 }
 
 /* ──────────────────────────────────────────────────────────────────────────────
