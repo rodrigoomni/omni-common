@@ -372,9 +372,15 @@ export function Navigation() {
                   fontFamily: "var(--font-inter)",
                   backgroundColor: isDark ? "var(--lime)" : "var(--teal)",
                   color: isDark ? "#0A2B47" : "#fff",
+                  border: isDark
+                    ? "1px solid rgba(255,255,255,0.95)"
+                    : "1px solid transparent",
                   boxShadow: isDark
-                    ? "none"
+                    ? "3px 3px 0 0 rgba(255,255,255,0.95)"
                     : "3px 4px 0px 0px var(--lime)",
+                  filter: isDark
+                    ? "drop-shadow(0 0 10px rgba(207,252,104,0.28))"
+                    : "none",
                 }}
               >
                 <span
