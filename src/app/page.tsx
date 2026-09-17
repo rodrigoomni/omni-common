@@ -12,7 +12,7 @@ import { Footer } from "@/components/footer";
 
 export default function Home() {
   return (
-    <main>
+    <main data-cursor-quiet>
       <Hero />
       {/* Spacer to account for the fixed hero */}
       <div className="h-screen" />

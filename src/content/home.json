@@ -102,42 +102,50 @@
     "heading_lines": [
       {
         "prefix": "We are ",
-        "highlight_1": "strategy",
-        "highlight_1_color": "#0AA5B8",
-        "connector": " + ",
-        "highlight_2": "execution",
-        "highlight_2_color": "#75CDDD"
-      },
-      {
-        "prefix": "We are ",
-        "highlight_1": "intelligence",
+        "highlight_1": "unique intelligence",
         "highlight_1_color": "#94D80A",
         "connector": " + ",
         "highlight_2": "services",
-        "highlight_2_color": "#0E3D43"
+        "highlight_2_color": "#14B8E6"
+      },
+      {
+        "prefix": "We are ",
+        "highlight_1": "proven strategy",
+        "highlight_1_color": "#72AD03",
+        "connector": " + ",
+        "highlight_2": "execution",
+        "highlight_2_color": "#46D6F6"
       }
     ],
     "cta_href": "/work",
     "cta_label": "See our case studies",
     "capabilities": [
       {
-        "title": "Search Led Growth-Engine",
-        "title_color": "#088391",
-        "kicker": "execution",
-        "description": "SEO, PPC, Content, Digital PR and CRO run as one compounding system, not siloed tactics. Search intent leads; every channel feeds and next, capturing demand where buyers are already looking."
+        "title": "Growth Intelligence System",
+        "title_color": "#50760F",
+        "kicker": "Strategy",
+        "badge_label": "What We Do",
+        "badge_color": "#94D80A",
+        "circle": "green",
+        "icon": "growth",
+        "description": "We unify **GA4**, **Ads**, **Search Console**, **Shopify**, **Meta**, **Klaviyo** and **Hubspot** into one clear picture. Then senior strategists set your channel mix, budget, and 90-day roadmap tied to projected ROI."
       },
       {
-        "title": "Growth Intelligence System",
-        "title_color": "#0E3D43",
-        "kicker": "Strategy",
-        "description": "We unify GA4, Ads, Search Console, Shopify, Meta, Klaviyo and Hubspot into one clear picture. Then senior strategists set your channel mix, budget, and 90-day roadmap tied to projected ROI."
+        "title": "Search Led Growth",
+        "title_color": "#088391",
+        "kicker": "execution",
+        "badge_label": "How It Works",
+        "badge_color": "#04A8B4",
+        "circle": "blue",
+        "icon": "seo",
+        "description": "**SEO**, **PPC**, **Content**, **Digital PR** and **CRO** run as **one** compounding system, not siloed tactics. Search intent leads; every channel feeds the next, capturing demand where buyers are already looking."
       }
     ],
     "what_you_get": {
       "title": "What You Get",
       "title_color": "#14545D",
       "kicker": "True Numbers & Compounding ROI",
-      "description": "Continuous measurement shows what's working and where to reinvest, so your Intelligence System compounds, quarter over quarter."
+      "description": "Our holistic plan of attack shows what's working, where to reinvest, and executes at all angles, so your growth compounds, quarter over quarter."
     }
   },
   "hero": {

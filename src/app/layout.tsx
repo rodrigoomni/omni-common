@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import "./globals.css";
 import { ChatGPTPixel } from "@/components/chatgpt-pixel";
-import { CustomCursor } from "@/components/custom-cursor";
 import { GoogleAnalytics } from "@/components/google-analytics";
 import { Navigation } from "@/components/navigation";
 import { TrioModalProvider } from "@/components/trio-coming-soon";
@@ -112,7 +111,6 @@ export default function RootLayout({
       </head>
       <body className="grain">
         <TrioModalProvider>
-          <CustomCursor />
           <Navigation />
           {children}
         </TrioModalProvider>

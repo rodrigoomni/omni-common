@@ -42,6 +42,8 @@ export function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const [openDropdownIdx, setOpenDropdownIdx] = useState<number | null>(null);
+  const [ctaHover, setCtaHover] = useState(false);
+  const [ctaPress, setCtaPress] = useState(false);
   const dropdownTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const navRef = useRef<HTMLDivElement>(null);
   const [pillStyle, setPillStyle] = useState({ left: 0, width: 0 });
@@ -367,7 +369,15 @@ export function Navigation() {
             <MagneticButton>
               <Link
                 href="#lets-chat"
-                className="cta-manic relative rounded-full px-6 py-2.5 text-sm font-semibold transition-all duration-500"
+                onMouseEnter={() => setCtaHover(true)}
+                onMouseLeave={() => {
+                  setCtaHover(false);
+                  setCtaPress(false);
+                }}
+                onPointerDown={() => setCtaPress(true)}
+                onPointerUp={() => setCtaPress(false)}
+                onPointerCancel={() => setCtaPress(false)}
+                className="cta-manic relative rounded-full px-6 py-2.5 text-sm font-semibold"
                 style={{
                   fontFamily: "var(--font-inter)",
                   backgroundColor: isDark ? "var(--lime)" : "var(--teal)",
@@ -375,12 +385,24 @@ export function Navigation() {
                   border: isDark
                     ? "1px solid rgba(255,255,255,0.95)"
                     : "1px solid transparent",
-                  boxShadow: isDark
-                    ? "3px 3px 0 0 rgba(255,255,255,0.95)"
-                    : "3px 4px 0px 0px var(--lime)",
+                  boxShadow: (() => {
+                    const [x, y] = ctaPress
+                      ? [1, 1]
+                      : ctaHover
+                        ? [6, 6]
+                        : isDark
+                          ? [3, 3]
+                          : [3, 4];
+                    const color = isDark
+                      ? "rgba(255,255,255,0.95)"
+                      : "var(--lime)";
+                    return `${x}px ${y}px 0 0 ${color}`;
+                  })(),
                   filter: isDark
                     ? "drop-shadow(0 0 10px rgba(207,252,104,0.28))"
                     : "none",
+                  transition:
+                    "box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1), background-color 500ms ease, color 500ms ease, border-color 500ms ease",
                 }}
               >
                 <span

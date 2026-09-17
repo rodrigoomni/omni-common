@@ -26,7 +26,7 @@ export function HomeHero() {
       >
         <div>
           <motion.h1
-            className="text-[clamp(2.5rem,7vw,6rem)] font-black leading-[1.05] tracking-tight"
+            className="pb-[0.12em] text-[clamp(2.5rem,7vw,6rem)] font-black leading-[1.05] tracking-tight"
             style={{ fontFamily: "var(--font-archivo)", color: "rgba(255,255,255,0.95)" }}
             initial={{ y: "120%" }}
             animate={{ y: 0 }}
@@ -37,7 +37,7 @@ export function HomeHero() {
         </div>
         <div>
           <motion.h1
-            className="text-[clamp(2.5rem,7vw,6rem)] font-black leading-[1.05] tracking-tight"
+            className="pb-[0.12em] text-[clamp(2.5rem,7vw,6rem)] font-black leading-[1.05] tracking-tight"
             style={{ fontFamily: "var(--font-archivo)", color: "var(--lime)" }}
             initial={{ y: "120%" }}
             animate={{ y: 0 }}

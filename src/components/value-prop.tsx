@@ -10,50 +10,45 @@ import homeContent from "@/content/home.json";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Inline SVG illustrations
-function GlobeIcon() {
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img src="/images/seo-illustration.svg" alt="" width={80} height={80} />
-  );
-}
+// Icon renderers for the two capability circles.
+// Sizes are ~25% smaller than the raw Figma spec so the content stack sits
+// comfortably inside each shape's narrower interior around the concave edge.
+type IconKey = "growth" | "seo";
+const ICONS: Record<IconKey, { src: string; w: number; h: number }> = {
+  growth: { src: "/images/growth-illustration.svg", w: 110, h: 152 },
+  seo: { src: "/images/seo-illustration.svg", w: 140, h: 96 },
+};
 
-function PlantIcon() {
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img src="/images/growth-illustration.svg" alt="" width={80} height={110} />
-  );
-}
-
-function ChartIcon() {
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img src="/images/cmm-illustration.svg" alt="" width={80} height={72} />
-  );
-}
-
-const CAPABILITY_VISUALS = [
-  { icon: GlobeIcon, bg: "rgba(165,253,243,0.12)", dotColor: "var(--teal)" },
-  { icon: PlantIcon, bg: "rgba(207,252,104,0.24)", dotColor: "var(--lime)" },
-  { icon: ChartIcon, bg: "rgba(255,253,239,0.55)", dotColor: "var(--foreground-subtle)" },
-];
+// Badge presets — sit above each circle as external "chapter" labels.
+// Gradient + shadow tints come straight from the Figma spec so the two badges
+// sit in the same visual family but each anchor to their circle's brand color.
+type BadgeVariant = "green" | "blue";
+const BADGE_STYLES: Record<
+  BadgeVariant,
+  { background: string; boxShadow: string }
+> = {
+  green: {
+    background:
+      "linear-gradient(65.7deg, rgba(223, 255, 149, 0.35) 10%, rgba(255, 255, 255, 0.85) 60%)",
+    boxShadow: "0 12px 20px -4px rgba(113, 245, 245, 0.32)",
+  },
+  blue: {
+    background:
+      "linear-gradient(56.3deg, rgba(255, 253, 239, 0.9) 40%, rgba(64, 189, 166, 0.12) 130%)",
+    boxShadow: "0 12px 20px 0 rgba(113, 245, 245, 0.32)",
+  },
+};
 
 type CapabilityEntry = {
   title: string;
   description: string;
   title_color?: string;
   kicker?: string;
+  badge_label?: string;
+  badge_color?: string;
+  circle?: "green" | "blue";
+  icon?: IconKey;
 };
-
-const capabilities = (
-  homeContent.why_omni_common.capabilities as CapabilityEntry[]
-).map((cap, i) => ({
-  ...CAPABILITY_VISUALS[i % CAPABILITY_VISUALS.length],
-  title: cap.title,
-  desc: cap.description,
-  kicker: cap.kicker,
-  titleColor: cap.title_color,
-}));
 
 function BoldMarkdown({ text }: { text: string }) {
   const parts = text.split(/(\*\*[^*]+\*\*)/g);
@@ -289,29 +284,248 @@ export function ValueProp() {
   );
 }
 
+// ── Circle content — the copy stack that sits centered inside each SVG shape.
+// Kept as its own component so the desktop composition and the mobile stack
+// can share the exact same typography spec straight from the Figma node.
+// Desktop uses container-query width units (`cqw`) so every fixed dimension
+// scales together with the composition's 1636px design coordinate system.
+function CircleContent({
+  capability,
+  scale = 1,
+  useCssScale = false,
+}: {
+  capability: CapabilityEntry;
+  scale?: number;
+  useCssScale?: boolean;
+}) {
+  const icon = ICONS[capability.icon ?? "growth"];
+  // 1636px design width == 100cqw, so 1px design == (100/1636)cqw ≈ 0.0611cqw.
+  const s = (px: number) =>
+    useCssScale ? `${(px * 100) / 1636}cqw` : `${px * scale}px`;
+  const titleWords = capability.title.split(" ");
+  const displayTitle =
+    titleWords.length > 2
+      ? capability.title.replace(/^(\S+)\s(.+)$/, "$1\n$2")
+      : capability.title;
+  return (
+    <div className="flex w-full flex-col items-center gap-0 text-center">
+      <div className="flex items-center justify-center">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={icon.src}
+          alt=""
+          width={icon.w}
+          height={icon.h}
+          style={{ width: s(icon.w), height: s(icon.h) }}
+        />
+      </div>
+      <h3
+        className="w-full whitespace-pre-line font-bold uppercase"
+        style={{
+          fontFamily: "var(--font-archivo)",
+          color: capability.title_color ?? "var(--foreground)",
+          fontSize: s(28),
+          lineHeight: s(36),
+          letterSpacing: "0.17px",
+          marginTop: s(20),
+        }}
+      >
+        {displayTitle}
+      </h3>
+      <p
+        className="uppercase"
+        style={{
+          fontFamily: "var(--font-inter)",
+          fontWeight: 500,
+          color: "#14545D",
+          fontSize: s(12),
+          lineHeight: s(16),
+          letterSpacing: "3px",
+          marginTop: s(16),
+        }}
+      >
+        {capability.kicker}
+      </p>
+      <p
+        className="w-full"
+        style={{
+          fontFamily: "var(--font-encode)",
+          color: "#262626",
+          fontSize: s(18),
+          lineHeight: s(29),
+          marginTop: s(20),
+        }}
+      >
+        <BoldMarkdown text={capability.description} />
+      </p>
+    </div>
+  );
+}
+
+// ── External badge — the "chapter" pill that anchors above each circle.
+// Rendered as a plain div so its position and gradient can travel with the
+// circle it belongs to, without depending on the SVG's blur artifacts.
+// Sizes multiply the CSS `--s` scale variable set on the composition wrapper
+// so the badge shrinks in lockstep with the circles at narrower viewports.
+function CircleBadge({
+  label,
+  color,
+  variant,
+  useCssScale = false,
+}: {
+  label: string;
+  color: string;
+  variant: BadgeVariant;
+  useCssScale?: boolean;
+}) {
+  // 1636px design container == 100cqw when the parent has container-type: inline-size.
+  const s = (px: number) =>
+    useCssScale ? `${(px * 100) / 1636}cqw` : `${px}px`;
+  return (
+    <div
+      className="flex items-center justify-center rounded-[8px] border border-[#E7E7E7]"
+      style={{
+        height: s(100),
+        minWidth: s(variant === "blue" ? 298 : 278),
+        padding: `0 ${s(44)}`,
+        ...BADGE_STYLES[variant],
+      }}
+    >
+      <p
+        className="capitalize"
+        style={{
+          fontFamily: "var(--font-archivo)",
+          fontWeight: variant === "blue" ? 600 : 700,
+          color,
+          fontSize: s(32),
+          lineHeight: s(36),
+          letterSpacing: "0.17px",
+        }}
+      >
+        {label}
+      </p>
+    </div>
+  );
+}
+
+// ── Liquid-glass badge — the "chapter" pill that overlays each circle's
+// baked-in badge slot. True HTML backdrop-filter (browsers can only apply
+// backdrop-filter to HTML/CSS boxes; the same effect via SVG foreignObject
+// doesn't survive being loaded through an <img> tag). Dimensions come from
+// the Figma spec and are expressed in `cqw` units so the frame stays pixel-
+// aligned to the composition SVG at every viewport width.
+function LiquidGlassBadge({
+  label,
+  color,
+  leftCqw,
+  topCqw,
+  widthCqw,
+  heightCqw,
+  animate,
+  delay = 0,
+  shadowTint,
+}: {
+  label: string;
+  color: string;
+  leftCqw: number;
+  topCqw: number;
+  widthCqw: number;
+  heightCqw: number;
+  animate: boolean;
+  delay?: number;
+  shadowTint: string;
+}) {
+  return (
+    <motion.div
+      className="absolute overflow-hidden"
+      style={{
+        left: `${leftCqw}cqw`,
+        top: `${topCqw}cqw`,
+        width: `${widthCqw}cqw`,
+        height: `${heightCqw}cqw`,
+        borderRadius: "0.489cqw",
+        // Liquid-glass fill: subtle diagonal white gradient over a real backdrop blur.
+        background:
+          "linear-gradient(135deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.28) 100%)",
+        backdropFilter: "blur(18px) saturate(180%)",
+        WebkitBackdropFilter: "blur(18px) saturate(180%)",
+        border: "1px solid rgba(255, 255, 255, 0.55)",
+        // Inset highlight along the top edge + soft outer glow tinted with the brand color.
+        boxShadow: `inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 0.734cqw 1.468cqw -0.245cqw ${shadowTint}`,
+      }}
+      initial={{ opacity: 0, y: -8 }}
+      animate={animate ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {/* Top-half highlight sheen — sells the "wet" glass look. */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          borderRadius: "inherit",
+          background:
+            "linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 55%)",
+        }}
+        aria-hidden
+      />
+      <div className="relative flex h-full w-full items-center justify-center">
+        <span
+          className="capitalize"
+          style={{
+            fontFamily: "var(--font-archivo)",
+            fontWeight: 700,
+            color,
+            fontSize: "1.956cqw",
+            lineHeight: 1,
+            letterSpacing: "0.17px",
+          }}
+        >
+          {label}
+        </span>
+      </div>
+    </motion.div>
+  );
+}
+
 export function WhyItWorks() {
   const introRef = useRef(null);
+  const circlesRef = useRef<HTMLDivElement>(null);
   const wygRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(introRef, { once: true, margin: "-40px" });
-  // Triggers as soon as the WYG title stack peeks into the viewport bottom.
+  const circlesInView = useInView(circlesRef, { once: true, margin: "-80px" });
+  // Triggers as soon as the WYG hemisphere peeks into the viewport bottom.
   // Line animation is replayable (fires every time the block re-enters view);
   // text reveal fires only once so the copy stays stable on re-scroll.
   const wygInView = useInView(wygRef, { margin: "0px 0px -40px 0px" });
   const wygInViewOnce = useInView(wygRef, { once: true, margin: "0px 0px -40px 0px" });
 
+  const caps = homeContent.why_omni_common.capabilities as CapabilityEntry[];
+  // Match Figma order: LEFT = Growth Intelligence (green), RIGHT = Search Led (blue).
+  const leftCap = caps.find((c) => c.circle === "green") ?? caps[0];
+  const rightCap = caps.find((c) => c.circle === "blue") ?? caps[1];
+  const wyg = homeContent.why_omni_common.what_you_get;
+
   return (
     <section
-      className="py-28 md:py-36"
-      style={{ background: "linear-gradient(to bottom, #FFFDEF 0%, #FFFFFF 100%)" }}
+      className="relative overflow-hidden px-6 pt-24 md:px-12 md:pt-28 lg:px-16 lg:pt-[100px]"
+      style={{ background: "linear-gradient(to bottom, #FFFFFF 0%, #FFFDEF 100%)" }}
     >
-      <div className="site-container px-6 md:px-12 lg:px-24">
+      {/* Title block — constrained to reading width */}
+      <div className="site-container">
+        {/* ── Title stack ── */}
         <div
           ref={introRef}
-          className="flex flex-col items-center gap-10 text-center md:gap-12"
+          className="flex flex-col items-center gap-6 text-center md:gap-8"
         >
           <motion.p
-            className="text-xs font-semibold uppercase tracking-[0.25em]"
-            style={{ fontFamily: "var(--font-inter)", color: "#14545D" }}
+            className="uppercase"
+            style={{
+              fontFamily: "var(--font-inter)",
+              fontWeight: 600,
+              color: "#14545D",
+              fontSize: "12px",
+              lineHeight: "16px",
+              letterSpacing: "3px",
+            }}
             initial={{ opacity: 0, y: 14 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
@@ -319,17 +533,17 @@ export function WhyItWorks() {
             {homeContent.why_omni_common.eyebrow}
           </motion.p>
           <h2
-            className="flex flex-col gap-2 leading-[0.97] tracking-[-0.02em]"
+            className="flex flex-col items-center gap-3 leading-[1.02] tracking-[-0.02em]"
             style={{
               fontFamily: "var(--font-archivo)",
               color: "#262626",
-              fontSize: "clamp(2rem, 4.5vw, 3.5rem)",
+              fontSize: "clamp(2rem, 4.35vw, 56px)",
             }}
           >
             {homeContent.why_omni_common.heading_lines.map((line, i) => {
-              const lineBase = 0.12 + i * 0.28;
+              const lineBase = 0.12 + i * 0.24;
               return (
-                <span key={i} className="block font-normal">
+                <span key={i} className="block font-semibold">
                   <motion.span
                     className="inline-block whitespace-pre"
                     initial={{ opacity: 0, y: 18 }}
@@ -339,11 +553,11 @@ export function WhyItWorks() {
                     {line.prefix}
                   </motion.span>
                   <motion.span
-                    className="inline-block font-bold"
+                    className="inline-block font-semibold"
                     style={{ color: line.highlight_1_color }}
-                    initial={{ opacity: 0, y: 22, scale: 0.92 }}
+                    initial={{ opacity: 0, y: 22, scale: 0.94 }}
                     animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-                    transition={{ duration: 0.55, delay: lineBase + 0.08, ease: [0.34, 1.56, 0.64, 1] }}
+                    transition={{ duration: 0.55, delay: lineBase + 0.08, ease: [0.34, 1.4, 0.64, 1] }}
                   >
                     {line.highlight_1}
                   </motion.span>
@@ -356,11 +570,11 @@ export function WhyItWorks() {
                     {line.connector}
                   </motion.span>
                   <motion.span
-                    className="inline-block font-bold"
+                    className="inline-block font-semibold"
                     style={{ color: line.highlight_2_color }}
-                    initial={{ opacity: 0, y: 22, scale: 0.92 }}
+                    initial={{ opacity: 0, y: 22, scale: 0.94 }}
                     animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-                    transition={{ duration: 0.55, delay: lineBase + 0.22, ease: [0.34, 1.56, 0.64, 1] }}
+                    transition={{ duration: 0.55, delay: lineBase + 0.22, ease: [0.34, 1.4, 0.64, 1] }}
                   >
                     {line.highlight_2}
                   </motion.span>
@@ -402,347 +616,226 @@ export function WhyItWorks() {
             </Link>
           </motion.div>
         </div>
+      </div>
 
-        {/* Triple Venn diagram — vertical on mobile / tablet */}
-        <div className="mt-20 flex flex-col items-center lg:hidden">
-          {capabilities.map((cap, i) => {
-            const Icon = cap.icon;
-            const zIndexes = [3, 2, 1];
-            return (
-              <motion.div
-                key={cap.title}
-                className="group flex flex-col items-center justify-center rounded-full text-center"
-                style={{
-                  width: "min(calc(100vw - 48px), 640px)",
-                  height: "min(calc(100vw - 48px), 640px)",
-                  marginTop: i === 0 ? 0 : "-32px",
-                  zIndex: zIndexes[i],
-                  position: "relative",
-                  backgroundColor: cap.bg,
-                  border: "1px solid rgba(255,255,255,0.45)",
-                  backdropFilter: "blur(16px)",
-                  WebkitBackdropFilter: "blur(16px)",
-                }}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                transition={{
-                  duration: 1.1,
-                  delay: 0.55 + i * 0.18,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-              >
-                <div
-                  className="pointer-events-none absolute inset-3 rounded-full opacity-30"
-                  style={{ border: `1px solid ${cap.dotColor}` }}
-                />
-                <motion.div
-                  className="flex flex-col items-center px-8"
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.8, delay: 0.2 + i * 0.15, ease: [0.22, 1, 0.36, 1] }}
-                >
-                  {cap.kicker ? (
-                    <>
-                      <div className="mb-3 flex items-center justify-center">
-                        <Icon />
-                      </div>
-                      <h3
-                        className="text-center font-bold capitalize"
-                        style={{
-                          fontFamily: "var(--font-archivo)",
-                          color: cap.titleColor ?? "var(--foreground)",
-                          fontSize: "22px",
-                          lineHeight: "1.2",
-                          letterSpacing: "0.17px",
-                        }}
-                      >
-                        {cap.title}
-                      </h3>
-                      <p
-                        className="uppercase"
-                        style={{
-                          fontFamily: "var(--font-inter)",
-                          fontWeight: 500,
-                          color: "#14545D",
-                          fontSize: "11px",
-                          lineHeight: "14px",
-                          letterSpacing: "2.5px",
-                          marginTop: "10px",
-                        }}
-                      >
-                        {cap.kicker}
-                      </p>
-                      <p
-                        className="text-center"
-                        style={{
-                          fontFamily: "var(--font-encode)",
-                          color: "#262626",
-                          fontSize: "13px",
-                          lineHeight: "20px",
-                          maxWidth: "260px",
-                          marginTop: "18px",
-                        }}
-                      >
-                        <BoldMarkdown text={cap.desc} />
-                      </p>
-                    </>
-                  ) : (
-                    <>
-                      <div className="mb-3 flex items-center justify-center">
-                        <Icon />
-                      </div>
-                      <h3
-                        className="text-base font-bold"
-                        style={{ fontFamily: "var(--font-archivo)", color: "var(--foreground)" }}
-                      >
-                        {cap.title}
-                      </h3>
-                      <p
-                        className="mt-1.5 max-w-[180px] text-xs leading-relaxed"
-                        style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-muted)" }}
-                      >
-                        {cap.desc}
-                      </p>
-                    </>
-                  )}
-                </motion.div>
-              </motion.div>
-            );
-          })}
+      {/* ── Composed circles — desktop (lg+) ──
+          composition.svg (from ContainerMAN) supplies the whole scene:
+          shapes, badges, illustrations, copy. On top we overlay real
+          liquid-glass badges — HTML divs with a genuine backdrop-filter
+          blur — because SVG's foreignObject blur doesn't render when the
+          asset is loaded through an <img> tag. Positioned in `cqw` units
+          derived from the SVG's 1636×954 coordinate system, so they track
+          the baked-in badge slots at any width. */}
+      <div
+        ref={circlesRef}
+        className="relative mx-auto mt-16 hidden lg:block"
+        style={{
+          width: "min(100%, 2300px)",
+          aspectRatio: "1636/954",
+          containerType: "inline-size",
+        }}
+      >
+        <motion.img
+          src="/images/circles/composition.svg"
+          alt=""
+          aria-hidden
+          className="absolute inset-0 h-full w-full"
+          initial={{ opacity: 0, scale: 0.97 }}
+          animate={circlesInView ? { opacity: 1, scale: 1 } : {}}
+          transition={{ duration: 1.1, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+        />
+
+        {/* WHAT WE DO — liquid-glass frame */}
+        <LiquidGlassBadge
+          label={leftCap.badge_label ?? "What We Do"}
+          color={leftCap.badge_color ?? "#94D80A"}
+          // Baked-in slot: (33, 103.07) design px, 278×100
+          leftCqw={2.017}
+          topCqw={6.301}
+          widthCqw={16.993}
+          heightCqw={6.113}
+          animate={circlesInView}
+          delay={0.4}
+          // Softer glow — 50% of the previous tint (0.35 → 0.175).
+          shadowTint="rgba(148, 216, 10, 0.175)"
+        />
+
+        {/* HOW IT WORKS — liquid-glass frame */}
+        <LiquidGlassBadge
+          label={rightCap.badge_label ?? "How It Works"}
+          color={rightCap.badge_color ?? "#04A8B4"}
+          // Baked-in slot: (1320, 98.07) design px, 298×100
+          leftCqw={80.685}
+          topCqw={5.995}
+          widthCqw={18.216}
+          heightCqw={6.113}
+          animate={circlesInView}
+          delay={0.5}
+          // Softer glow — 50% of the previous tint (0.35 → 0.175).
+          shadowTint="rgba(4, 168, 180, 0.175)"
+        />
+
+        {/* Accessible copy — visually hidden, exposed to assistive tech. */}
+        <div className="sr-only">
+          {[leftCap, rightCap].map((cap) => (
+            <section key={cap.title}>
+              <p>{cap.badge_label}</p>
+              <h3>{cap.title}</h3>
+              <p>{cap.kicker}</p>
+              <p>{cap.description.replace(/\*\*/g, "")}</p>
+            </section>
+          ))}
         </div>
+      </div>
 
-        {/* Desktop: horizontal row with overlap — adapts to capability count */}
-        <div
-          className="relative z-10 mt-24 mx-auto hidden items-center justify-center lg:flex"
-          style={{
-            maxWidth: capabilities.length === 2 ? "2225px" : undefined,
-            // Diameter tuned so two overlapping circles reach 2225px combined
-            // at max (2 * 1152.5 - 80 overlap = 2225), with a 64px gutter to
-            // the screen edge below that cap.
-            ["--d" as string]:
-              capabilities.length === 2
-                ? "min(calc(50vw - 24px), 1152.5px)"
-                : "min(34vw, 620px)",
-            height: "var(--d)",
-          }}
+      {/* Mobile stack + hemisphere — back inside the .site-container cap so
+          they follow the site's normal reading width. */}
+      <div className="site-container">
+        {/* ── Mobile composition — pre-composed vertical Venn from
+            composition-mobile.svg (Container2s.svg). Shapes, badges,
+            illustrations, and copy are all baked into the asset. Real copy
+            still lives in an sr-only block for accessibility. ── */}
+        <motion.div
+          className="relative mx-auto mt-16 flex w-full justify-center lg:hidden"
+          style={{ maxWidth: "min(calc(100vw - 48px), 560px)" }}
+          initial={{ opacity: 0, scale: 0.95, y: 24 }}
+          animate={isInView ? { opacity: 1, scale: 1, y: 0 } : {}}
+          transition={{ duration: 1, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
         >
-          {capabilities.map((cap, i) => {
-            const Icon = cap.icon;
-            const count = capabilities.length;
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/circles/composition-mobile.svg"
+            alt=""
+            className="h-auto w-full"
+            aria-hidden
+          />
+          <div className="sr-only">
+            {[leftCap, rightCap].map((cap) => (
+              <section key={cap.title}>
+                <p>{cap.badge_label}</p>
+                <h3>{cap.title}</h3>
+                <p>{cap.kicker}</p>
+                <p>{cap.description.replace(/\*\*/g, "")}</p>
+              </section>
+            ))}
+          </div>
+        </motion.div>
 
-            // Layered z-index per count — front circle is the most visually
-            // dominant one in the row.
-            const zIndex =
-              count === 2 ? (i === 0 ? 2 : 1) : [3, 1, 2][i] ?? 1;
-
-            // Two-circle layout: a true Venn overlap, centered horizontally.
-            // Three-circle layout: original left/center/right with overlap.
-            const left =
-              count === 2
-                ? i === 0
-                  ? "calc(50% - var(--d) + 40px)"
-                  : "calc(50% - 40px)"
-                : [
-                    "calc(50% - var(--d) / 2 - var(--d) + 20px)",
-                    "calc(50% - var(--d) / 2)",
-                    "calc(50% - var(--d) / 2 + var(--d) - 20px)",
-                  ][i];
-
-            return (
-              <motion.div
-                key={cap.title}
-                className="group absolute flex flex-col items-center justify-center rounded-full text-center transition-all duration-500"
-                style={{
-                  width: "var(--d)",
-                  height: "var(--d)",
-                  left,
-                  zIndex,
-                  backgroundColor: cap.bg,
-                  border: "1px solid rgba(255,255,255,0.45)",
-                  backdropFilter: "blur(18px) saturate(1.3)",
-                  WebkitBackdropFilter: "blur(18px) saturate(1.3)",
-                }}
-                initial={{ opacity: 0, scale: 0.9, y: 24 }}
-                animate={isInView ? { opacity: 1, scale: 1, y: 0 } : {}}
-                transition={{
-                  duration: 1.2,
-                  delay: 0.55 + i * 0.18,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                whileHover={{ scale: 1.04, zIndex: 10 }}
-              >
-                <div
-                  className="pointer-events-none absolute inset-3 rounded-full opacity-30 transition-opacity duration-300 group-hover:opacity-60"
-                  style={{ border: `1px solid ${cap.dotColor}` }}
-                />
-                <motion.div
-                  className="flex flex-col items-center px-6"
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.8, delay: 0.2 + i * 0.15, ease: [0.22, 1, 0.36, 1] }}
-                >
-                  {cap.kicker ? (
-                    <>
-                      <div className="mb-4 flex origin-center scale-[1.15] items-center justify-center">
-                        <Icon />
-                      </div>
-                      <h3
-                        className="text-center font-bold capitalize"
-                        style={{
-                          fontFamily: "var(--font-archivo)",
-                          color: cap.titleColor ?? "var(--foreground)",
-                          fontSize: "27px",
-                          lineHeight: "1.15",
-                          letterSpacing: "0.17px",
-                        }}
-                      >
-                        {cap.title}
-                      </h3>
-                      <p
-                        className="uppercase"
-                        style={{
-                          fontFamily: "var(--font-inter)",
-                          fontWeight: 500,
-                          color: "#14545D",
-                          fontSize: "12px",
-                          lineHeight: "16px",
-                          letterSpacing: "3px",
-                          marginTop: "9.5px",
-                        }}
-                      >
-                        {cap.kicker}
-                      </p>
-                      <p
-                        className="text-center"
-                        style={{
-                          fontFamily: "var(--font-encode)",
-                          color: "#262626",
-                          fontSize: "16px",
-                          lineHeight: "26px",
-                          maxWidth: "360px",
-                          marginTop: "24px",
-                        }}
-                      >
-                        <BoldMarkdown text={cap.desc} />
-                      </p>
-                    </>
-                  ) : (
-                    <>
-                      <div className="mb-4 flex origin-center scale-[1.15] items-center justify-center">
-                        <Icon />
-                      </div>
-                      <h3
-                        className="text-lg font-bold tracking-tight lg:text-xl xl:text-2xl"
-                        style={{ fontFamily: "var(--font-archivo)", color: "var(--foreground)" }}
-                      >
-                        {cap.title}
-                      </h3>
-                      <p
-                        className="mt-2 max-w-[60%] text-xs leading-relaxed lg:text-sm"
-                        style={{ fontFamily: "var(--font-encode)", color: "var(--foreground-muted)" }}
-                      >
-                        {cap.desc}
-                      </p>
-                    </>
-                  )}
-                </motion.div>
-              </motion.div>
-            );
-          })}
-        </div>
-
-        {/* What You Get — closing block below the circles */}
+        {/* ── What You Get — hemisphere with dashed connector above ── */}
         <div
           ref={wygRef}
-          className="relative mt-24 flex flex-col items-center text-center lg:mt-32"
+          className="relative mt-8 flex flex-col items-center pt-10 pb-20 md:pt-14 md:pb-24 lg:pt-16 lg:pb-32"
         >
-          {/* Absolutely-positioned dashed connector — triggered when the
-              What You Get stack peeks into view. The line is anchored high
-              (roughly the middle of the composition) and grows downward from
-              its top toward the title. Hidden on smaller screens where the
-              vertical stack makes it meaningless. */}
+          {/* Dashed connector — desktop only; grows downward when the
+              hemisphere peeks into view, echoing the Figma line detail. */}
           <div
-            className="pointer-events-none absolute left-1/2 hidden -translate-x-1/2 flex-col items-center lg:flex"
-            style={{ bottom: "calc(100% + 12px)" }}
+            className="pointer-events-none absolute left-1/2 top-0 hidden -translate-x-1/2 -translate-y-1/2 flex-col items-center lg:flex"
             aria-hidden="true"
           >
             <motion.div
               style={{
                 width: "1.5px",
-                height: "clamp(320px, 48vh, 480px)",
+                height: "clamp(200px, 26vh, 327px)",
                 background:
-                  "repeating-linear-gradient(to bottom, #C4C4C4 0, #C4C4C4 10px, transparent 10px, transparent 18px)",
+                  "repeating-linear-gradient(to bottom, #C4C4C4 0, #C4C4C4 8px, transparent 8px, transparent 18px)",
                 transformOrigin: "top center",
               }}
               initial={{ scaleY: 0 }}
               animate={{ scaleY: wygInView ? 1 : 0 }}
               transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
             />
-            <motion.div
-              style={{
-                marginTop: "6px",
-                width: "10px",
-                height: "10px",
-                borderRadius: "9999px",
-                backgroundColor: "#C4C4C4",
-              }}
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{
-                opacity: wygInView ? 1 : 0,
-                scale: wygInView ? 1 : 0.5,
-              }}
-              transition={{ duration: 0.4, delay: wygInView ? 0.75 : 0, ease: [0.22, 1, 0.36, 1] }}
-            />
           </div>
 
-          <motion.h3
-            className="font-bold capitalize"
-            style={{
-              fontFamily: "var(--font-archivo)",
-              color: homeContent.why_omni_common.what_you_get.title_color,
-              fontSize: "32px",
-              lineHeight: "1.2",
-              letterSpacing: "0.17px",
-            }}
-            initial={{ opacity: 0, y: 16 }}
+          {/* Hemisphere — MOBILE
+              Pre-composed SVG with shape, gradient, and copy baked in. */}
+          <motion.div
+            className="relative w-full max-w-[752px] lg:hidden"
+            initial={{ opacity: 0, y: 24 }}
             animate={wygInViewOnce ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.55, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           >
-            {homeContent.why_omni_common.what_you_get.title}
-          </motion.h3>
-          <motion.p
-            className="uppercase"
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/circles/hemisphere.svg"
+              alt=""
+              className="h-auto w-full"
+              aria-hidden
+            />
+            <div className="sr-only">
+              <h3>{wyg.title}</h3>
+              <p>{wyg.kicker}</p>
+              <p>{wyg.description}</p>
+            </div>
+          </motion.div>
+
+          {/* Hemisphere — DESKTOP
+              Stadium shape rendered as an HTML div with the purple → white
+              gradient; real text sits inside so it can scale with the layout
+              and stay accessible. */}
+          <motion.div
+            className="relative hidden w-full max-w-[752px] flex-col items-center justify-end overflow-hidden px-8 lg:flex"
             style={{
-              fontFamily: "var(--font-inter)",
-              fontWeight: 500,
-              color: "#14545D",
-              fontSize: "12px",
-              lineHeight: "16px",
-              letterSpacing: "3px",
-              marginTop: "9px",
+              aspectRatio: "752/399",
+              borderTopLeftRadius: "9999px",
+              borderTopRightRadius: "9999px",
+              background:
+                "linear-gradient(to bottom, rgba(196, 181, 253, 0.42) 0%, rgba(255, 255, 255, 0.42) 100%)",
             }}
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={wygInViewOnce ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           >
-            {homeContent.why_omni_common.what_you_get.kicker}
-          </motion.p>
-          <motion.p
-            className="text-center"
-            style={{
-              fontFamily: "var(--font-encode)",
-              color: "#262626",
-              fontSize: "16px",
-              lineHeight: "24px",
-              maxWidth: "367px",
-              marginTop: "16px",
-            }}
-            initial={{ opacity: 0, y: 12 }}
-            animate={wygInViewOnce ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.65, ease: [0.22, 1, 0.36, 1] }}
-          >
-            {homeContent.why_omni_common.what_you_get.description}
-          </motion.p>
+            <div className="flex flex-col items-center gap-4 pb-8 text-center">
+              <motion.h3
+                className="bg-clip-text text-transparent capitalize"
+                style={{
+                  fontFamily: "var(--font-archivo)",
+                  fontWeight: 600,
+                  fontSize: "clamp(28px, 3vw, 36px)",
+                  lineHeight: "1.23",
+                  letterSpacing: "0.17px",
+                  backgroundImage:
+                    "linear-gradient(44.84deg, #9AA1F2 8.4%, #0A2B47 91.6%)",
+                }}
+                initial={{ opacity: 0, y: 16 }}
+                animate={wygInViewOnce ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.55, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              >
+                {wyg.title}
+              </motion.h3>
+              <motion.p
+                className="uppercase"
+                style={{
+                  fontFamily: "var(--font-inter)",
+                  fontWeight: 500,
+                  color: "#14545D",
+                  fontSize: "12px",
+                  lineHeight: "16px",
+                  letterSpacing: "3px",
+                }}
+                initial={{ opacity: 0, y: 12 }}
+                animate={wygInViewOnce ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
+              >
+                {wyg.kicker}
+              </motion.p>
+              <motion.p
+                className="text-center"
+                style={{
+                  fontFamily: "var(--font-encode)",
+                  color: "#262626",
+                  fontSize: "16px",
+                  lineHeight: "24px",
+                  maxWidth: "420px",
+                }}
+                initial={{ opacity: 0, y: 12 }}
+                animate={wygInViewOnce ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              >
+                {wyg.description}
+              </motion.p>
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>

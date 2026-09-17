@@ -27,7 +27,9 @@ type FooterPalette = {
   fieldLabel: string;
   submitBg: string;
   submitColor: string;
-  submitShadow: string;
+  submitBorder: string;
+  submitShadowColor: string;
+  submitFilter: string;
   successColor: string;
 };
 
@@ -46,7 +48,9 @@ const themes: Record<FooterTheme, FooterPalette> = {
     fieldLabel: "var(--teal)",
     submitBg: "var(--teal)",
     submitColor: "#fff",
-    submitShadow: "6px 6px 0px 0px var(--lime)",
+    submitBorder: "1px solid transparent",
+    submitShadowColor: "var(--lime)",
+    submitFilter: "none",
     successColor: "var(--teal)",
   },
   green: {
@@ -64,7 +68,9 @@ const themes: Record<FooterTheme, FooterPalette> = {
     fieldLabel: "#A5FDF3",
     submitBg: "#CFFC68",
     submitColor: "#0A2B47",
-    submitShadow: "6px 6px 0px 0px #A5FDF3",
+    submitBorder: "1px solid rgba(255,255,255,0.95)",
+    submitShadowColor: "rgba(255,255,255,0.95)",
+    submitFilter: "drop-shadow(0 0 10px rgba(207,252,104,0.28))",
     successColor: "#CFFC68",
   },
 };
@@ -128,6 +134,14 @@ export function Footer({
   const [message, setMessage] = useState("");
   const [botField, setBotField] = useState("");
   const [status, setStatus] = useState<SubmitStatus>("idle");
+  const [submitHover, setSubmitHover] = useState(false);
+  const [submitPress, setSubmitPress] = useState(false);
+
+  const [submitShadowX, submitShadowY] = submitPress
+    ? [1, 1]
+    : submitHover
+      ? [6, 6]
+      : [3, 4];
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -364,24 +378,40 @@ export function Footer({
                   <button
                     type="submit"
                     disabled={status === "submitting" || status === "success"}
-                    className="cta-manic relative inline-flex items-center gap-3 rounded-full px-10 py-4 text-base font-semibold transition-all duration-300 hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:scale-100"
+                    onMouseEnter={() => setSubmitHover(true)}
+                    onMouseLeave={() => {
+                      setSubmitHover(false);
+                      setSubmitPress(false);
+                    }}
+                    onPointerDown={() => setSubmitPress(true)}
+                    onPointerUp={() => setSubmitPress(false)}
+                    onPointerCancel={() => setSubmitPress(false)}
+                    className="relative rounded-full px-6 py-2.5 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-70"
                     style={{
                       fontFamily: "var(--font-inter)",
                       backgroundColor: palette.submitBg,
                       color: palette.submitColor,
-                      boxShadow: palette.submitShadow,
+                      border: palette.submitBorder,
+                      boxShadow: `${submitShadowX}px ${submitShadowY}px 0px 0px ${palette.submitShadowColor}`,
+                      filter: palette.submitFilter,
+                      transition:
+                        "box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1), background-color 300ms ease, color 300ms ease",
                     }}
                   >
-                    <span className="relative inline-flex items-center gap-2">
+                    <span
+                      className="pointer-events-none absolute inset-0 rounded-full transition-opacity duration-200"
+                      style={{
+                        opacity: submitHover ? 1 : 0,
+                        boxShadow:
+                          "0 0 15px rgba(20,84,93,0.4), 0 0 30px rgba(207,252,104,0.2)",
+                      }}
+                    />
+                    <span className="relative">
                       {status === "submitting"
                         ? "Sending…"
                         : status === "success"
                         ? "Sent — talk soon"
-                        : copy.cta_button}{" "}
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M5 12h14"/>
-                        <path d="M13 6l6 6-6 6"/>
-                      </svg>
+                        : copy.cta_button}
                     </span>
                   </button>
                 </MagneticButton>

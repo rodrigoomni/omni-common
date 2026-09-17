@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { MagneticButton } from "./magnetic-button";
 
 export interface CtaPillProps {
@@ -40,16 +41,36 @@ export function CtaPill({
   className = "",
   onClick,
 }: CtaPillProps) {
+  const [hover, setHover] = useState(false);
+  const [press, setPress] = useState(false);
+
+  const [shadowX, shadowY, translateX, translateY] = press
+    ? [2, 2, 3, 3]
+    : hover
+      ? [9, 9, -2, -2]
+      : [5, 5, 0, 0];
+
   return (
     <MagneticButton strength={0.2}>
       <a
         href={href}
         onClick={onClick}
-        className={`cta-pill group relative inline-flex items-center gap-[4px] rounded-full p-[4px] active:scale-[0.97] transition-transform ${className}`}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => {
+          setHover(false);
+          setPress(false);
+        }}
+        onPointerDown={() => setPress(true)}
+        onPointerUp={() => setPress(false)}
+        onPointerCancel={() => setPress(false)}
+        className={`cta-pill group relative inline-flex items-center gap-[4px] rounded-full p-[4px] ${className}`}
         style={{
           backgroundColor: pillColor,
           border: `1px solid ${borderColor}`,
-          boxShadow: `5px 5px 0 0 ${shadowColor}`,
+          boxShadow: `${shadowX}px ${shadowY}px 0 0 ${shadowColor}`,
+          transform: `translate(${translateX}px, ${translateY}px)`,
+          transition:
+            "box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1), transform 180ms cubic-bezier(0.22, 1, 0.36, 1)",
         }}
       >
         <span

@@ -168,9 +168,9 @@ function Eyebrow({ text }: { text: string }) {
 function TitleStack({ line1, line2 }: { line1: string; line2: string }) {
   return (
     <div className="flex w-full flex-col items-center">
-      <div className="overflow-hidden pb-[0.12em]">
+      <div className="overflow-hidden">
         <motion.h1
-          className="whitespace-nowrap font-extrabold leading-[0.95] tracking-[-0.025em]"
+          className="whitespace-nowrap pb-[0.2em] font-extrabold leading-[0.95] tracking-[-0.025em]"
           style={{
             fontFamily: "var(--font-archivo)",
             color: "rgba(255,255,255,0.95)",
@@ -183,9 +183,9 @@ function TitleStack({ line1, line2 }: { line1: string; line2: string }) {
           {line1}
         </motion.h1>
       </div>
-      <div className="overflow-hidden pb-[0.12em]">
+      <div className="overflow-hidden">
         <motion.h1
-          className="whitespace-nowrap font-extrabold leading-[0.95] tracking-[-0.025em]"
+          className="whitespace-nowrap pb-[0.2em] font-extrabold leading-[0.95] tracking-[-0.025em]"
           style={{
             fontFamily: "var(--font-archivo)",
             color: "#CFFC68",

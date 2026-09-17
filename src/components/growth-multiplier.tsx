@@ -1,9 +1,10 @@
 "use client";
 
 import { motion, useScroll, useTransform, type MotionValue } from "motion/react";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { CtaPill } from "./cta-pill";
 
 type Step = {
   letter: string;
@@ -104,7 +105,7 @@ function HeadlineWord({
           className="inline-block font-black"
           style={{
             color: "#14545d",
-            fontSize: "clamp(2.25rem, 4.5vw, 63.52px)",
+            fontSize: "clamp(2.75rem, 5.2vw, 74.35px)",
             lineHeight: 1,
             marginRight: "0.25em",
             marginLeft: "0.05em",
@@ -243,7 +244,6 @@ function PlatformLogo({
 
 export function GrowthMultiplier() {
   const sectionRef = useRef<HTMLElement>(null);
-  const [learnHovered, setLearnHovered] = useState(false);
 
   // Scroll-tied progress: 0 when the section top hits the bottom of the
   // viewport, 1 when the section top hits the top of the viewport.
@@ -300,11 +300,11 @@ export function GrowthMultiplier() {
         {/* Headline */}
         <div className="flex justify-center pb-11 pt-8">
           <h2
-            className="max-w-[980px] text-center font-bold leading-[1.27] tracking-[-0.028em]"
+            className="max-w-[1150px] text-center font-bold leading-[1.27] tracking-[-0.029em]"
             style={{
               fontFamily: "var(--font-archivo)",
               color: "#262626",
-              fontSize: "clamp(2.5rem, 3.5vw, 48.95px)",
+              fontSize: "clamp(2.25rem, 4vw, 57.3px)",
             }}
           >
             {HEADLINE_WORDS.map((word, i) => (
@@ -398,9 +398,8 @@ export function GrowthMultiplier() {
 
           {/* RIGHT — Local Business card */}
           <motion.div
-            className="mt-10 flex max-w-[520px] flex-col gap-3 md:mt-0 md:gap-4 xl:border-l xl:pl-8"
+            className="mt-10 flex max-w-[520px] flex-col gap-3 md:mt-0 md:gap-4"
             style={{
-              borderColor: "rgba(20,84,93,0.15)",
               opacity: cardOpacity,
               x: cardX,
             }}
@@ -429,35 +428,17 @@ export function GrowthMultiplier() {
               Install a proven Community Development-Led Growth Engine
             </p>
             <div className="pt-1 md:pt-2">
-              <Link
+              <CtaPill
                 href="/local"
-                className="group inline-flex items-center gap-2 rounded-full border px-5 py-2.5 md:px-6 md:py-3"
-                onMouseEnter={() => setLearnHovered(true)}
-                onMouseLeave={() => setLearnHovered(false)}
-                style={{
-                  fontFamily: "var(--font-inter)",
-                  borderColor: "#124c54",
-                  backgroundColor: learnHovered ? "#14545d" : "transparent",
-                  color: learnHovered ? "#ffffff" : "#14545d",
-                  transition:
-                    "background-color 260ms ease, color 260ms ease, transform 220ms cubic-bezier(0.22,1,0.36,1)",
-                  transform: learnHovered ? "translateY(-1px)" : "translateY(0)",
-                  boxShadow: learnHovered
-                    ? "0 6px 16px rgba(20,84,93,0.25)"
-                    : "0 0 0 rgba(0,0,0,0)",
-                }}
-              >
-                <span className="text-sm font-semibold">Learn More</span>
-                <span
-                  className="text-base font-bold"
-                  style={{
-                    transition: "transform 300ms ease",
-                    transform: learnHovered ? "translateX(3px)" : "translateX(0)",
-                  }}
-                >
-                  →
-                </span>
-              </Link>
+                label="Let's Talk"
+                pillColor="#14545d"
+                textColor="#CFFC68"
+                badgeColor="#FFFFFF"
+                arrowColor="#14545d"
+                borderColor="rgba(165,253,243,0.23)"
+                shadowColor="#CFFC68"
+                glowColor="rgba(207,252,104,0.2)"
+              />
             </div>
           </motion.div>
         </div>

@@ -3,6 +3,7 @@
 import { motion, useInView } from "motion/react";
 import { useRef } from "react";
 import Image from "next/image";
+import { CtaPill } from "./cta-pill";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -96,6 +97,55 @@ export function RealPeople() {
             </motion.span>
           </motion.h2>
         </div>
+
+        {/* Trust row — CTA + rating + endorsement, sits below the title. */}
+        <motion.div
+          className="mt-2 flex flex-wrap items-center justify-center gap-x-8 gap-y-4 pb-4"
+          initial={{ opacity: 0, y: 16 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.9, delay: 0.4, ease: EASE }}
+        >
+          <CtaPill
+            href="#lets-chat"
+            label="Let's Talk"
+            pillColor="#FFFFFF"
+            textColor="#14545D"
+            badgeColor="#CFFC68"
+            arrowColor="#14545D"
+            borderColor="rgba(20,84,93,0.16)"
+            shadowColor="#14545D"
+            glowColor="rgba(207,252,104,0.2)"
+          />
+
+          <div className="flex flex-col items-start gap-1.5">
+            <div className="flex items-center gap-[3px]" aria-label="5 out of 5 stars">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <svg
+                  key={i}
+                  width="22"
+                  height="21"
+                  viewBox="0 0 22 21"
+                  fill="#94D80A"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden
+                >
+                  <path d="M11 0.5l2.72 7.475 7.78 0.35-6.13 4.85 2.12 7.6L11 15.85 4.51 20.775l2.12-7.6-6.13-4.85 7.78-0.35L11 0.5z" />
+                </svg>
+              ))}
+            </div>
+            <p
+              className="whitespace-nowrap"
+              style={{
+                fontFamily: "var(--font-inter)",
+                color: "#7a7a7a",
+                fontSize: "14px",
+                letterSpacing: "-0.005em",
+              }}
+            >
+              Trusted by Professionals
+            </p>
+          </div>
+        </motion.div>
        </div>
       </div>
 

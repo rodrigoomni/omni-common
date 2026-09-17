@@ -57,15 +57,7 @@
   --max-width: 1364px;
 }
 
-@media (pointer: fine) {
-  html, body,
-  a, button, input, textarea, select, label,
-  [role="button"], [role="link"], [role="tab"],
-  [data-cursor], [data-cursor-hover],
-  .cta-manic, .bubble {
-    cursor: none;
-  }
-}
+/* Native cursor — custom cursor component removed. */
 
 @media (prefers-reduced-motion: reduce) {
   *,

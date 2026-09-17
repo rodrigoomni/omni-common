@@ -3,6 +3,7 @@
 import { motion, useInView, AnimatePresence } from "motion/react";
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
+import { CtaPill } from "./cta-pill";
 
 const AUTO_ADVANCE_MS = 5000;
 const RESUME_AFTER_IDLE_MS = 1500;
@@ -22,18 +23,6 @@ type Service = {
 const SERVICES: Service[] = [
   {
     num: "01",
-    tab: "Intelligence",
-    heading_accent: "Attribution Modeling",
-    heading_rest: " that tells you where your growth comes from",
-    description: [
-      "<b>Your growth audit and attribution model.</b>",
-      "We pull data from every platform — GA4, Search Console, Ads, Shopify, Meta, Klaviyo, HubSpot — and build one clear picture of what's driving revenue, and what isn't.",
-    ],
-    footer: "It all works together to get you true, profitable ROI.",
-    image: "/images/services/intelligence.webp",
-  },
-  {
-    num: "02",
     tab: "SEO & GEO",
     heading_accent: "SEO & GEO optimization",
     heading_rest: " that builds bridges to you",
@@ -43,6 +32,18 @@ const SERVICES: Service[] = [
     ],
     footer: "It all works together to get you true, profitable ROI.",
     image: "/images/services/seo-geo.webp",
+  },
+  {
+    num: "02",
+    tab: "Intelligence",
+    heading_accent: "Attribution Modeling",
+    heading_rest: " that tells you where your growth comes from",
+    description: [
+      "<b>Your growth audit and attribution model.</b>",
+      "We pull data from every platform — GA4, Search Console, Ads, Shopify, Meta, Klaviyo, HubSpot — and build one clear picture of what's driving revenue, and what isn't.",
+    ],
+    footer: "It all works together to get you true, profitable ROI.",
+    image: "/images/services/intelligence.webp",
   },
   {
     num: "03",
@@ -176,12 +177,9 @@ export function ServicesShowcase() {
        <div className="px-4 md:px-8 lg:px-0">
 
         {/* Header row */}
-        <div
-          className="flex flex-col items-start gap-8 pb-2 lg:border-b lg:pb-11"
-          style={{ borderColor: "#bbbbbb" }}
-        >
+        <div className="flex flex-col items-center gap-6 pb-2 md:gap-8 lg:pb-4">
           <motion.div
-            className="flex flex-col gap-6 lg:gap-3"
+            className="flex flex-col items-center gap-2 text-center md:gap-3"
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.9, ease: EASE }}
@@ -199,15 +197,27 @@ export function ServicesShowcase() {
               Our Services
             </p>
             <h2
-              className="font-bold leading-[1.17] tracking-[-0.02em]"
-              style={{
-                fontFamily: "var(--font-archivo)",
-                fontSize: "clamp(2.5rem, 3.4vw, 48px)",
-              }}
+              className="font-bold"
+              style={{ fontFamily: "var(--font-archivo)" }}
             >
-              <span style={{ color: "var(--foreground)" }}>How Does Omni Common Grow Your Brand?</span>
-              <br />
-              <span style={{ color: "var(--teal)" }}>By doing whatever it takes.</span>
+              <span
+                className="block leading-[1.05] tracking-[-0.026em] md:leading-[1.18]"
+                style={{
+                  color: "var(--foreground)",
+                  fontSize: "clamp(1.75rem, 3.05vw, 40px)",
+                }}
+              >
+                How Does Omni Common Grow Your Brand?
+              </span>
+              <span
+                className="mt-1 block leading-[1] tracking-[-0.026em] md:mt-0 md:leading-[1.14]"
+                style={{
+                  color: "var(--teal)",
+                  fontSize: "clamp(2.25rem, 4.25vw, 56px)",
+                }}
+              >
+                By doing whatever it takes.
+              </span>
             </h2>
           </motion.div>
 
@@ -215,7 +225,7 @@ export function ServicesShowcase() {
 
         {/* Tabs — horizontally scrollable on mobile, single row on desktop */}
         <motion.div
-          className="mt-8 flex flex-nowrap items-start gap-2 overflow-x-auto pb-6 pt-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden lg:overflow-x-visible"
+          className="mt-4 flex flex-nowrap items-start gap-2 overflow-x-auto pb-6 pt-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden lg:overflow-x-visible lg:mt-2"
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.9, delay: 0.3, ease: EASE }}
@@ -320,6 +330,19 @@ export function ServicesShowcase() {
                       dangerouslySetInnerHTML={{ __html: para }}
                     />
                   ))}
+                </div>
+                <div className="mt-2">
+                  <CtaPill
+                    href="#lets-chat"
+                    label="Let's Talk"
+                    pillColor="#FFFFFF"
+                    textColor="#14545D"
+                    badgeColor="#CFFC68"
+                    arrowColor="#14545D"
+                    borderColor="rgba(20,84,93,0.16)"
+                    shadowColor="#14545D"
+                    glowColor="rgba(207,252,104,0.2)"
+                  />
                 </div>
               </motion.div>
             </AnimatePresence>
