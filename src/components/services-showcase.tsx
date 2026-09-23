@@ -129,6 +129,68 @@ export function ServicesShowcase() {
   const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const active = SERVICES[activeIdx];
 
+  // Pointer-drag scroll for the filter tabs. Native touch already handles
+  // swipe on mobile — this adds click-and-drag for mouse/pen input, and
+  // suppresses the tab click if the user actually dragged (>4px).
+  const tabsRef = useRef<HTMLDivElement>(null);
+  const dragState = useRef({
+    down: false,
+    startX: 0,
+    startScroll: 0,
+    moved: 0,
+    pointerId: 0,
+  });
+
+  const onTabsPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    const el = tabsRef.current;
+    if (!el) return;
+    dragState.current.down = true;
+    dragState.current.startX = e.clientX;
+    dragState.current.startScroll = el.scrollLeft;
+    dragState.current.moved = 0;
+    dragState.current.pointerId = e.pointerId;
+    el.style.cursor = "grabbing";
+  };
+
+  const onTabsPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const el = tabsRef.current;
+    if (!dragState.current.down || !el) return;
+    const dx = e.clientX - dragState.current.startX;
+    dragState.current.moved = Math.max(dragState.current.moved, Math.abs(dx));
+    if (dragState.current.moved > 4) {
+      // Only start capturing once we know it's a drag — leaves normal
+      // taps/clicks alone.
+      try {
+        el.setPointerCapture(dragState.current.pointerId);
+      } catch {
+        /* noop */
+      }
+    }
+    el.scrollLeft = dragState.current.startScroll - dx;
+  };
+
+  const onTabsPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    const el = tabsRef.current;
+    if (!el) return;
+    dragState.current.down = false;
+    el.style.cursor = "grab";
+    try {
+      el.releasePointerCapture(e.pointerId);
+    } catch {
+      /* noop */
+    }
+  };
+
+  // Swallow the click that follows a real drag so we don't accidentally
+  // switch tabs when the user was scrubbing through the row.
+  const onTabsClickCapture = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (dragState.current.moved > 4) {
+      e.stopPropagation();
+      e.preventDefault();
+      dragState.current.moved = 0;
+    }
+  };
+
   // Auto-advance every 8s, unless paused or offscreen
   useEffect(() => {
     if (isPaused || !isVisible) return;
@@ -223,9 +285,18 @@ export function ServicesShowcase() {
 
         </div>
 
-        {/* Tabs — horizontally scrollable on mobile, single row on desktop */}
+        {/* Tabs — horizontally scrollable on mobile, single row on desktop.
+            Pointer-drag scroll is wired below so mouse/pen users can grab
+            and drag the row too; native touch swipe still handles mobile. */}
         <motion.div
-          className="mt-4 flex flex-nowrap items-start gap-2 overflow-x-auto pb-6 pt-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden lg:overflow-x-visible lg:mt-2"
+          ref={tabsRef}
+          className="mt-4 flex flex-nowrap items-start gap-2 overflow-x-auto pb-6 pt-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden cursor-grab select-none lg:overflow-x-visible lg:mt-2 lg:cursor-auto"
+          style={{ touchAction: "pan-x" }}
+          onPointerDown={onTabsPointerDown}
+          onPointerMove={onTabsPointerMove}
+          onPointerUp={onTabsPointerUp}
+          onPointerCancel={onTabsPointerUp}
+          onClickCapture={onTabsClickCapture}
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.9, delay: 0.3, ease: EASE }}

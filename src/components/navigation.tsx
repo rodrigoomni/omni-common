@@ -456,9 +456,9 @@ export function Navigation() {
         </nav>
       </div>
 
-      {/* Mobile fullscreen menu */}
+      {/* Mobile fullscreen menu — left-aligned with parent/child hierarchy */}
       <motion.div
-        className="fixed inset-0 z-[105] flex items-center justify-center bg-background md:hidden"
+        className="fixed inset-0 z-[105] flex flex-col items-start justify-center bg-background px-8 pt-24 pb-24 md:hidden"
         initial={false}
         animate={{
           clipPath: menuOpen
@@ -467,26 +467,26 @@ export function Navigation() {
         }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       >
-        <div className="flex flex-col items-center gap-8">
+        <div className="flex w-full flex-col items-start gap-9">
           {links.map((link, i) =>
             link.children ? (
               <motion.div
                 key={link.label}
-                className="flex flex-col items-center gap-4"
-                initial={{ opacity: 0, y: 30 }}
+                className="flex flex-col items-start gap-3"
+                initial={{ opacity: 0, x: -20 }}
                 animate={
                   menuOpen
                     ? {
                         opacity: 1,
-                        y: 0,
-                        transition: { delay: 0.15 * i + 0.2 },
+                        x: 0,
+                        transition: { delay: 0.12 * i + 0.2 },
                       }
-                    : { opacity: 0, y: 30 }
+                    : { opacity: 0, x: -20 }
                 }
               >
                 <Link
                   href={link.href}
-                  className="text-5xl font-bold tracking-tight"
+                  className="text-4xl font-bold leading-[0.95] tracking-tight"
                   style={{
                     fontFamily: "var(--font-archivo)",
                     color: "var(--foreground)",
@@ -495,40 +495,48 @@ export function Navigation() {
                 >
                   {link.label}
                 </Link>
-                <div className="flex flex-col items-center gap-2">
+                <span
+                  aria-hidden="true"
+                  className="mt-1 block h-[2px] w-7"
+                  style={{ backgroundColor: "var(--teal)" }}
+                />
+                <ul className="mt-1 flex flex-col items-start gap-2.5 pl-0.5">
                   {link.children.map((child) => (
-                    <Link
-                      key={child.href}
-                      href={child.href}
-                      className="text-lg font-medium"
-                      style={{
-                        fontFamily: "var(--font-inter)",
-                        color: "var(--foreground-muted)",
-                      }}
-                      onClick={() => setMenuOpen(false)}
-                    >
-                      {child.label}
-                    </Link>
+                    <li key={child.href}>
+                      <Link
+                        href={child.href}
+                        className="text-[11px] font-bold uppercase"
+                        style={{
+                          fontFamily: "var(--font-inter)",
+                          color: "var(--foreground-muted)",
+                          letterSpacing: "0.18em",
+                        }}
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        {child.label}
+                      </Link>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </motion.div>
             ) : (
               <motion.div
                 key={link.href}
-                initial={{ opacity: 0, y: 30 }}
+                className="flex items-start"
+                initial={{ opacity: 0, x: -20 }}
                 animate={
                   menuOpen
                     ? {
                         opacity: 1,
-                        y: 0,
-                        transition: { delay: 0.15 * i + 0.2 },
+                        x: 0,
+                        transition: { delay: 0.12 * i + 0.2 },
                       }
-                    : { opacity: 0, y: 30 }
+                    : { opacity: 0, x: -20 }
                 }
               >
                 <Link
                   href={link.href}
-                  className="text-5xl font-bold tracking-tight"
+                  className="text-4xl font-bold leading-[0.95] tracking-tight"
                   style={{
                     fontFamily: "var(--font-archivo)",
                     color: "var(--foreground)",

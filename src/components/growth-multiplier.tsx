@@ -429,7 +429,7 @@ export function GrowthMultiplier() {
             </p>
             <div className="pt-1 md:pt-2">
               <CtaPill
-                href="/local"
+                href="/insights/local-marketing"
                 label="Let's Talk"
                 pillColor="#14545d"
                 textColor="#CFFC68"

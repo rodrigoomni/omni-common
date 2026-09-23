@@ -743,9 +743,25 @@ export function ServicesWheel({ className = "" }: ServicesWheelProps) {
       const cx = endX + vx * (rectR + GAP_PX);
       const cy = endY + vy * (rectR + GAP_PX);
 
+      // Clamp to viewport so the tag never spills off-screen when hovering
+      // wedges whose radial direction would push it past the edge.
+      const VP_MARGIN = 12;
+      const minLeft = VP_MARGIN - fr.left;
+      const maxLeft = window.innerWidth - VP_MARGIN - trect.width - fr.left;
+      const minTop = VP_MARGIN - fr.top;
+      const maxTop = window.innerHeight - VP_MARGIN - trect.height - fr.top;
+      let finalLeft = cx - halfW;
+      let finalTop = cy - halfH;
+      if (maxLeft >= minLeft) {
+        finalLeft = Math.max(minLeft, Math.min(finalLeft, maxLeft));
+      }
+      if (maxTop >= minTop) {
+        finalTop = Math.max(minTop, Math.min(finalTop, maxTop));
+      }
+
       tag.style.left = "0px";
       tag.style.top = "0px";
-      tag.style.transform = `translate(${(cx - halfW).toFixed(1)}px, ${(cy - halfH).toFixed(1)}px)`;
+      tag.style.transform = `translate(${finalLeft.toFixed(1)}px, ${finalTop.toFixed(1)}px)`;
     }
 
     function showConnector(i: number) {
@@ -1305,7 +1321,7 @@ export function ServicesWheel({ className = "" }: ServicesWheelProps) {
           justify-content: center;
           align-items: center;
           gap: 10px 16px;
-          max-width: 100%;
+          max-width: min(100%, 460px);
         }
         .sw-legend li {
           display: inline-flex;
@@ -1332,12 +1348,6 @@ export function ServicesWheel({ className = "" }: ServicesWheelProps) {
           font-size: 0.6rem;
           color: #ffffff;
         }
-        @media (min-width: 768px) {
-          .sw-legend {
-            display: none;
-          }
-        }
-
         /* On touch devices the hover tag never fires anyway, but hide it
            defensively so any stray hot state doesn't flash it in. */
         @media (hover: none), (pointer: coarse) {

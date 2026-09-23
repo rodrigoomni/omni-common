@@ -489,13 +489,15 @@ function LiquidGlassBadge({
 export function WhyItWorks() {
   const introRef = useRef(null);
   const circlesRef = useRef<HTMLDivElement>(null);
+  const bentoRef = useRef<HTMLDivElement>(null);
   const wygRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(introRef, { once: true, margin: "-40px" });
   const circlesInView = useInView(circlesRef, { once: true, margin: "-80px" });
+  const bentoInView = useInView(bentoRef, { once: true, margin: "-60px" });
   // Triggers as soon as the WYG hemisphere peeks into the viewport bottom.
   // Line animation is replayable (fires every time the block re-enters view);
   // text reveal fires only once so the copy stays stable on re-scroll.
-  const wygInView = useInView(wygRef, { margin: "0px 0px -40px 0px" });
+  const wygInView = useInView(wygRef, { margin: "0px 0px -120px 0px" });
   const wygInViewOnce = useInView(wygRef, { once: true, margin: "0px 0px -40px 0px" });
 
   const caps = homeContent.why_omni_common.capabilities as CapabilityEntry[];
@@ -506,9 +508,22 @@ export function WhyItWorks() {
 
   return (
     <section
-      className="relative overflow-hidden px-6 pt-24 md:px-12 md:pt-28 lg:px-16 lg:pt-[100px]"
+      className="relative overflow-hidden px-6 pt-24 pb-28 md:px-12 md:pt-28 md:pb-36 lg:px-16 lg:pt-[100px] lg:pb-44"
       style={{ background: "linear-gradient(to bottom, #FFFFFF 0%, #FFFDEF 100%)" }}
     >
+      {/* Decorative arc ornament — bottom-right corner, partially off-canvas */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -bottom-[40px] -right-[60px] h-[160px] w-[280px] md:-bottom-[50px] md:-right-[80px] md:h-[200px] md:w-[360px] lg:-bottom-[60px] lg:-right-[100px] lg:h-[260px] lg:w-[460px]"
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/shapes-ornament.png"
+          alt=""
+          title=""
+          className="h-full w-full object-contain"
+        />
+      </div>
       {/* Title block — constrained to reading width */}
       <div className="site-container">
         {/* ── Title stack ── */}
@@ -628,7 +643,7 @@ export function WhyItWorks() {
           the baked-in badge slots at any width. */}
       <div
         ref={circlesRef}
-        className="relative mx-auto mt-16 hidden lg:block"
+        className="relative mx-auto mt-16 hidden xl:block"
         style={{
           width: "min(100%, 2300px)",
           aspectRatio: "1636/954",
@@ -640,9 +655,9 @@ export function WhyItWorks() {
           alt=""
           aria-hidden
           className="absolute inset-0 h-full w-full"
-          initial={{ opacity: 0, scale: 0.97 }}
-          animate={circlesInView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ duration: 1.1, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+          initial={{ opacity: 0, scale: 0.96, y: 32 }}
+          animate={circlesInView ? { opacity: 1, scale: 1, y: 0 } : {}}
+          transition={{ duration: 1.2, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
         />
 
         {/* WHAT WE DO — liquid-glass frame */}
@@ -696,11 +711,12 @@ export function WhyItWorks() {
             illustrations, and copy are all baked into the asset. Real copy
             still lives in an sr-only block for accessibility. ── */}
         <motion.div
-          className="relative mx-auto mt-16 flex w-full justify-center lg:hidden"
+          ref={bentoRef}
+          className="relative mx-auto mt-16 flex w-full justify-center xl:hidden"
           style={{ maxWidth: "min(calc(100vw - 48px), 560px)" }}
-          initial={{ opacity: 0, scale: 0.95, y: 24 }}
-          animate={isInView ? { opacity: 1, scale: 1, y: 0 } : {}}
-          transition={{ duration: 1, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          initial={{ opacity: 0, y: 40, scale: 0.93 }}
+          animate={bentoInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+          transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -724,47 +740,112 @@ export function WhyItWorks() {
         {/* ── What You Get — hemisphere with dashed connector above ── */}
         <div
           ref={wygRef}
-          className="relative mt-8 flex flex-col items-center pt-10 pb-20 md:pt-14 md:pb-24 lg:pt-16 lg:pb-32"
+          className="relative mt-12 flex flex-col items-center pt-14 pb-20 md:pt-14 md:pb-24 xl:pt-0 xl:pb-32"
         >
           {/* Dashed connector — desktop only; grows downward when the
               hemisphere peeks into view, echoing the Figma line detail. */}
           <div
-            className="pointer-events-none absolute left-1/2 top-0 hidden -translate-x-1/2 -translate-y-1/2 flex-col items-center lg:flex"
+            className="pointer-events-none absolute left-1/2 top-0 hidden -translate-x-1/2 -translate-y-full flex-col items-center xl:flex"
+            style={{ paddingBottom: "10px" }}
             aria-hidden="true"
           >
             <motion.div
               style={{
-                width: "1.5px",
-                height: "clamp(200px, 26vh, 327px)",
+                width: "1px",
+                height: "clamp(150px, 21vh, 270px)",
                 background:
                   "repeating-linear-gradient(to bottom, #C4C4C4 0, #C4C4C4 8px, transparent 8px, transparent 18px)",
+                WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 65%)",
+                maskImage: "linear-gradient(to bottom, transparent 0%, black 65%)",
                 transformOrigin: "top center",
               }}
               initial={{ scaleY: 0 }}
               animate={{ scaleY: wygInView ? 1 : 0 }}
               transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
             />
+            <motion.div
+              style={{
+                width: "6px",
+                height: "6px",
+                borderRadius: "50%",
+                backgroundColor: "#C4C4C4",
+                marginTop: "3px",
+                flexShrink: 0,
+              }}
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: wygInView ? 1 : 0, scale: wygInView ? 1 : 0 }}
+              transition={{ duration: 0.35, delay: 0.75, ease: [0.34, 1.4, 0.64, 1] }}
+            />
           </div>
 
           {/* Hemisphere — MOBILE
-              Pre-composed SVG with shape, gradient, and copy baked in. */}
+              HTML hemisphere matching the desktop shape but smaller title. */}
           <motion.div
-            className="relative w-full max-w-[752px] lg:hidden"
-            initial={{ opacity: 0, y: 24 }}
-            animate={wygInViewOnce ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="relative flex w-full flex-col items-center justify-end overflow-hidden px-6 xl:hidden"
+            style={{
+              maxWidth: "min(calc(100vw - 48px), 560px)",
+              aspectRatio: "752/399",
+              borderTopLeftRadius: "9999px",
+              borderTopRightRadius: "9999px",
+              background:
+                "linear-gradient(to bottom, rgba(196, 181, 253, 0.42) 0%, rgba(255, 255, 255, 0.42) 100%)",
+            }}
+            variants={{
+              hidden: {
+                opacity: 0,
+                y: 56,
+                scale: 0.95,
+                transition: { duration: 0.55, ease: [0.55, 0, 1, 0.45] },
+              },
+              visible: {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                transition: { duration: 1.1, ease: [0.22, 1, 0.36, 1] },
+              },
+            }}
+            initial="hidden"
+            animate={wygInView ? "visible" : "hidden"}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/images/circles/hemisphere.svg"
-              alt=""
-              className="h-auto w-full"
-              aria-hidden
-            />
-            <div className="sr-only">
-              <h3>{wyg.title}</h3>
-              <p>{wyg.kicker}</p>
-              <p>{wyg.description}</p>
+            <div className="flex flex-col items-center gap-2 pb-5 text-center">
+              <h3
+                className="bg-clip-text text-transparent capitalize text-[22px] min-[430px]:text-[26px] md:text-[30px]"
+                style={{
+                  fontFamily: "var(--font-archivo)",
+                  fontWeight: 600,
+                  lineHeight: "1.23",
+                  letterSpacing: "0.17px",
+                  backgroundImage:
+                    "linear-gradient(44.84deg, #9AA1F2 8.4%, #0A2B47 91.6%)",
+                }}
+              >
+                {wyg.title}
+              </h3>
+              <p
+                className="uppercase"
+                style={{
+                  fontFamily: "var(--font-inter)",
+                  fontWeight: 500,
+                  color: "#14545D",
+                  fontSize: "9px",
+                  lineHeight: "13px",
+                  letterSpacing: "3px",
+                }}
+              >
+                {wyg.kicker}
+              </p>
+              <p
+                className="text-center"
+                style={{
+                  fontFamily: "var(--font-encode)",
+                  color: "#262626",
+                  fontSize: "12px",
+                  lineHeight: "18px",
+                  maxWidth: "260px",
+                }}
+              >
+                {wyg.description}
+              </p>
             </div>
           </motion.div>
 
@@ -773,7 +854,7 @@ export function WhyItWorks() {
               gradient; real text sits inside so it can scale with the layout
               and stay accessible. */}
           <motion.div
-            className="relative hidden w-full max-w-[752px] flex-col items-center justify-end overflow-hidden px-8 lg:flex"
+            className="relative hidden w-full max-w-[600px] flex-col items-center justify-end overflow-hidden px-8 xl:flex"
             style={{
               aspectRatio: "752/399",
               borderTopLeftRadius: "9999px",
@@ -781,9 +862,22 @@ export function WhyItWorks() {
               background:
                 "linear-gradient(to bottom, rgba(196, 181, 253, 0.42) 0%, rgba(255, 255, 255, 0.42) 100%)",
             }}
-            initial={{ opacity: 0, y: 24 }}
-            animate={wygInViewOnce ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            variants={{
+              hidden: {
+                opacity: 0,
+                y: 56,
+                scale: 0.95,
+                transition: { duration: 0.55, ease: [0.55, 0, 1, 0.45] },
+              },
+              visible: {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                transition: { duration: 1.1, ease: [0.22, 1, 0.36, 1] },
+              },
+            }}
+            initial="hidden"
+            animate={wygInView ? "visible" : "hidden"}
           >
             <div className="flex flex-col items-center gap-4 pb-8 text-center">
               <motion.h3
@@ -798,8 +892,8 @@ export function WhyItWorks() {
                     "linear-gradient(44.84deg, #9AA1F2 8.4%, #0A2B47 91.6%)",
                 }}
                 initial={{ opacity: 0, y: 16 }}
-                animate={wygInViewOnce ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.55, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                animate={wygInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+                transition={{ duration: 0.55, delay: wygInView ? 0.4 : 0, ease: [0.22, 1, 0.36, 1] }}
               >
                 {wyg.title}
               </motion.h3>
@@ -814,8 +908,8 @@ export function WhyItWorks() {
                   letterSpacing: "3px",
                 }}
                 initial={{ opacity: 0, y: 12 }}
-                animate={wygInViewOnce ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                animate={wygInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+                transition={{ duration: 0.5, delay: wygInView ? 0.55 : 0, ease: [0.22, 1, 0.36, 1] }}
               >
                 {wyg.kicker}
               </motion.p>
@@ -829,8 +923,8 @@ export function WhyItWorks() {
                   maxWidth: "420px",
                 }}
                 initial={{ opacity: 0, y: 12 }}
-                animate={wygInViewOnce ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                animate={wygInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+                transition={{ duration: 0.5, delay: wygInView ? 0.7 : 0, ease: [0.22, 1, 0.36, 1] }}
               >
                 {wyg.description}
               </motion.p>
