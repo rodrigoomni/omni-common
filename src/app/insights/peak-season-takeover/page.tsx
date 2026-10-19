@@ -236,8 +236,6 @@ export default function PeakSeasonTakeoverPage() {
           theme="default"
           hideLocalNote
           hideWebsiteLink
-          formName="peak-season-lead"
-          formSource="footer"
           content={{
             eyebrow: "Want to see your growth model?",
             heading: "Let's Chat!",

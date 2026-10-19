@@ -1,16 +1,17 @@
 "use client";
 
 import { motion, useInView } from "motion/react";
-import { useRef, useState } from "react";
-import { MagneticButton } from "./magnetic-button";
-import { trackChatGPTLead } from "./chatgpt-pixel";
+import Script from "next/script";
+import { useRef } from "react";
 import globalContent from "@/content/global.json";
 
 const { footer } = globalContent;
 
-type SubmitStatus = "idle" | "submitting" | "success" | "error";
-
 type FooterTheme = "default" | "green";
+
+const HUBSPOT_PORTAL_ID = "247696752";
+const HUBSPOT_FORM_ID = "f7ebdd3f-45f9-4044-9119-4939b45eb9fe";
+const HUBSPOT_REGION = "na2";
 
 type FooterPalette = {
   dataTheme?: "dark-teal";
@@ -75,12 +76,6 @@ const themes: Record<FooterTheme, FooterPalette> = {
   },
 };
 
-function encodeFormData(data: Record<string, string>) {
-  return Object.entries(data)
-    .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
-    .join("&");
-}
-
 export type FooterContent = {
   eyebrow?: string;
   heading?: string;
@@ -97,21 +92,15 @@ export type FooterContent = {
 type FooterProps = {
   theme?: FooterTheme;
   content?: FooterContent;
-  hideMessageField?: boolean;
   hideLocalNote?: boolean;
   hideWebsiteLink?: boolean;
-  formName?: string;
-  formSource?: string;
 };
 
 export function Footer({
   theme = "default",
   content,
-  hideMessageField = false,
   hideLocalNote = false,
   hideWebsiteLink = false,
-  formName = "contact",
-  formSource,
 }: FooterProps = {}) {
   const palette = themes[theme];
   const copy = {
@@ -128,57 +117,6 @@ export function Footer({
   };
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
-
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-  const [botField, setBotField] = useState("");
-  const [status, setStatus] = useState<SubmitStatus>("idle");
-  const [submitHover, setSubmitHover] = useState(false);
-  const [submitPress, setSubmitPress] = useState(false);
-
-  const [submitShadowX, submitShadowY] = submitPress
-    ? [1, 1]
-    : submitHover
-      ? [6, 6]
-      : [3, 4];
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (status === "submitting") return;
-    if (!name.trim() || !email.trim()) {
-      setStatus("error");
-      return;
-    }
-    setStatus("submitting");
-    try {
-      const body: Record<string, string> = {
-        "form-name": formName,
-        "bot-field": botField,
-        name,
-        email,
-      };
-      if (!hideMessageField) body.message = message;
-      if (formSource) body.source = formSource;
-      const response = await fetch("/", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: encodeFormData(body),
-      });
-      if (!response.ok) throw new Error(`Submission failed: ${response.status}`);
-      setStatus("success");
-      setName("");
-      setEmail("");
-      setMessage("");
-      if (typeof window !== "undefined" && typeof window.gtag === "function") {
-        window.gtag("event", "generate_lead", { form_name: formName, source: formSource });
-      }
-      trackChatGPTLead({ form_name: formName, source: formSource });
-    } catch (err) {
-      console.error("Contact form error", err);
-      setStatus("error");
-    }
-  };
 
   return (
     <footer
@@ -312,138 +250,19 @@ export function Footer({
               </div>
             </div>
 
-            {/* ── RIGHT: contact form ── */}
-            <form
-              className="flex flex-col gap-8 pt-2 md:pt-9"
-              name={formName}
-              method="POST"
-              action="/"
-              data-netlify="true"
-              data-netlify-honeypot="bot-field"
-              onSubmit={handleSubmit}
-            >
-              <input type="hidden" name="form-name" value={formName} />
-              {formSource && <input type="hidden" name="source" value={formSource} />}
-              <p className="hidden" aria-hidden="true">
-                <label>
-                  Don&apos;t fill this out if you&apos;re human:{" "}
-                  <input
-                    name="bot-field"
-                    tabIndex={-1}
-                    autoComplete="off"
-                    value={botField}
-                    onChange={(e) => setBotField(e.target.value)}
-                  />
-                </label>
-              </p>
-
-              <FormField
-                palette={palette}
-                id="footer-name"
-                name="name"
-                label={footer.form.name_label}
-                placeholder={footer.form.name_placeholder}
-                value={name}
-                onChange={setName}
-                autoComplete="name"
-                required
+            {/* ── RIGHT: HubSpot contact form ── */}
+            <div className="pt-2 md:pt-9">
+              <Script
+                src={`https://js-${HUBSPOT_REGION}.hsforms.net/forms/embed/${HUBSPOT_PORTAL_ID}.js`}
+                strategy="afterInteractive"
               />
-              <FormField
-                palette={palette}
-                id="footer-email"
-                name="email"
-                label={footer.form.email_label}
-                placeholder={footer.form.email_placeholder}
-                value={email}
-                onChange={setEmail}
-                type="email"
-                autoComplete="email"
-                required
+              <div
+                className="hs-form-frame"
+                data-region={HUBSPOT_REGION}
+                data-form-id={HUBSPOT_FORM_ID}
+                data-portal-id={HUBSPOT_PORTAL_ID}
               />
-              {!hideMessageField && (
-                <FormField
-                  palette={palette}
-                  id="footer-message"
-                  name="message"
-                  label={footer.form.message_label}
-                  placeholder={footer.form.message_placeholder}
-                  value={message}
-                  onChange={setMessage}
-                  textarea
-                />
-              )}
-
-              <div className="self-start">
-                <MagneticButton strength={0.2}>
-                  <button
-                    type="submit"
-                    disabled={status === "submitting" || status === "success"}
-                    onMouseEnter={() => setSubmitHover(true)}
-                    onMouseLeave={() => {
-                      setSubmitHover(false);
-                      setSubmitPress(false);
-                    }}
-                    onPointerDown={() => setSubmitPress(true)}
-                    onPointerUp={() => setSubmitPress(false)}
-                    onPointerCancel={() => setSubmitPress(false)}
-                    className="relative rounded-full px-6 py-2.5 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-70"
-                    style={{
-                      fontFamily: "var(--font-inter)",
-                      backgroundColor: palette.submitBg,
-                      color: palette.submitColor,
-                      border: palette.submitBorder,
-                      boxShadow: `${submitShadowX}px ${submitShadowY}px 0px 0px ${palette.submitShadowColor}`,
-                      filter: palette.submitFilter,
-                      transition:
-                        "box-shadow 220ms cubic-bezier(0.22, 1, 0.36, 1), background-color 300ms ease, color 300ms ease",
-                    }}
-                  >
-                    <span
-                      className="pointer-events-none absolute inset-0 rounded-full transition-opacity duration-200"
-                      style={{
-                        opacity: submitHover ? 1 : 0,
-                        boxShadow:
-                          "0 0 15px rgba(20,84,93,0.4), 0 0 30px rgba(207,252,104,0.2)",
-                      }}
-                    />
-                    <span className="relative">
-                      {status === "submitting"
-                        ? "Sending…"
-                        : status === "success"
-                        ? "Sent — talk soon"
-                        : copy.cta_button}
-                    </span>
-                  </button>
-                </MagneticButton>
-              </div>
-
-              <div role="status" aria-live="polite" className="min-h-[1.25rem]">
-                {status === "success" && (
-                  <p
-                    className="text-sm"
-                    style={{ fontFamily: "var(--font-encode)", color: palette.successColor }}
-                  >
-                    Thanks — we&apos;ll be in touch shortly.
-                  </p>
-                )}
-                {status === "error" && (
-                  <p
-                    className="text-sm"
-                    style={{ fontFamily: "var(--font-encode)", color: theme === "green" ? "#FFB4B4" : "#b00020" }}
-                  >
-                    Please fill out all fields. If the issue persists, email{" "}
-                    <a
-                      href={`mailto:${footer.email}`}
-                      className="underline"
-                      style={{ color: palette.accent }}
-                    >
-                      {footer.email}
-                    </a>
-                    .
-                  </p>
-                )}
-              </div>
-            </form>
+            </div>
           </div>
 
           {/* ── BOTTOM ROW ── */}
@@ -474,75 +293,3 @@ export function Footer({
   );
 }
 
-type FormFieldProps = {
-  palette: FooterPalette;
-  id: string;
-  name?: string;
-  label: string;
-  placeholder: string;
-  value: string;
-  onChange: (value: string) => void;
-  type?: string;
-  autoComplete?: string;
-  textarea?: boolean;
-  required?: boolean;
-};
-
-function FormField({
-  palette,
-  id,
-  name,
-  label,
-  placeholder,
-  value,
-  onChange,
-  type = "text",
-  autoComplete,
-  textarea = false,
-  required = false,
-}: FormFieldProps) {
-  const sharedStyle = {
-    fontFamily: "var(--font-encode)",
-    color: palette.fieldText,
-    backgroundColor: palette.fieldBg,
-    borderBottom: `1px solid ${palette.fieldBorder}`,
-  } as const;
-
-  return (
-    <div className="flex flex-col gap-[10.5px]">
-      <label
-        htmlFor={id}
-        className="text-xs font-semibold uppercase tracking-[0.2em]"
-        style={{ fontFamily: "var(--font-inter)", color: palette.fieldLabel }}
-      >
-        {label}
-      </label>
-      {textarea ? (
-        <textarea
-          id={id}
-          name={name ?? id}
-          placeholder={placeholder}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          required={required}
-          rows={5}
-          className={`w-full resize-none px-4 pb-24 pt-3 text-lg ${palette.fieldPlaceholderClass} focus:outline-none focus:ring-2 focus:ring-[color:var(--teal)]/40`}
-          style={sharedStyle}
-        />
-      ) : (
-        <input
-          id={id}
-          name={name ?? id}
-          type={type}
-          autoComplete={autoComplete}
-          placeholder={placeholder}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          required={required}
-          className={`w-full px-4 pb-4 pt-3.5 text-lg ${palette.fieldPlaceholderClass} focus:outline-none focus:ring-2 focus:ring-[color:var(--teal)]/40`}
-          style={sharedStyle}
-        />
-      )}
-    </div>
-  );
-}
